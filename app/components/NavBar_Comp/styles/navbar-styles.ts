@@ -42,32 +42,5 @@ export const navbarStyles = `
     display: flex;
     align-items: center;
   }
-  .glow-filter {
-    position: relative;
-    display: inline-block;
-  }
-  .glow-filter::before,
-  .glow-filter::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    top: 0;
-    pointer-events: none;
-  }
-  .glow-filter::before {
-    color: #fffaf6;
-    text-shadow: 0 0 10px #fffaf6, 0 0 20px #fffaf6, 0 0 30px #fffaf6;
-    filter: url(#glow-4);
-    z-index: 1;
-  }
-  .glow-filter::after {
-    color: #ffffff;
-    filter: url(#glow-5);
-    opacity: 0.7;
-    z-index: 2;
-  }
-  .glow-filter {
-    color: #8A4D76;
-    text-shadow: 0 0 5px #8A4D76;
-  }
+  
 `;
