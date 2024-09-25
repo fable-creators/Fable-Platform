@@ -11,7 +11,7 @@ import VideoPreloader from "./components/VideoPreloader";
 import BooksList from "./components/Body/BooksList";
 import { SectionDivider } from "./components/Body/SectionDivider";
 import DraggableWidget from "./components/RadialMenuWidget/DraggableWidget";
-import SocialIcons from "./components/NavBar_Comp/SocialIcons";
+
 
 const ExploreSection = dynamic(() => import("./components/Body/ExploreSection"), {
   loading: () => <p>Loading...</p>,
