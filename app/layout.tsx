@@ -23,9 +23,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Web3ModalProvider>
             <main className="flex flex-col min-h-screen">
-              <Navbar
-                isVisible={isNavbarVisible}
-              />
+              <Navbar isVisible={isNavbarVisible} />
               {children}
             </main>
           </Web3ModalProvider>
