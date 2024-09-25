@@ -10,8 +10,6 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import VideoPreloader from "./components/VideoPreloader";
 import BooksList from "./components/Body/BooksList";
 import { SectionDivider } from "./components/Body/SectionDivider";
-import DraggableWidget from "./components/RadialMenuWidget/DraggableWidget";
-
 
 const ExploreSection = dynamic(() => import("./components/Body/ExploreSection"), {
   loading: () => <p>Loading...</p>,
@@ -22,7 +20,6 @@ export default function Home() {
   const [showContent, setShowContent] = useState(false);
   const [showPreloader, setShowPreloader] = useState(true);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-  const [widgetPosition, setWidgetPosition] = useState({ x: 20, y: 20 });
 
   const handleVideoEnd = () => {
     setShowPreloader(false);
@@ -72,11 +69,6 @@ export default function Home() {
           <ExploreSection />
         </main>
         <Footer />
-        <DraggableWidget
-          isVisible={!isNavbarVisible}
-          position={widgetPosition}
-          setPosition={setWidgetPosition}
-        />
       </div>
     </ErrorBoundary>
   );
