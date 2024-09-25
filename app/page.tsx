@@ -11,10 +11,13 @@ import VideoPreloader from "./components/VideoPreloader";
 import BooksList from "./components/Body/BooksList";
 import { SectionDivider } from "./components/Body/SectionDivider";
 
-const ExploreSection = dynamic(() => import("./components/Body/ExploreSection"), {
-  loading: () => <p>Loading...</p>,
-  ssr: false,
-});
+const ExploreSection = dynamic(
+  () => import("./components/Body/ExploreSection"),
+  {
+    loading: () => <p>Loading...</p>,
+    ssr: false,
+  },
+);
 
 export default function Home() {
   const [showContent, setShowContent] = useState(false);
