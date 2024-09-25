@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --sand: #E6B686;
+  --coffee: #66321A;
+  --sky: #CAF2FC;
+  --grape: #9337C6;
+  --plum: #301A4E;
+  --midnight: #1A0536;
+}
+
+@layer base {
+  body {
+    @apply bg-gradient-custom from-sky via-sand to-coffee text-coffee;
+  }
+  .dark body {
+    @apply bg-gradient-custom from-grape via-plum to-midnight text-sky;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Add this to ensure full height on mobile devices */
+html,
+body,
+#__next {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* Ensure video preloader takes full height on mobile */
+.fixed.inset-0 {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+}

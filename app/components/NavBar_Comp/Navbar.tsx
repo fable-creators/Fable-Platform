@@ -1,0 +1,124 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useState, useCallback, useEffect, useRef } from "react";
+import { DesktopNav } from "./DesktopNav";
+import { MobileNav } from "./MobileNav";
+import { SearchBar } from "./SearchBar";
+import { SocialIcons } from "./SocialIcons";
+import { navbarStyles } from "./styles/navbar-styles";
+
+interface NavbarProps {
+  isVisible: boolean;
+}
+
+export default function Navbar({ isVisible }: NavbarProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const navbarRef = useRef<HTMLDivElement>(null);
+
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen((prev) => !prev);
+  }, []);
+
+  const toggleSearch = useCallback(() => {
+    setIsSearchOpen((prev) => !prev);
+  }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1280);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
+  return (
+    <>
+      <style jsx global>
+        {navbarStyles}
+      </style>
+      <svg className="filters" width="0" height="0">
+        <defs>
+          <filter id="glow-4" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <filter id="glow-5" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="15" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+      </svg>
+      <header
+        ref={navbarRef}
+        className={`fixed top-0 left-0 right-0 z-50 flex justify-center p-4 transition-all duration-300 ${
+          isVisible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+        }`}
+      >
+        <div className="bg-sand/80 dark:bg-grape/80 text-coffee dark:text-sky p-2 rounded-full flex justify-between items-center w-full max-w-7xl">
+          <Link
+            href="/"
+            className="logo flex items-center hover:opacity-80 transition-opacity"
+          >
+            <div className="logo-animation flex items-center">
+              <Image
+                src="/NavItems/Logo.png"
+                alt="Fable Logo"
+                width={40}
+                height={40}
+              />
+              <span
+                className="ml-2 text-2xl font-bold glow-filter"
+                data-text="Fable"
+              >
+                Fable
+              </span>
+            </div>
+          </Link>
+
+          <DesktopNav />
+
+          <div className="hidden xl:flex items-center space-x-4">
+            <div className="w3m-button-container">
+              <w3m-button />
+            </div>
+            {!isMobile && <SearchBar />}
+            <SocialIcons />
+          </div>
+
+          <MobileNav
+            isMenuOpen={isMenuOpen}
+            isSearchOpen={isSearchOpen}
+            toggleMenu={toggleMenu}
+            toggleSearch={toggleSearch}
+          />
+        </div>
+      </header>
+
+      {/* Mobile Search Bar */}
+      <div
+        className={`fixed top-16 left-0 right-0 bg-sand/80 dark:bg-grape/80 p-4 transform ${
+          isSearchOpen ? "translate-y-0" : "-translate-y-full"
+        } transition-transform duration-300 ease-in-out xl:hidden z-40 ${
+          isSearchOpen ? "block" : "hidden"
+        }`}
+      >
+        <SearchBar />
+      </div>
+    </>
+  );
+}
