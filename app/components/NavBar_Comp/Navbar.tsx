@@ -81,12 +81,6 @@ export default function Navbar({ isVisible }: NavbarProps) {
                 width={40}
                 height={40}
               />
-              <span
-                className="ml-2 text-2xl font-bold glow-filter"
-                data-text="Fable"
-              >
-                Fable
-              </span>
             </div>
           </Link>
 
