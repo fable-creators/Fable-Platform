@@ -1,72 +1,84 @@
-"use client";
+"use client"
 
-import { useState, useEffect, useRef } from "react";
+import React, { useRef, useEffect, useState } from 'react'
 
-export default function VideoPreloader({
-  onVideoEnd,
-}: {
-  onVideoEnd: () => void;
-}) {
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+interface VideoPreloaderProps {
+  onVideoEnd: () => void
+}
+
+const VideoPreloader: React.FC<VideoPreloaderProps> = ({ onVideoEnd }) => {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const video = videoRef.current;
-    const container = containerRef.current;
-    if (!video || !container) return;
+    const videoElement = videoRef.current
+    const containerElement = containerRef.current
+    if (videoElement && containerElement) {
+      const handleResize = () => {
+        const videoAspectRatio = videoElement.videoWidth / videoElement.videoHeight
+        const containerAspectRatio = containerElement.clientWidth / containerElement.clientHeight
 
-    const handleResize = () => {
-      const videoAspectRatio = video.videoWidth / video.videoHeight;
-      const containerAspectRatio = container.clientWidth / container.clientHeight;
-
-      if (videoAspectRatio > containerAspectRatio) {
-        video.style.width = '100%';
-        video.style.height = 'auto';
-      } else {
-        video.style.width = 'auto';
-        video.style.height = '100%';
+        if (videoAspectRatio > containerAspectRatio) {
+          videoElement.style.width = '100%'
+          videoElement.style.height = 'auto'
+        } else {
+          videoElement.style.width = 'auto'
+          videoElement.style.height = '100%'
+        }
       }
-    };
 
-    const handleVideoLoaded = () => {
-      setIsVideoLoaded(true);
-      handleResize();
-      video
-        .play()
-        .then(() => {
-          setIsVideoPlaying(true);
+      const handleVideoLoaded = () => {
+        console.log("Video metadata loaded")
+        setIsVideoLoaded(true)
+        handleResize()
+        videoElement.play().then(() => {
+          console.log("Video started playing successfully")
+          setIsVideoPlaying(true)
+        }).catch(error => {
+          console.error("Video playback failed:", error)
+          setError("Video playback failed. Please check your internet connection or try again.")
+          onVideoEnd()
         })
-        .catch((error) => {
-          console.error("Error playing video:", error);
-          setError("Error playing video");
-          onVideoEnd();
-        });
-    };
+      }
 
-    const handleVideoEnded = () => {
-      onVideoEnd();
-    };
+      const handleVideoEnded = () => {
+        console.log("Video ended")
+        onVideoEnd()
+      }
 
-    video.addEventListener("loadedmetadata", handleVideoLoaded);
-    video.addEventListener("ended", handleVideoEnded);
-    window.addEventListener("resize", handleResize);
+      videoElement.addEventListener('loadedmetadata', handleVideoLoaded)
+      videoElement.addEventListener('ended', handleVideoEnded)
+      window.addEventListener('resize', handleResize)
 
-    video.addEventListener("error", (e) => {
-      console.error("Video error:", e);
-      setError("Error loading video");
-      onVideoEnd();
-    });
+      videoElement.addEventListener('error', (e) => {
+        console.error("Video error:", e)
+        if (videoElement.error) {
+          console.error("Detailed error:", videoElement.error.message)
+        }
+        setError("An error occurred while loading the video.")
+        onVideoEnd()
+      })
 
-    return () => {
-      video.removeEventListener("loadedmetadata", handleVideoLoaded);
-      video.removeEventListener("ended", handleVideoEnded);
-      window.removeEventListener("resize", handleResize);
-      video.removeEventListener("error", () => {});
-    };
-  }, [onVideoEnd]);
+      return () => {
+        videoElement.removeEventListener('loadedmetadata', handleVideoLoaded)
+        videoElement.removeEventListener('ended', handleVideoEnded)
+        window.removeEventListener('resize', handleResize)
+      }
+    }
+  }, [onVideoEnd])
+
+  const handleManualPlay = () => {
+    const videoElement = videoRef.current
+    if (videoElement) {
+      videoElement.play().catch(error => {
+        console.error("Manual play failed:", error)
+        setError("Unable to play the video. Please try again.")
+      })
+    }
+  }
 
   return (
     <div ref={containerRef} className="fixed inset-0 bg-black z-50 flex items-center justify-center overflow-hidden">
@@ -80,19 +92,50 @@ export default function VideoPreloader({
           <div className="text-white text-2xl font-bold">Starting...</div>
         </div>
       )}
-      {error && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-white text-2xl font-bold">{error}</div>
+      {error ? (
+        <div className="text-sky text-center">
+          <p>{error}</p>
+          <button
+            onClick={onVideoEnd}
+            className="mt-4 bg-coffee hover:bg-plum text-sky px-4 py-2 rounded transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-plum"
+          >
+            Continue to Site
+          </button>
         </div>
+      ) : (
+        <>
+          <video
+            ref={videoRef}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            muted
+            playsInline
+            preload="auto"
+          >
+            <source src="/videos/preloader.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          {!isVideoPlaying && (
+            <button
+              onClick={handleManualPlay}
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-coffee hover:bg-plum text-sky px-4 py-2 rounded transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-plum"
+            >
+              Play Video
+            </button>
+          )}
+          {isVideoPlaying && (
+            <div className="absolute bottom-8 right-8">
+              <button
+                onClick={onVideoEnd}
+                className="bg-coffee hover:bg-plum text-sky px-4 py-2 rounded transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-plum"
+              >
+                Skip Video
+              </button>
+            </div>
+          )}
+        </>
       )}
-      <video
-        ref={videoRef}
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        src="/videos/preloader.mp4"
-        muted
-        playsInline
-        preload="auto"
-      />
     </div>
-  );
+  )
 }
+
+export default VideoPreloader

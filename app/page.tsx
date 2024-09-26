@@ -11,34 +11,43 @@ export default function Home() {
   const [showPreloader, setShowPreloader] = useState(true);
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
 
+  useEffect(() => {
+    const hasPlayedVideo = sessionStorage.getItem('hasPlayedVideo');
+
+    if (hasPlayedVideo === 'true') {
+      setShowPreloader(false);
+      setShowContent(true);
+    } else {
+      sessionStorage.setItem('hasPlayedVideo', 'pending');
+    }
+
+    const handleBeforeUnload = () => {
+      if (sessionStorage.getItem('hasPlayedVideo') === 'pending') {
+        sessionStorage.removeItem('hasPlayedVideo');
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   const handleVideoEnd = () => {
+    sessionStorage.setItem('hasPlayedVideo', 'true');
     setShowPreloader(false);
     setShowContent(true);
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (showPreloader) {
-        setShowPreloader(false);
-        setShowContent(true);
-      }
-    }, 10000); // 10 seconds timeout
-
-    return () => clearTimeout(timer);
-  }, [showPreloader]);
-
   return (
     <ErrorBoundary>
-      {showPreloader && <VideoPreloader onVideoEnd={handleVideoEnd} />}
-      <div
-        className={`transition-opacity duration-500 ${
-          showContent ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <PageTemplate isNavbarVisible={isNavbarVisible}>
-          <LandingPage />
-        </PageTemplate>
-      </div>
+      {showPreloader && (
+        <VideoPreloader onVideoEnd={handleVideoEnd} />
+      )}
+      {showContent && (
+          <LandingPage setIsNavbarVisible={setIsNavbarVisible} />
+      )}
     </ErrorBoundary>
   );
 }
