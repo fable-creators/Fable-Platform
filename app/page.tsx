@@ -1,23 +1,10 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
-import Navbar from "./components/NavBar_Comp/Navbar";
-import Header from "./components/Header/Header";
-import GamesList from "./components/Body/GamesList";
-import Footer from "./components/Footer/Footer";
 import ErrorBoundary from "./components/ErrorBoundary";
 import VideoPreloader from "./components/VideoPreloader";
-import BooksList from "./components/Body/BooksList";
-import { SectionDivider } from "./components/Body/SectionDivider";
-
-const ExploreSection = dynamic(
-  () => import("./components/Body/ExploreSection"),
-  {
-    loading: () => <p>Loading...</p>,
-    ssr: false,
-  },
-);
+import PageTemplate from "./components/pages/PageTemplate";
+import LandingPage from "./components/pages/LandingPage";
 
 export default function Home() {
   const [showContent, setShowContent] = useState(false);
@@ -32,46 +19,25 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (showPreloader) {
-        console.log("Fallback timer triggered");
-        handleVideoEnd();
+        setShowPreloader(false);
+        setShowContent(true);
       }
-    }, 25000); // 25 seconds fallback
+    }, 10000); // 10 seconds timeout
 
     return () => clearTimeout(timer);
   }, [showPreloader]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      setIsNavbarVisible(currentScrollPos < 100);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
     <ErrorBoundary>
       {showPreloader && <VideoPreloader onVideoEnd={handleVideoEnd} />}
       <div
-        className={`fable-platform ${
+        className={`transition-opacity duration-500 ${
           showContent ? "opacity-100" : "opacity-0"
-        } transition-opacity duration-500`}
+        }`}
       >
-        <Navbar isVisible={isNavbarVisible} />
-        <Header />
-        <main className="min-h-screen">
-          <SectionDivider />
-          <GamesList />
-          <SectionDivider />
-          <BooksList />
-          <SectionDivider />
-          <ExploreSection />
-        </main>
-        <Footer />
+        <PageTemplate isNavbarVisible={isNavbarVisible}>
+          <LandingPage />
+        </PageTemplate>
       </div>
     </ErrorBoundary>
   );

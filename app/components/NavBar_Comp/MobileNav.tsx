@@ -99,7 +99,7 @@ export function MobileNav({
           <ul className="flex flex-col space-y-4 px-4">
             <li>
               <Link
-                href="#home"
+                href="/"
                 className="text-white hover:text-[#91ADE6] transition-colors duration-300 text-lg"
               >
                 Home
@@ -107,7 +107,7 @@ export function MobileNav({
             </li>
             <li>
               <Link
-                href="#games"
+                href="/games"
                 className="text-white hover:text-[#91ADE6] transition-colors duration-300 text-lg"
               >
                 Games
@@ -115,7 +115,7 @@ export function MobileNav({
             </li>
             <li>
               <Link
-                href="#marketplace"
+                href="/marketplace"
                 className="text-white hover:text-[#91ADE6] transition-colors duration-300 text-lg"
               >
                 Marketplace
@@ -123,7 +123,7 @@ export function MobileNav({
             </li>
             <li>
               <Link
-                href="#library"
+                href="/library"
                 className="text-white hover:text-[#91ADE6] transition-colors duration-300 text-lg"
               >
                 Library
