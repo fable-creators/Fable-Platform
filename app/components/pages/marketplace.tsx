@@ -1,4 +1,4 @@
-import PageTemplate from "../components/PageTemplate";
+import PageTemplate from "../components/pages/PageTemplate";
 
 export default function MarketplacePage() {
   return (
