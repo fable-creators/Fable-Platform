@@ -11,9 +11,9 @@ export default function PageTemplate({
   isNavbarVisible,
 }: PageTemplateProps) {
   return (
-    <div className="fable-platform min-h-screen flex flex-col bg-sand dark:bg-midnight">
+    <div className="fable-platform min-h-screen flex flex-col">
       <Navbar isVisible={isNavbarVisible} />
-      <main className="flex-grow text-coffee dark:text-sky">{children}</main>
+      <main className="flex-grow">{children}</main>
       <Footer />
     </div>
   );
