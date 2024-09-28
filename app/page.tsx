@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import VideoPreloader from "./components/VideoPreloader";
-import PageTemplate from "./components/pages/PageTemplate";
 import LandingPage from "./components/pages/LandingPage";
 
 export default function Home() {

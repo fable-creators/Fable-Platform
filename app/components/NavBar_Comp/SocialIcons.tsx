@@ -7,7 +7,7 @@ export function SocialIcons() {
         href="https://x.com/Fable_Platform"
         target="_blank"
         rel="noopener noreferrer"
-        className="text-white hover:text-purple-400 transition-colors duration-300"
+        className="text-white hover:black transition-colors duration-300"
       >
         <svg
           className="w-6 h-6 x-logo"
@@ -22,7 +22,7 @@ export function SocialIcons() {
         href="https://discord.gg/fablehub"
         target="_blank"
         rel="noopener noreferrer"
-        className="text-white hover:text-purple-400 transition-colors duration-300"
+        className="text-white hover:sky transition-colors duration-300"
       >
         <svg
           className="w-6 h-6"

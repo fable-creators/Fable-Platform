@@ -67,7 +67,7 @@ export function MobileNav({
             className="logo flex items-center hover:opacity-80 transition-opacity"
           >
             <div className="logo-animation">
-              <Image src="/Logo.png" alt="Fable Logo" width={40} height={40} />
+              <Image src="/NavItems/Logo.png" alt="Fable Logo" width={40} height={40} />
             </div>
           </Link>
 

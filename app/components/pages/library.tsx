@@ -1,4 +1,4 @@
-import PageTemplate from "../components/pages/PageTemplate";
+import PageTemplate from "./PageTemplate";
 
 export default function LibraryPage() {
   return (
