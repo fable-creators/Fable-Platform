@@ -40,6 +40,8 @@ export default function Navbar({ isVisible }: NavbarProps) {
     };
   }, []);
 
+  console.log("Rendering Navbar, isVisible:", isVisible); // Debug log
+
   return (
     <>
       <style jsx global>
@@ -48,7 +50,7 @@ export default function Navbar({ isVisible }: NavbarProps) {
       <header
         ref={navbarRef}
         className={`fixed top-0 left-0 right-0 z-50 flex justify-center p-4 transition-all duration-300 ${
-          isVisible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+          isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
         <div className="bg-sand/80 dark:bg-grape/80 text-coffee dark:text-sky p-2 rounded-full flex justify-between items-center w-full max-w-7xl">
