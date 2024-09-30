@@ -12,42 +12,38 @@ export default function Home() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
 
   useEffect(() => {
-    const hasPlayedVideo = sessionStorage.getItem('hasPlayedVideo');
+    const hasPlayedVideo = sessionStorage.getItem("hasPlayedVideo");
 
-    if (hasPlayedVideo === 'true') {
+    if (hasPlayedVideo === "true") {
       setShowPreloader(false);
       setShowContent(true);
     } else {
-      sessionStorage.setItem('hasPlayedVideo', 'pending');
+      sessionStorage.setItem("hasPlayedVideo", "pending");
     }
 
     const handleBeforeUnload = () => {
-      if (sessionStorage.getItem('hasPlayedVideo') === 'pending') {
-        sessionStorage.removeItem('hasPlayedVideo');
+      if (sessionStorage.getItem("hasPlayedVideo") === "pending") {
+        sessionStorage.removeItem("hasPlayedVideo");
       }
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
   const handleVideoEnd = () => {
-    sessionStorage.setItem('hasPlayedVideo', 'true');
+    sessionStorage.setItem("hasPlayedVideo", "true");
     setShowPreloader(false);
     setShowContent(true);
   };
 
   return (
     <ErrorBoundary>
-      {showPreloader && (
-        <VideoPreloader onVideoEnd={handleVideoEnd} />
-      )}
-      {showContent && (
-          <LandingPage setIsNavbarVisible={setIsNavbarVisible} />
-      )}
+      {showPreloader && <VideoPreloader onVideoEnd={handleVideoEnd} />}
+      {showContent && <LandingPage setIsNavbarVisible={setIsNavbarVisible} />}
     </ErrorBoundary>
   );
 }
