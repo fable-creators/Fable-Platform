@@ -1,5 +1,3 @@
-import { SectionDivider } from "./SectionDivider";
-
 export default function ExploreSection() {
   return (
     <section className="py-8">
@@ -9,9 +7,13 @@ export default function ExploreSection() {
         </h2>
         <div className="grid md:grid-cols-2 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-2 text-coffee dark:text-sky">Library</h3>
+            <h3 className="text-xl font-bold mb-2 text-coffee dark:text-sky">
+              Library
+            </h3>
             <div className="bg-sand dark:bg-plum p-4 rounded-lg">
-              <h4 className="font-bold mb-2 text-coffee dark:text-sky">The Veil of Whispers</h4>
+              <h4 className="font-bold mb-2 text-coffee dark:text-sky">
+                The Veil of Whispers
+              </h4>
               <p className="text-sm mb-4 text-coffee dark:text-sky">
                 In the heart of the Fable universe lies a land known as the Veil
                 of Whispers, a mystical realm where the very air hums with
@@ -27,12 +29,14 @@ export default function ExploreSection() {
             </div>
           </div>
           <div>
-            <h3 className="text-xl font-bold mb-2 text-coffee dark:text-sky">Join us</h3>
+            <h3 className="text-xl font-bold mb-2 text-coffee dark:text-sky">
+              Join us
+            </h3>
             <div className="bg-sand dark:bg-plum p-4 rounded-lg">
               <p className="text-sm mb-4 text-coffee dark:text-sky">
                 Step into the Fable universe, a realm where your imagination
                 holds the power to unfold enchanted worlds and weave epic tales.
-                Here, you're not just a participant, but a creator, shaping
+                Here, you&apos;re not just a participant, but a creator, shaping
                 stories that will resonate across generations to come. Embrace
                 the opportunity to craft your legacy in a universe where every
                 idea has the potential to become a legend.

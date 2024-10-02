@@ -6,13 +6,11 @@ import GamesList from "../components/Body/GamesList";
 import BooksList from "../components/Body/BooksList";
 import ExploreSection from "../components/Body/ExploreSection";
 
-// Define prop types.
 type LandingPageProps = {
   setIsNavbarVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
-  // Your component logic will go here.
 
   return (
     <div className="min-h-screen">

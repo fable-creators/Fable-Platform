@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronRight } from "lucide-react";
 import { CarouselButton } from "./CarouselButton";
 
@@ -59,17 +59,17 @@ export default function BooksList() {
   const MAX_SPEED = 300;
   const DEBOUNCE_TIME = 50;
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     const newIndex = activeIndex === 0 ? books.length - 1 : activeIndex - 1;
     setNextIndex(activeIndex);
     setActiveIndex(newIndex);
-  };
+  }, [activeIndex]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     const newIndex = activeIndex === books.length - 1 ? 0 : activeIndex + 1;
     setNextIndex(activeIndex);
     setActiveIndex(newIndex);
-  };
+  }, [activeIndex]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -129,7 +129,7 @@ export default function BooksList() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [handleNext, handlePrev]);
 
   useEffect(() => {
     const preloadImages = () => {
@@ -236,7 +236,7 @@ export default function BooksList() {
           <CarouselButton direction="right" onClick={handleNext} />
           <div className="text-center mt-6">
             <a
-              href="#"
+              href="/library"
               className="inline-flex items-center gap-1.5 text-white font-semibold hover:text-gray-300 transition-colors"
             >
               View All Books
