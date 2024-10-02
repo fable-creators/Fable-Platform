@@ -51,3 +51,34 @@ body,
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
 }
+
+/* Styles for the landing page */
+.landing-page {
+  position: relative;
+}
+
+.landing-page::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(202, 242, 252, 0.7),
+    rgba(230, 182, 134, 0.7) 50%,
+    rgba(102, 50, 26, 0.7)
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+.dark .landing-page::before {
+  background: linear-gradient(
+    135deg,
+    rgba(147, 55, 198, 0.7),
+    rgba(48, 26, 78, 0.7) 50%,
+    rgba(26, 5, 54, 0.7)
+  );
+}
