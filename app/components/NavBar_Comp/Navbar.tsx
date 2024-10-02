@@ -45,24 +45,6 @@ export default function Navbar({ isVisible }: NavbarProps) {
       <style jsx global>
         {navbarStyles}
       </style>
-      <svg className="filters" width="0" height="0">
-        <defs>
-          <filter id="glow-4" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="10" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <filter id="glow-5" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="15" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-      </svg>
       <header
         ref={navbarRef}
         className={`fixed top-0 left-0 right-0 z-50 flex justify-center p-4 transition-all duration-300 ${
