@@ -1,7 +1,6 @@
 "use client"
 
 import { useRef, useState, useEffect } from 'react'
-import { Button } from "@/components/ui/button"
 
 interface VideoHeroBannerProps {
   videoSrc: string;
@@ -43,15 +42,15 @@ export function VideoHeroBanner({ videoSrc }: VideoHeroBannerProps) {
       </video>
       <div className="absolute inset-0 bg-black bg-opacity-50" />
       <div className="absolute inset-0 flex items-end justify-center pb-8">
-        <Button 
-          className="bg-grape hover:bg-plum text-sky hover:text-sand dark:bg-sky dark:hover:bg-sand dark:text-midnight dark:hover:text-plum transition-colors duration-200"
+        <button 
+          className="button-fable"
           onClick={() => {
             // Implement the action for entering the library here
             console.log("Enter Library clicked")
           }}
         >
           Enter Library
-        </Button>
+        </button>
       </div>
     </div>
   )

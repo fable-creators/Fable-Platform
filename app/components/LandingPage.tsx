@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Header from "../components/Header/Header";
-import { SectionDivider }  from "../components/Body/SectionDivider";
+import { SectionDivider } from "../components/Body/SectionDivider";
 import GamesList from "../components/Body/GamesList";
 import BooksList from "../components/Body/BooksList";
 import ExploreSection from "../components/Body/ExploreSection";
@@ -17,23 +17,23 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
 
   useEffect(() => {
     const updateHeroHeight = () => {
-      const heroElement = document.querySelector('.hero-banner');
+      const heroElement = document.querySelector(".hero-banner");
       if (heroElement) {
         setHeroHeight(heroElement.clientHeight);
       }
     };
 
     updateHeroHeight();
-    window.addEventListener('resize', updateHeroHeight);
+    window.addEventListener("resize", updateHeroHeight);
 
     return () => {
-      window.removeEventListener('resize', updateHeroHeight);
+      window.removeEventListener("resize", updateHeroHeight);
     };
   }, []);
 
   return (
     <div className="min-h-screen landing-page">
-      <div 
+      <div
         className="fixed inset-x-0 bottom-0 z-[-1]"
         style={{ top: `${heroHeight}px` }}
       >

@@ -1,6 +1,44 @@
+"use client"
+
+import { useEffect, useRef, useState } from 'react'
+
 export default function ExploreSection() {
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.unobserve(entry.target)
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current)
+      }
+    }
+  }, [])
+
   return (
-    <section className="py-8">
+    <section 
+      ref={sectionRef} 
+      className={`py-8 transition-all duration-1000 ease-out ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+      }`}
+    >
       <div className="container mx-auto px-4">
         <h2 className="text-2xl font-bold mb-4 text-coffee dark:text-sky">
           Explore endless adventures in the Fable universe
@@ -49,5 +87,5 @@ export default function ExploreSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

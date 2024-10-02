@@ -19,13 +19,13 @@ const games: Game[] = [
   {
     id: "1",
     title: "Outpost",
-    image: "/placeholder.svg?height=200&width=356",
+    image: "/GameCard/outpostsurge_384x576.jpg",
     price: "FREE",
   },
   {
     id: "2",
     title: "Bera Bee Catcher",
-    image: "/placeholder.svg?height=200&width=356",
+    image: "/GameCard/berabeecatcher_384x576.jpg",
     price: "FREE",
   },
   {
