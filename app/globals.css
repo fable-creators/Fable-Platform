@@ -108,6 +108,29 @@ body,
   );
 }
 
+/* Marketplace styles */
+.box {
+  overflow: hidden;
+}
+
+.box:hover .imgBox {
+  transform: translate(-28px, -28px);
+}
+
+.box:hover .content {
+  transform: translate(28px, 28px);
+}
+
+@media (max-width: 640px) {
+  .box:hover .imgBox {
+    transform: translate(0, -28px);
+  }
+
+  .box:hover .content {
+    transform: translate(0, 28px);
+  }
+}
+
   /* Enter Library button */
   .button-fable,
   .button-fable:after {
