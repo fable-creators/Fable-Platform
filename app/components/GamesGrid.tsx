@@ -12,7 +12,7 @@ interface Game {
   id: string;
   title: string;
   image: string;
-  price: "MINTABLE" | "SECONDARY";
+  price: "LIVE" | "COMING SOON";
 }
 
 const games: Game[] = [
@@ -20,49 +20,49 @@ const games: Game[] = [
     id: "1",
     title: "OUTPOST SURGE",
     image: "/GameCard/outpostsurge_384x576.jpg",
-    price: "MINTABLE",
+    price: "LIVE",
   },
   {
     id: "2",
     title: "BERA BEE CATCHER",
     image: "/GameCard/berabeecatcher_384x576.jpg",
-    price: "SECONDARY",
+    price: "COMING SOON",
   },
   {
     id: "3",
     title: "GEMHUNTERS",
     image: "/GameCard/gemhunters_384x576.jpg",
-    price: "SECONDARY",
+    price: "LIVE",
   },
   {
     id: "4",
     title: "BEAR ARENA",
     image: "/GameCard/beararena_384x576.jpg",
-    price: "SECONDARY",
+    price: "COMING SOON",
   },
   {
     id: "5",
     title: "BERA FARM",
     image: "/GameCard/berafamer_384x576.jpg",
-    price: "MINTABLE",
+    price: "COMING SOON",
   },
   {
     id: "6",
     title: "BERACER",
     image: "/GameCard/Beraracer_384x576.jpg",
-    price: "SECONDARY",
+    price: "LIVE",
   },
   {
     id: "7",
     title: "FOREST BEAR",
     image: "/GameCard/forrestbear_384x576.jpg",
-    price: "MINTABLE",
+    price: "LIVE",
   },
   {
     id: "8",
     title: "BERA HORSES",
     image: "/GameCard/berahorses_384x576.jpg",
-    price: "SECONDARY",
+    price: "COMING SOON",
   },
 ];
 
@@ -85,7 +85,7 @@ export function GamesGrid() {
               {game.title}
             </CardTitle>
             <p
-              className={`text-sm font-medium ${game.price === "MINTABLE" ? "text-green-600" : "text-blue-600"}`}
+              className={`text-sm font-medium ${game.price === "LIVE" ? "text-green-600" : "text-blue-600"}`}
             >
               {game.price}
             </p>
