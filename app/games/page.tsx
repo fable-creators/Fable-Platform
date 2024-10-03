@@ -8,7 +8,7 @@ export default function GamesPage() {
         style={
           {
             "--glow-color": "var(--sand)",
-            "--shadow-color": "rgba(0, 0, 0, 1)",
+            "--shadow-color": "rgba(0, 0, 0, 2)",
           } as React.CSSProperties
         }
       >
