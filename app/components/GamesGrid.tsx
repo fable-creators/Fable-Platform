@@ -12,57 +12,57 @@ interface Game {
   id: string;
   title: string;
   image: string;
-  price: "FREE" | "PAID";
+  price: "MINTABLE" | "SECONDARY";
 }
 
 const games: Game[] = [
   {
     id: "1",
-    title: "Outpost",
+    title: "OUTPOST SURGE",
     image: "/GameCard/outpostsurge_384x576.jpg",
-    price: "FREE",
+    price: "MINTABLE",
   },
   {
     id: "2",
-    title: "Bera Bee Catcher",
+    title: "BERA BEE CATCHER",
     image: "/GameCard/berabeecatcher_384x576.jpg",
-    price: "FREE",
+    price: "SECONDARY",
   },
   {
     id: "3",
     title: "GEMHUNTERS",
-    image: "/placeholder.svg?height=200&width=356",
-    price: "FREE",
+    image: "/GameCard/gemhunters_384x576.jpg",
+    price: "SECONDARY",
   },
   {
     id: "4",
-    title: "Outpost",
-    image: "/placeholder.svg?height=200&width=356",
-    price: "FREE",
+    title: "BEAR ARENA",
+    image: "/GameCard/beararena_384x576.jpg",
+    price: "SECONDARY",
   },
   {
     id: "5",
-    title: "Bera Bee Catcher",
-    image: "/placeholder.svg?height=200&width=356",
-    price: "FREE",
+    title: "BERA FARM",
+    image: "/GameCard/berafamer_384x576.jpg",
+    price: "MINTABLE",
   },
   {
     id: "6",
-    title: "GEMHUNTERS",
-    image: "/placeholder.svg?height=200&width=356",
-    price: "FREE",
+    title: "BERACER",
+    image: "/GameCard/Beraracer_384x576.jpg",
+    price: "SECONDARY",
   },
   {
     id: "7",
-    title: "Forest Bear",
-    image: "/placeholder.svg?height=200&width=356",
-    price: "FREE",
+    title: "FOREST BEAR",
+    image: "/GameCard/forrestbear_384x576.jpg",
+    price: "MINTABLE",
   },
   {
     id: "8",
-    title: "Gem Hunters",
-    image: "/placeholder.svg?height=200&width=356",
-    price: "PAID",
+    title: "BERA HORSES",
+    image: "/GameCard/berahorses_384x576.jpg",
+    price: "SECONDARY",
   },
 ];
 
@@ -81,11 +81,11 @@ export function GamesGrid() {
             />
           </CardHeader>
           <CardContent className="p-4">
-            <CardTitle className="text-lg font-semibold">
+            <CardTitle className="text-lg text-sky dark:text-sky font-semibold">
               {game.title}
             </CardTitle>
             <p
-              className={`text-sm font-medium ${game.price === "FREE" ? "text-green-600" : "text-blue-600"}`}
+              className={`text-sm font-medium ${game.price === "MINTABLE" ? "text-green-600" : "text-blue-600"}`}
             >
               {game.price}
             </p>
@@ -93,15 +93,15 @@ export function GamesGrid() {
           <CardFooter className="p-4 pt-0 flex flex-col sm:flex-row gap-2">
             <Button
               variant="default"
-              className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white"
+              className="w-full sm:w-auto bg-purple-600 hover:bg-midnight  dark:hover:bg-sand text-white"
             >
-              PLAY
+              ENTER
             </Button>
             <Button
               variant="outline"
-              className="w-full sm:w-auto border-purple-600 text-purple-600 hover:bg-purple-100"
+              className="w-full sm:w-auto border-purple-600 text-grape dark:text-sand hover:bg-sky dark:hover:bg-sky"
             >
-              MORE DETAILS
+              NFT COLLECTIONS
             </Button>
           </CardFooter>
         </Card>

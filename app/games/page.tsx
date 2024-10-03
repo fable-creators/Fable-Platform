@@ -6,8 +6,9 @@ export default function GamesPage() {
       <h1
         className="text-3xl font-bold mb-4 text-sky dark:text-sand text-glow text-glow-lg"
         style={
-          {"--glow-color": "var(--sand)",
-            "--shadow-color": "rgba(0, 0, 0, 1)",
+          {
+            "--glow-color": "var(--sand)",
+            "--shadow-color": "rgba(0, 0, 0, 2)",
           } as React.CSSProperties
         }
       >
