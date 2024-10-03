@@ -5,9 +5,18 @@ import { useEffect, useState } from "react";
 
 export default function Header() {
   const [mounted, setMounted] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
+  const [windowHeight, setWindowHeight] = useState(0);
 
   useEffect(() => {
     setMounted(true);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      setWindowHeight(window.innerHeight);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const imageSizes = [
@@ -21,31 +30,35 @@ export default function Header() {
     { width: 3840, height: 2160 },
   ];
 
+  const getOptimalImageSize = () => {
+    return imageSizes.reduce((prev, curr) =>
+      Math.abs(curr.width - windowWidth) < Math.abs(prev.width - windowWidth)
+        ? curr
+        : prev,
+    );
+  };
+
+  const optimalSize = getOptimalImageSize();
+
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div
+      className="relative w-full h-screen overflow-hidden"
+      style={{ height: `${windowHeight}px` }}
+    >
       <div className="absolute inset-0">
         {mounted && (
-          <picture>
-            {imageSizes.map((size, index) => (
-              <source
-                key={index}
-                media={`(max-width: ${size.width}px)`}
-                srcSet={`/Hero Banner/allpartnrs_2_optimized_${size.width}.png`}
-              />
-            ))}
-            <Image
-              src="/Hero Banner/allpartnrs_2_optimized.png"
-              alt="Hero Banner"
-              fill
-              sizes=""
-              style={{
-                objectFit: "cover",
-                objectPosition: "center center",
-              }}
-              priority
-              className="w-full h-full"
-            />
-          </picture>
+          <Image
+            src={`/Hero Banner/allpartnrs_2_optimized_${optimalSize.width}.png`}
+            alt="Hero Banner"
+            fill
+            sizes="100vw"
+            style={{
+              objectFit: "cover",
+              objectPosition: "center center",
+            }}
+            priority
+            className="w-full h-full"
+          />
         )}
       </div>
       <div className="absolute inset-0 bg-black/40 pointer-events-none"></div>

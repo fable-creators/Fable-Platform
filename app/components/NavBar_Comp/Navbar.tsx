@@ -56,13 +56,16 @@ export default function Navbar({ isVisible }: NavbarProps) {
             href="/"
             className="logo flex items-center hover:opacity-80 transition-opacity"
           >
-            <div className="logo-animation flex items-center">
-              <Image
-                src="/NavItems/Logo.png"
-                alt="Fable Logo"
-                width={40}
-                height={40}
-              />
+            <div className="logo-container">
+              <div className="logo-animation">
+                <div className="logo-glow"></div>
+                <Image
+                  src="/NavItems/Logo.png"
+                  alt="Fable Logo"
+                  width={42}
+                  height={42}
+                />
+              </div>
             </div>
           </Link>
 
