@@ -91,9 +91,9 @@ body,
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(202, 242, 252, 0.7),
-    rgba(230, 182, 134, 0.7) 50%,
-    rgba(102, 50, 26, 0.7)
+    rgba(202, 242, 252, 0.9),
+    rgba(230, 182, 134, 0.9) 50%,
+    rgba(102, 50, 26, 0.9)
   );
   z-index: 0;
   pointer-events: none;
@@ -102,188 +102,241 @@ body,
 .dark .landing-page::before {
   background: linear-gradient(
     135deg,
-    rgba(147, 55, 198, 0.7),
-    rgba(48, 26, 78, 0.7) 50%,
-    rgba(26, 5, 54, 0.7)
+    rgba(147, 55, 198, 0.9),
+    rgba(48, 26, 78, 0.9) 50%,
+    rgba(26, 5, 54, 0.9)
   );
 }
 
-  /* Enter Library button */
+/* Marketplace styles */
+.marketplace-page {
+  position: relative;
+}
+
+.marketplace-page::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(202, 242, 252, 0.9),
+    rgba(230, 182, 134, 0.9) 50%,
+    rgba(102, 50, 26, 0.9)
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+.dark .marketplace-page::before {
+  background: linear-gradient(
+    135deg,
+    rgba(147, 55, 198, 0.9),
+    rgba(48, 26, 78, 0.9) 50%,
+    rgba(26, 5, 54, 0.9)
+  );
+}
+
+.box {
+  overflow: hidden;
+}
+
+.box:hover .imgBox {
+  transform: translate(-28px, -28px);
+}
+
+.box:hover .content {
+  transform: translate(28px, 28px);
+}
+
+@media (max-width: 640px) {
+  .box:hover .imgBox {
+    transform: translate(0, -28px);
+  }
+
+  .box:hover .content {
+    transform: translate(0, 28px);
+  }
+}
+
+/* Enter Library button */
+.button-fable,
+.button-fable:after {
+  width: 200px;
+  height: 60px;
+  line-height: 62px;
+  font-size: 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  background: linear-gradient(45deg, transparent 5%, var(--midnight) 5%);
+  border: 0;
+  color: var(--sky);
+  letter-spacing: 3px;
+  box-shadow: 6px 0px 0px var(--grape);
+  outline: transparent;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  cursor: pointer;
+  z-index: 0;
+  border-radius: 10px;
+  text-shadow: 0 0 10px var(--sky), 0 0 20px var(--sky), 0 0 30px var(--sky);
+  transition: text-shadow 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.button-fable:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    var(--coffee),
+    var(--sand),
+    var(--sky),
+    var(--grape),
+    var(--plum),
+    var(--midnight),
+    var(--coffee)
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-fable 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-button-fable {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.button-fable:after {
+  --slice-0: inset(50% 50% 50% 50%);
+  --slice-1: inset(80% -6px 0 0);
+  --slice-2: inset(50% -6px 30% 0);
+  --slice-3: inset(10% -6px 85% 0);
+  --slice-4: inset(40% -6px 43% 0);
+  --slice-5: inset(80% -6px 5% 0);
+
+  content: 'ENTER LIBRARY';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 3%, var(--grape) 3%, var(--grape) 5%, var(--midnight) 5%);
+  text-shadow: -3px -3px 0px var(--sand), 3px 3px 0px var(--grape);
+  clip-path: var(--slice-0);
+}
+
+.button-fable:hover:before {
+  opacity: 1;
+}
+
+.button-fable:hover {
+  text-shadow: 0 0 20px var(--sky), 0 0 40px var(--sky), 0 0 60px var(--sky);
+  box-shadow: 0 0 20px var(--grape), 6px 0px 20px var(--grape);
+}
+
+.button-fable:hover:after {
+  animation: 1s glitch;
+  animation-timing-function: steps(2, end);
+}
+
+@keyframes glitch {
+  0% {
+    clip-path: var(--slice-1);
+    transform: translate(-20px, -10px);
+  }
+  10% {
+    clip-path: var(--slice-3);
+    transform: translate(10px, 10px);
+  }
+  20% {
+    clip-path: var(--slice-1);
+    transform: translate(-10px, 10px);
+  }
+  30% {
+    clip-path: var(--slice-3);
+    transform: translate(0px, 5px);
+  }
+  40% {
+    clip-path: var(--slice-2);
+    transform: translate(-5px, 0px);
+  }
+  50% {
+    clip-path: var(--slice-3);
+    transform: translate(5px, 0px);
+  }
+  60% {
+    clip-path: var(--slice-4);
+    transform: translate(5px, 10px);
+  }
+  70% {
+    clip-path: var(--slice-2);
+    transform: translate(-10px, 10px);
+  }
+  80% {
+    clip-path: var(--slice-5);
+    transform: translate(20px, -10px);
+  }
+  90% {
+    clip-path: var(--slice-1);
+    transform: translate(-10px, 0px);
+  }
+  100% {
+    clip-path: var(--slice-1);
+    transform: translate(0);
+  }
+}
+
+.button-fable:active {
+  color: var(--sky);
+  box-shadow: inset 0 0 20px var(--coffee);
+}
+
+.dark .button-fable {
+  background: linear-gradient(45deg, transparent 5%, var(--sky) 5%);
+  color: var(--sky);
+  box-shadow: 6px 0px 0px var(--sand);
+  text-shadow: 0 0 10px var(--sky), 0 0 20px var(--sky), 0 0 30px var(--sky);
+}
+
+.dark .button-fable:after {
+  background: linear-gradient(45deg, transparent 3%, var(--sand) 3%, var(--sand) 5%, var(--sky) 5%);
+  text-shadow: -3px -3px 0px var(--plum), 3px 3px 0px var(--sand);
+}
+
+.dark .button-fable:hover {
+  text-shadow: 0 0 20px var(--sky), 0 0 40px var(--sky), 0 0 60px var(--sky);
+  box-shadow: 0 0 20px var(--sand), 6px 0px 20px var(--sand);
+}
+
+.dark .button-fable:active {
+  color: var(--sky);
+  box-shadow: inset 0 0 20px var(--grape);
+}
+
+@media (min-width: 768px) {
   .button-fable,
   .button-fable:after {
     width: 200px;
-    height: 60px;
-    line-height: 62px;
-    font-size: 20px;
-    font-family: 'Bebas Neue', sans-serif;
-    background: linear-gradient(45deg, transparent 5%, var(--midnight) 5%);
-    border: 0;
-    color: var(--sky);
-    letter-spacing: 3px;
-    box-shadow: 6px 0px 0px var(--grape);
-    outline: transparent;
-    position: relative;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    cursor: pointer;
-    z-index: 0;
-    border-radius: 10px;
-    text-shadow: 0 0 10px var(--sky), 0 0 20px var(--sky), 0 0 30px var(--sky);
-    transition: text-shadow 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: 86px;
+    line-height: 88px;
   }
-
-  .button-fable:before {
-    content: "";
-    background: linear-gradient(
-      45deg,
-      var(--coffee),
-      var(--sand),
-      var(--sky),
-      var(--grape),
-      var(--plum),
-      var(--midnight),
-      var(--coffee)
-    );
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    background-size: 400%;
-    z-index: -1;
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    animation: glowing-button-fable 20s linear infinite;
-    transition: opacity 0.3s ease-in-out;
-    border-radius: 10px;
-  }
-
-  @keyframes glowing-button-fable {
-    0% {
-      background-position: 0 0;
-    }
-    50% {
-      background-position: 400% 0;
-    }
-    100% {
-      background-position: 0 0;
-    }
-  }
-
-  .button-fable:after {
-    --slice-0: inset(50% 50% 50% 50%);
-    --slice-1: inset(80% -6px 0 0);
-    --slice-2: inset(50% -6px 30% 0);
-    --slice-3: inset(10% -6px 85% 0);
-    --slice-4: inset(40% -6px 43% 0);
-    --slice-5: inset(80% -6px 5% 0);
-
-    content: 'ENTER LIBRARY';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, transparent 3%, var(--grape) 3%, var(--grape) 5%, var(--midnight) 5%);
-    text-shadow: -3px -3px 0px var(--sand), 3px 3px 0px var(--grape);
-    clip-path: var(--slice-0);
-  }
-
-  .button-fable:hover:before {
-    opacity: 1;
-  }
-
-  .button-fable:hover {
-    text-shadow: 0 0 20px var(--sky), 0 0 40px var(--sky), 0 0 60px var(--sky);
-    box-shadow: 0 0 20px var(--grape), 6px 0px 20px var(--grape);
-  }
-
-  .button-fable:hover:after {
-    animation: 1s glitch;
-    animation-timing-function: steps(2, end);
-  }
-
-  @keyframes glitch {
-    0% {
-      clip-path: var(--slice-1);
-      transform: translate(-20px, -10px);
-    }
-    10% {
-      clip-path: var(--slice-3);
-      transform: translate(10px, 10px);
-    }
-    20% {
-      clip-path: var(--slice-1);
-      transform: translate(-10px, 10px);
-    }
-    30% {
-      clip-path: var(--slice-3);
-      transform: translate(0px, 5px);
-    }
-    40% {
-      clip-path: var(--slice-2);
-      transform: translate(-5px, 0px);
-    }
-    50% {
-      clip-path: var(--slice-3);
-      transform: translate(5px, 0px);
-    }
-    60% {
-      clip-path: var(--slice-4);
-      transform: translate(5px, 10px);
-    }
-    70% {
-      clip-path: var(--slice-2);
-      transform: translate(-10px, 10px);
-    }
-    80% {
-      clip-path: var(--slice-5);
-      transform: translate(20px, -10px);
-    }
-    90% {
-      clip-path: var(--slice-1);
-      transform: translate(-10px, 0px);
-    }
-    100% {
-      clip-path: var(--slice-1);
-      transform: translate(0);
-    }
-  }
-
-  .button-fable:active {
-    color: var(--sky);
-    box-shadow: inset 0 0 20px var(--coffee);
-  }
-
-  .dark .button-fable {
-    background: linear-gradient(45deg, transparent 5%, var(--sky) 5%);
-    color: var(--sky);
-    box-shadow: 6px 0px 0px var(--sand);
-    text-shadow: 0 0 10px var(--sky), 0 0 20px var(--sky), 0 0 30px var(--sky);
-  }
-
-  .dark .button-fable:after {
-    background: linear-gradient(45deg, transparent 3%, var(--sand) 3%, var(--sand) 5%, var(--sky) 5%);
-    text-shadow: -3px -3px 0px var(--plum), 3px 3px 0px var(--sand);
-  }
-
-  .dark .button-fable:hover {
-    text-shadow: 0 0 20px var(--sky), 0 0 40px var(--sky), 0 0 60px var(--sky);
-    box-shadow: 0 0 20px var(--sand), 6px 0px 20px var(--sand);
-  }
-
-  .dark .button-fable:active {
-    color: var(--sky);
-    box-shadow: inset 0 0 20px var(--grape);
-  }
-
-  @media (min-width: 768px) {
-    .button-fable,
-    .button-fable:after {
-      width: 200px;
-      height: 86px;
-      line-height: 88px;
-    }
 }

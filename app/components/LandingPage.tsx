@@ -44,6 +44,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
           objectFit="cover"
           quality={100}
           priority
+          className="opacity-80"
         />
       </div>
       <div className="relative z-[1]">
