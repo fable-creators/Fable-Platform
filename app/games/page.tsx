@@ -1,8 +1,32 @@
+"use client"
+
+import React, { useState } from 'react';
 import { GamesGrid } from "../components/GamesGrid";
+import { FilterSection } from "../components/FilterSection";
 
 export default function GamesPage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState({
+    platform: [] as string[],
+    genre: [] as string[],
+    chain: [] as string[],
+  });
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const handleFilterChange = (filterType: string, value: string, checked: boolean) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: checked
+        ? [...prevFilters[filterType as keyof typeof prevFilters], value]
+        : prevFilters[filterType as keyof typeof prevFilters].filter((item) => item !== value),
+    }));
+  };
+
   return (
-    <div className="container mx-auto px-10 py-10 pt-20">
+    <div className="container mx-auto px-4 py-10 pt-20">
       <h1
         className="text-3xl font-bold mb-4 text-sky dark:text-sand text-glow text-glow-lg"
         style={
@@ -18,7 +42,14 @@ export default function GamesPage() {
         Explore our collection of exciting games. From action-packed adventures
         to mind-bending puzzles, there&apos;s something for everyone.
       </p>
-      <GamesGrid />
+      <div className="flex flex-col-reverse md:flex-row gap-8">
+        <div className="flex-grow">
+          <GamesGrid searchQuery={searchQuery} filters={filters} />
+        </div>
+        <div className="md:w-64">
+          <FilterSection onSearch={handleSearch} onFilterChange={handleFilterChange} />
+        </div>
+      </div>
     </div>
   );
 }

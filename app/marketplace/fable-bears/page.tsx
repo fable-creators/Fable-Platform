@@ -29,16 +29,19 @@ marketplaceItems.sort((a, b) => a.price - b.price);
 
 const MarketplaceCard: React.FC<MarketplaceItem> = ({ image, title, price }) => {
   return (
-    <div className="box relative w-full aspect-square cursor-pointer group overflow-hidden">
-      <div className="imgBox absolute inset-0 z-10 transition-all duration-500 ease-in-out group-hover:translate-x-[-14px] group-hover:translate-y-[-14px]">
+    <div className="box relative w-full h-full cursor-pointer group overflow-hidden rounded-lg">
+      <div className="imgBox absolute inset-0 z-10 transition-all duration-500 ease-in-out group-hover:translate-x-[-20px] group-hover:translate-y-[-20px]">
         <Image src={image} alt={title} layout="fill" objectFit="cover" />
       </div>
-      <div className="content absolute inset-0 p-4 flex flex-col justify-end bg-sand dark:bg-plum z-0 transition-all duration-500 ease-in-out group-hover:translate-x-[14px] group-hover:translate-y-[14px]">
-        <div className="flex justify-between items-end w-full">
-          <h2 className="text-lg sm:text-xl font-semibold text-coffee dark:text-sky truncate">{title}</h2>
-          <span className="text-xs sm:text-sm text-grape dark:text-sand whitespace-nowrap">
-            {typeof price === 'number' ? `${price.toFixed(4)} ETH` : 'Price unavailable'}
-          </span>
+      <div className="content absolute inset-0 bg-sand dark:bg-plum z-0 transition-all duration-500 ease-in-out group-hover:translate-x-[20px] group-hover:translate-y-[20px]">
+        <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+        <div className="absolute inset-0 p-4 sm:p-6 md:p-8 flex flex-col justify-end opacity-0 transform translate-y-full transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0">
+          <div className="flex justify-between items-end w-full">
+            <h2 className="text-base sm:text-lg md:text-xl font-semibold text-coffee dark:text-sky truncate max-w-[60%]">{title}</h2>
+            <span className="text-sm sm:text-base md:text-lg text-grape dark:text-sand whitespace-nowrap">
+              {typeof price === 'number' ? `${price.toFixed(4)} ETH` : 'Price unavailable'}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -47,13 +50,15 @@ const MarketplaceCard: React.FC<MarketplaceItem> = ({ image, title, price }) => 
 
 export default function FableBearsPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold pt-10 mb-8 text-grape dark:text-sky text-center">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <h1 className="text-4xl font-bold pt-20 mb-12 lg:mb-16 text-grape dark:text-sky text-center">
         The Fable Bears
       </h1>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6 2xl:gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
         {marketplaceItems.map((item) => (
-          <MarketplaceCard key={item.id} {...item} />
+          <div key={item.id} className="w-full aspect-square sm:aspect-[4/5] md:aspect-[3/4] lg:aspect-[5/6] xl:aspect-square">
+            <MarketplaceCard {...item} />
+          </div>
         ))}
       </div>
     </div>

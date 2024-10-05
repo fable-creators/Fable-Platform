@@ -40,6 +40,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "4b80eaab-1812-46d2-9d4f-0bd902c2a9c2-00-mtg9ae1q6xi2.worf.replit.dev",
       },
+      {
+        protocol: "https",
+        hostname: "hebbkx1anhila5yf.public.blob.vercel-storage.com",
+      },
     ],
   },
 };
