@@ -49,12 +49,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
       </div>
       <div className="relative z-[1]">
         <Header />
-        <SectionDivider />
-        <GamesList />
-        <SectionDivider />
-        <BooksList />
-        <SectionDivider />
-        <ExploreSection />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <GamesList />
+          <SectionDivider />
+          <BooksList />
+          <SectionDivider />
+          <ExploreSection />
+        </div>
 
         {/* Additional content to ensure scrolling */}
         <div className="h-[200vh]">
