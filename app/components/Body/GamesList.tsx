@@ -28,7 +28,7 @@ const games = [
   },
   {
     name: "Bera Racer",
-    image: "/GameCard/Beraracer_384x576.jpg",
+    image: "/GameCard/Beracer_384x576.jpg",
     background: "/GameBackgrounds/beraracer_bg.jpg",
   },
   {
