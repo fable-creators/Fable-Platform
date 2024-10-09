@@ -114,45 +114,49 @@ export function GamesGrid({ searchQuery, filters }: GamesGridProps) {
   });
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {filteredGames.map((game) => (
-        <Card key={game.id} className="overflow-hidden">
-          <CardHeader className="p-0">
-            <Image
-              src={game.image}
-              alt={game.title}
-              width={356}
-              height={200}
-              className="w-full h-auto object-cover"
-            />
-          </CardHeader>
-          <CardContent className="p-4">
-            <CardTitle className="text-lg text-sky dark:text-sky font-semibold">
-              {game.title}
-            </CardTitle>
-            <p
-              className={`text-sm font-medium ${game.price === "LIVE" ? "text-green-600" : "text-blue-600"}`}
-            >
-              {game.price}
-            </p>
-          </CardContent>
-          <CardFooter className="p-4 pt-0 flex flex-col sm:flex-row gap-2">
-            <Link href={`/games/${game.title.toLowerCase().replace(/\s+/g, '-')}`} passHref>
+        <Link 
+          href={`/games/${game.title.toLowerCase().replace(/\s+/g, '-')}`} 
+          key={game.id} 
+          className="block group"
+        >
+          <Card className="overflow-hidden flex flex-col h-full transition-transform duration-300 group-hover:scale-105">
+            <CardHeader className="p-0">
+              <Image
+                src={game.image}
+                alt={game.title}
+                width={356}
+                height={200}
+                className="w-full h-auto object-cover"
+              />
+            </CardHeader>
+            <CardContent className="p-4 flex-grow">
+              <CardTitle className="text-lg text-sky dark:text-sky font-semibold">
+                {game.title}
+              </CardTitle>
+              <p
+                className={`text-sm font-medium ${game.price === "LIVE" ? "text-green-600" : "text-blue-600"}`}
+              >
+                {game.price}
+              </p>
+            </CardContent>
+            <CardFooter className="p-4 pt-0 flex flex-col gap-2">
               <Button
                 variant="default"
-                className="w-full sm:w-auto bg-purple-600 hover:bg-midnight dark:hover:bg-sand text-white"
+                className="w-full bg-purple-600 hover:bg-midnight dark:hover:bg-sand text-white"
               >
                 ENTER
               </Button>
-            </Link>
-            <Button
-              variant="outline"
-              className="w-full sm:w-auto border-purple-600 text-grape dark:text-sand hover:bg-sky dark:hover:bg-sky"
-            >
-              NFT COLLECTIONS
-            </Button>
-          </CardFooter>
-        </Card>
+              <Button
+                variant="outline"
+                className="w-full border-purple-600 text-grape dark:text-sand hover:bg-sky dark:hover:bg-sky"
+              >
+                NFT COLLECTIONS
+              </Button>
+            </CardFooter>
+          </Card>
+        </Link>
       ))}
     </div>
   );

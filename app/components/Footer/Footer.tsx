@@ -1,6 +1,7 @@
 "use client";
 
 import { FC } from "react";
+import Link from 'next/link';
 import { SectionDivider } from "../Body/SectionDivider";
 import { useTheme } from "next-themes";
 
@@ -69,9 +70,21 @@ const Footer: FC = () => {
               Check This
             </h3>
             <ul className="text-[10px] sm:text-xs md:text-sm text-sky dark:text-sky">
-              <li className="mb-1 sm:mb-2">Games</li>
-              <li className="mb-1 sm:mb-2">Library</li>
-              <li className="mb-1 sm:mb-2">Marketplace</li>
+              <li className="mb-1 sm:mb-2">
+                <Link href="/games" className="hover:text-grape dark:hover:text-sand transition-colors">
+                  Games
+                </Link>
+              </li>
+              <li className="mb-1 sm:mb-2">
+                <Link href="/library" className="hover:text-grape dark:hover:text-sand transition-colors">
+                  Library
+                </Link>
+              </li>
+              <li className="mb-1 sm:mb-2">
+                <Link href="/marketplace" className="hover:text-grape dark:hover:text-sand transition-colors">
+                  Marketplace
+                </Link>
+              </li>
               <li className="mb-1 sm:mb-2">GAP</li>
             </ul>
           </div>
@@ -81,9 +94,34 @@ const Footer: FC = () => {
             </h3>
             <ul className="text-[10px] sm:text-xs md:text-sm text-sky dark:text-sky">
               <li className="mb-1 sm:mb-2">Go FAQ</li>
+              <Link
+                href="https://fable-platform.gitbook.io/fable-platform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-grape dark:hover:text-sand transition-colors"
+              >
               <li className="mb-1 sm:mb-2">Gitbook</li>
-              <li className="mb-1 sm:mb-2">X Page</li>
-              <li className="mb-1 sm:mb-2">Discord</li>
+              </Link>
+              <li className="mb-1 sm:mb-2">
+                <Link
+                  href="https://x.com/Fable_Platform"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-grape dark:hover:text-sand transition-colors"
+                >
+                  X Page
+                </Link>
+              </li>
+              <li className="mb-1 sm:mb-2">
+                <Link
+                  href="https://discord.gg/fablehub"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-grape dark:hover:text-sand transition-colors"
+                >
+                  Discord
+                </Link>
+              </li>
               <li className="mb-1 sm:mb-2">Email</li>
             </ul>
           </div>

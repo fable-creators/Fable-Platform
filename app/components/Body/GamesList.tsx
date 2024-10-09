@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronRight } from "lucide-react";
 import { CarouselButton } from "./CarouselButton";
@@ -54,6 +56,7 @@ const games = [
 ];
 
 export default function GamesList() {
+  const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
   const [nextIndex, setNextIndex] = useState(1);
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(
@@ -124,11 +127,19 @@ export default function GamesList() {
   const handleMouseUp = (e: MouseEvent) => {
     const clickDuration = Date.now() - clickStartTime;
     if (clickDuration < 200 && !isDragging) {
-      console.log("Clicked on game:", games[activeIndex].name);
+      const gameName = games[activeIndex].name.toLowerCase().replace(/\s+/g, '-');
+      router.push(`/games/${gameName}`);
     }
     setIsDragging(false);
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleCardClick = (index: number) => {
+    if (!isDragging) {
+      const gameName = games[index].name.toLowerCase().replace(/\s+/g, '-');
+      router.push(`/games/${gameName}`);
+    }
   };
 
   useEffect(() => {
@@ -222,12 +233,13 @@ export default function GamesList() {
                 return (
                   <div
                     key={game.name}
-                    className="absolute transition-all duration-300 ease-in-out"
+                    className="absolute transition-all duration-300 ease-in-out cursor-pointer"
                     style={{
                       transform: `translateX(${(index - activeIndex) * 75}%) scale(${scale})`,
                       opacity,
                       zIndex,
                     }}
+                    onClick={() => handleCardClick(index)}
                   >
                     <div className="block w-60 h-90 rounded-2xl overflow-hidden border-2 border-coffee/20 dark:border-sky/20">
                       <Image
@@ -247,13 +259,13 @@ export default function GamesList() {
           <CarouselButton direction="left" onClick={handlePrev} />
           <CarouselButton direction="right" onClick={handleNext} />
           <div className="text-center mt-6">
-            <a
+            <Link
               href="/games"
               className="inline-flex items-center gap-1.5 text-coffee dark:text-sky font-semibold hover:text-grape dark:hover:text-sand transition-colors"
             >
               View All Games
               <ChevronRight size={18} />
-            </a>
+            </Link>
           </div>
         </div>
       </section>
