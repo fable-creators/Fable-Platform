@@ -127,7 +127,9 @@ export default function GamesList() {
   const handleMouseUp = (e: MouseEvent) => {
     const clickDuration = Date.now() - clickStartTime;
     if (clickDuration < 200 && !isDragging) {
-      const gameName = games[activeIndex].name.toLowerCase().replace(/\s+/g, '-');
+      const gameName = games[activeIndex].name
+        .toLowerCase()
+        .replace(/\s+/g, "-");
       router.push(`/games/${gameName}`);
     }
     setIsDragging(false);
@@ -137,7 +139,7 @@ export default function GamesList() {
 
   const handleCardClick = (index: number) => {
     if (!isDragging) {
-      const gameName = games[index].name.toLowerCase().replace(/\s+/g, '-');
+      const gameName = games[index].name.toLowerCase().replace(/\s+/g, "-");
       router.push(`/games/${gameName}`);
     }
   };

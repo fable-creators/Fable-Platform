@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import Link from 'next/link';
+import Link from "next/link";
 import { SectionDivider } from "../Body/SectionDivider";
 import { useTheme } from "next-themes";
 
@@ -71,17 +71,26 @@ const Footer: FC = () => {
             </h3>
             <ul className="text-[10px] sm:text-xs md:text-sm text-sky dark:text-sky">
               <li className="mb-1 sm:mb-2">
-                <Link href="/games" className="hover:text-grape dark:hover:text-sand transition-colors">
+                <Link
+                  href="/games"
+                  className="hover:text-grape dark:hover:text-sand transition-colors"
+                >
                   Games
                 </Link>
               </li>
               <li className="mb-1 sm:mb-2">
-                <Link href="/library" className="hover:text-grape dark:hover:text-sand transition-colors">
+                <Link
+                  href="/library"
+                  className="hover:text-grape dark:hover:text-sand transition-colors"
+                >
                   Library
                 </Link>
               </li>
               <li className="mb-1 sm:mb-2">
-                <Link href="/marketplace" className="hover:text-grape dark:hover:text-sand transition-colors">
+                <Link
+                  href="/marketplace"
+                  className="hover:text-grape dark:hover:text-sand transition-colors"
+                >
                   Marketplace
                 </Link>
               </li>
@@ -100,7 +109,7 @@ const Footer: FC = () => {
                 rel="noopener noreferrer"
                 className="hover:text-grape dark:hover:text-sand transition-colors"
               >
-              <li className="mb-1 sm:mb-2">Gitbook</li>
+                <li className="mb-1 sm:mb-2">Gitbook</li>
               </Link>
               <li className="mb-1 sm:mb-2">
                 <Link

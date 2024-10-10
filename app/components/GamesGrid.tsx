@@ -105,10 +105,18 @@ interface GamesGridProps {
 
 export function GamesGrid({ searchQuery, filters }: GamesGridProps) {
   const filteredGames = games.filter((game) => {
-    const matchesSearch = game.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesPlatform = filters.platform.length === 0 || game.platform.some(p => filters.platform.includes(p));
-    const matchesGenre = filters.genre.length === 0 || game.genre.some(g => filters.genre.includes(g));
-    const matchesChain = filters.chain.length === 0 || game.chain.some(c => filters.chain.includes(c));
+    const matchesSearch = game.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesPlatform =
+      filters.platform.length === 0 ||
+      game.platform.some((p) => filters.platform.includes(p));
+    const matchesGenre =
+      filters.genre.length === 0 ||
+      game.genre.some((g) => filters.genre.includes(g));
+    const matchesChain =
+      filters.chain.length === 0 ||
+      game.chain.some((c) => filters.chain.includes(c));
 
     return matchesSearch && matchesPlatform && matchesGenre && matchesChain;
   });
@@ -116,9 +124,9 @@ export function GamesGrid({ searchQuery, filters }: GamesGridProps) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {filteredGames.map((game) => (
-        <Link 
-          href={`/games/${game.title.toLowerCase().replace(/\s+/g, '-')}`} 
-          key={game.id} 
+        <Link
+          href={`/games/${game.title.toLowerCase().replace(/\s+/g, "-")}`}
+          key={game.id}
           className="block group"
         >
           <Card className="overflow-hidden flex flex-col h-full transition-transform duration-300 group-hover:scale-105">
