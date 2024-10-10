@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronRight } from "lucide-react";
 import { CarouselButton } from "./CarouselButton";
+import AnimatedSection from "../animated-section";
 
 const books = [
   {
@@ -161,90 +163,89 @@ export default function BooksList() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4">
-      <section className="relative w-full max-w-6xl mx-auto pt-24 pb-8 overflow-hidden">
-        {books.map((book, index) => (
-          <div
-            key={book.name}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === activeIndex
-                ? "opacity-100"
-                : index === nextIndex
-                  ? "opacity-0"
-                  : "hidden"
-            }`}
-            style={{
-              zIndex: index === activeIndex ? 1 : 0,
-            }}
-          >
-            {imagesLoaded[index] ? (
-              <Image
-                src={book.background}
-                alt={`${book.name} Background`}
-                layout="fill"
-                objectFit="cover"
-                style={{ filter: "brightness(50%) blur(2px)" }}
-                priority={true}
-              />
-            ) : (
-              <div className="w-full h-full"></div>
-            )}
-          </div>
-        ))}
-        <div className="relative z-10">
-          <div className="text-left pl-4 md:pl-40 mb-6">
-            <h2 className="text-3xl font-bold text-white">Featured Books</h2>
-          </div>
-          <div
-            ref={carouselRef}
-            className="relative w-full overflow-hidden select-none"
-            onMouseDown={handleMouseDown}
-          >
-            <div className="flex justify-center items-center h-[375px]">
-              {books.map((book, index) => {
-                const distance = Math.abs(activeIndex - index);
-                const scale = distance === 0 ? 1 : 0.8 - distance * 0.1;
-                const opacity = distance === 0 ? 1 : 0.6 - distance * 0.2;
-                const zIndex = books.length - distance;
+    <AnimatedSection>
+      <div className="container mx-auto px-4">
+        <section className="relative w-full max-w-6xl mx-auto pt-24 pb-8 overflow-hidden">
+          {books.map((book, index) => (
+            <div
+              key={book.name}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                index === activeIndex
+                  ? "opacity-100"
+                  : index === nextIndex
+                    ? "opacity-0"
+                    : "hidden"
+              }`}
+              style={{
+                zIndex: index === activeIndex ? 1 : 0,
+              }}
+            >
+              {imagesLoaded[index] ? (
+                <Image
+                  src={book.background}
+                  alt={`${book.name} Background`}
+                  layout="fill"
+                  objectFit="cover"
+                  style={{ filter: "brightness(50%) blur(2px)" }}
+                  priority={true}
+                />
+              ) : (
+                <div className="w-full h-full"></div>
+              )}
+            </div>
+          ))}
+          <div className="relative z-10">
+            <div
+              ref={carouselRef}
+              className="relative w-full overflow-hidden select-none"
+              onMouseDown={handleMouseDown}
+            >
+              <div className="flex justify-center items-center h-[375px]">
+                {books.map((book, index) => {
+                  const distance = Math.abs(activeIndex - index);
+                  const scale = distance === 0 ? 1 : 0.8 - distance * 0.1;
+                  const opacity = distance === 0 ? 1 : 0.6 - distance * 0.2;
+                  const zIndex = books.length - distance;
 
-                return (
-                  <div
-                    key={book.name}
-                    className="absolute transition-all duration-300 ease-in-out"
-                    style={{
-                      transform: `translateX(${(index - activeIndex) * 75}%) scale(${scale})`,
-                      opacity,
-                      zIndex,
-                    }}
-                  >
-                    <div className="block w-60 h-90 rounded-2xl overflow-hidden border-2 border-white/20">
-                      <Image
-                        src={book.image}
-                        alt={book.name}
-                        width={240}
-                        height={360}
-                        className="w-full h-full object-cover pointer-events-none"
-                        draggable="false"
-                      />
+                  return (
+                    <div
+                      key={book.name}
+                      className="absolute transition-all duration-300 ease-in-out"
+                      style={{
+                        transform: `translateX(${(index - activeIndex) * 75}%) scale(${scale})`,
+                        opacity,
+                        zIndex,
+                      }}
+                    >
+                      <div className="block w-60 h-90 rounded-2xl overflow-hidden border-2 border-white/20">
+                        <Image
+                          src={book.image}
+                          alt={book.name}
+                          width={240}
+                          height={360}
+                          className="w-full h-full object-cover pointer-events-none"
+                          draggable="false"
+                        />
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+            </div>
+            <CarouselButton direction="left" onClick={handlePrev} />
+            <CarouselButton direction="right" onClick={handleNext} />
+            <div className="text-center mt-6">
+              <Link
+                href="/library"
+                className="inline-flex items-center gap-1.5 text-sky dark:text-sky font-semibold hover:text-midnight dark:hover:text-sand transition-colors"
+              >
+                View All Books
+                <ChevronRight size={18} />
+              </Link>
             </div>
           </div>
-          <CarouselButton direction="left" onClick={handlePrev} />
-          <CarouselButton direction="right" onClick={handleNext} />
-          <div className="text-center mt-6">
-            <a
-              href="/library"
-              className="inline-flex items-center gap-1.5 text-white font-semibold hover:text-gray-300 transition-colors"
-            >
-              View All Books
-              <ChevronRight size={18} />
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </AnimatedSection>
   );
 }

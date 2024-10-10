@@ -34,6 +34,12 @@
     scrollbar-width: none;
   }
 
+  @media (prefers-color-scheme: dark) {
+    .text-glow {
+      text-shadow: 0 0 10px var(--glow-color-dark, var(--glow-color));
+    }
+  }
+
   .text-glow {
     text-shadow: 
       0 0 var(--glow-strength) var(--glow-color),
@@ -69,6 +75,32 @@ body,
 #__next {
   height: 100%;
   overflow-x: hidden;
+}
+/* SectionDivider animation */
+@keyframes scale-x {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-scale-x {
+  animation: scale-x 1s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out 0.5s forwards;
 }
 
 /* Ensure video preloader takes full height on mobile */

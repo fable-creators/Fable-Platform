@@ -1,6 +1,7 @@
 "use client";
 
 import { FC } from "react";
+import Link from "next/link";
 import { SectionDivider } from "../Body/SectionDivider";
 import { useTheme } from "next-themes";
 
@@ -10,28 +11,58 @@ interface ThemeToggleProps {
 }
 
 const ThemeToggle: FC<ThemeToggleProps> = ({ isDark, onToggle }) => (
-  <div className="flex items-center">
-    <span className="mr-2 text-[10px] sm:text-xs md:text-sm text-coffee dark:text-sky">
-      Light
-    </span>
-    <div
-      className={`w-8 h-4 sm:w-10 sm:h-5 md:w-12 md:h-6 flex items-center rounded-full p-1 cursor-pointer ${
-        isDark ? "bg-grape" : "bg-sand"
-      }`}
-      onClick={onToggle}
+  <label
+    className="switch"
+    style={{
+      fontSize: "12px",
+      position: "relative",
+      display: "inline-block",
+      width: "3em",
+      height: "1.5em",
+    }}
+  >
+    <input
+      type="checkbox"
+      checked={isDark}
+      onChange={onToggle}
+      style={{
+        opacity: 0,
+        width: 0,
+        height: 0,
+      }}
+    />
+    <span
+      className="slider"
+      style={{
+        position: "absolute",
+        cursor: "pointer",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: isDark ? "#522ba7" : "#28096b",
+        transition: ".5s",
+        borderRadius: "30px",
+      }}
     >
-      <div
-        className={`bg-sky dark:bg-midnight w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full shadow-md transform duration-300 ease-in-out ${
-          isDark
-            ? "translate-x-4 sm:translate-x-5 md:translate-x-6"
-            : "translate-x-0"
-        }`}
-      ></div>
-    </div>
-    <span className="ml-2 text-[10px] sm:text-xs md:text-sm text-coffee dark:text-sky">
-      Dark
+      <span
+        style={{
+          position: "absolute",
+          content: '""',
+          height: "1.2em",
+          width: "1.2em",
+          borderRadius: "50%",
+          left: isDark ? "8%" : "calc(100% - 1.4em)",
+          bottom: "8%",
+          boxShadow: isDark
+            ? "inset -6px -2px 0px 0px #fff000"
+            : "inset 12px -3px 0px 12px #fff000",
+          backgroundColor: isDark ? "#522ba7" : "#28096b",
+          transition: ".5s",
+        }}
+      ></span>
     </span>
-  </div>
+  </label>
 );
 
 const Footer: FC = () => {
@@ -69,9 +100,30 @@ const Footer: FC = () => {
               Check This
             </h3>
             <ul className="text-[10px] sm:text-xs md:text-sm text-sky dark:text-sky">
-              <li className="mb-1 sm:mb-2">Games</li>
-              <li className="mb-1 sm:mb-2">Library</li>
-              <li className="mb-1 sm:mb-2">Marketplace</li>
+              <li className="mb-1 sm:mb-2">
+                <Link
+                  href="/games"
+                  className="hover:text-grape dark:hover:text-sand transition-colors"
+                >
+                  Games
+                </Link>
+              </li>
+              <li className="mb-1 sm:mb-2">
+                <Link
+                  href="/library"
+                  className="hover:text-grape dark:hover:text-sand transition-colors"
+                >
+                  Library
+                </Link>
+              </li>
+              <li className="mb-1 sm:mb-2">
+                <Link
+                  href="/marketplace"
+                  className="hover:text-grape dark:hover:text-sand transition-colors"
+                >
+                  Marketplace
+                </Link>
+              </li>
               <li className="mb-1 sm:mb-2">GAP</li>
             </ul>
           </div>
@@ -81,16 +133,47 @@ const Footer: FC = () => {
             </h3>
             <ul className="text-[10px] sm:text-xs md:text-sm text-sky dark:text-sky">
               <li className="mb-1 sm:mb-2">Go FAQ</li>
-              <li className="mb-1 sm:mb-2">Gitbook</li>
-              <li className="mb-1 sm:mb-2">X Page</li>
-              <li className="mb-1 sm:mb-2">Discord</li>
+              <Link
+                href="https://fable-platform.gitbook.io/fable-platform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-grape dark:hover:text-sand transition-colors"
+              >
+                <li className="mb-1 sm:mb-2">Gitbook</li>
+              </Link>
+              <li className="mb-1 sm:mb-2">
+                <Link
+                  href="https://x.com/Fable_Platform"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-grape dark:hover:text-sand transition-colors"
+                >
+                  X Page
+                </Link>
+              </li>
+              <li className="mb-1 sm:mb-2">
+                <Link
+                  href="https://discord.gg/fablehub"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-grape dark:hover:text-sand transition-colors"
+                >
+                  Discord
+                </Link>
+              </li>
               <li className="mb-1 sm:mb-2">Email</li>
             </ul>
           </div>
         </div>
       </div>
-      <div className="mt-4 sm:mt-6 md:mt-8 flex justify-end px-2 sm:px-4 md:px-6 lg:px-8">
+      <div className="mt-4 sm:mt-6 md:mt-8 flex justify-end items-center px-2 sm:px-4 md:px-6 lg:px-8">
+        <span className="mr-2 text-[10px] sm:text-xs md:text-sm text-midnight dark:text-sky">
+          Dark
+        </span>
         <ThemeToggle isDark={isDarkTheme} onToggle={toggleTheme} />
+        <span className="ml-2 text-[10px] sm:text-xs md:text-sm text-midnight dark:text-sky">
+          Light
+        </span>
       </div>
     </footer>
   );
