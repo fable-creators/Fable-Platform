@@ -1,61 +1,19 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { VideoHeroBanner } from "../components/VideoHeroBanner";
 import { ChevronRight } from "lucide-react";
-
-interface SectionProps {
-  children: React.ReactNode;
-  delay: number;
-}
-
-const AnimatedSection: React.FC<SectionProps> = ({ children, delay }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            setIsVisible(true);
-          }, delay);
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.1,
-      },
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, [delay]);
-
-  return (
-    <div
-      ref={sectionRef}
-      className={`transition-all duration-1000 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
-      }`}
-    >
-      {children}
-    </div>
-  );
-};
+import AnimatedSection from "../components/animated-section";
 
 export default function LibraryPage() {
+  const glowStyle = {
+    "--glow-color": "var(--grape)",
+    "--glow-color-dark": "var(--sky)",
+    "--shadow-color": "rgba(0, 0, 0, 0.3)",
+  } as React.CSSProperties;
+
   return (
     <div className="min-h-screen flex flex-col library-page">
       <div className="fixed inset-0 z-[-2]">
@@ -72,13 +30,8 @@ export default function LibraryPage() {
       <VideoHeroBanner videoSrc="/videos/library-hero.mp4" />
       <div className="container mx-auto px-4 py-8 flex-grow relative z-[1]">
         <h1
-          className="text-3xl font-bold mb-4 text-coffee dark:text-sky text-glow text-glow-lg"
-          style={
-            {
-              "--glow-color": "var(--sand)",
-              "--shadow-color": "rgba(0, 0, 0, 0.3)",
-            } as React.CSSProperties
-          }
+          className="text-3xl font-bold mb-4 text-plum dark:text-sky text-center text-glow text-glow-lg"
+          style={glowStyle}
         >
           Library
         </h1>
@@ -89,23 +42,27 @@ export default function LibraryPage() {
 
         <AnimatedSection delay={0}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {/* TODO: Add link to featured collection page */}
-            <Link href="/library/featured" className="group bg-sky/20 dark:bg-plum/20 p-6 rounded-lg shadow-lg hover:bg-sky/30 dark:hover:bg-plum/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
-              <h2 className="text-xl font-semibold mb-2 text-coffee dark:text-sand group-hover:text-grape dark:group-hover:text-sky transition-colors duration-300">
+            <Link
+              href="/library/featured"
+              className="group bg-sky/20 dark:bg-plum/20 p-6 rounded-lg shadow-lg hover:bg-sky/30 dark:hover:bg-plum/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
+            >
+              <h2 className="text-xl font-semibold mb-2 text-plum dark:text-sand group-hover:text-grape dark:group-hover:text-sky transition-colors duration-300">
                 Featured Collection
               </h2>
               <p className="text-grape dark:text-sky mb-4">
                 Explore our handpicked selection of digital assets, showcasing
-                the best of Fable-Hub's library.
+                the best of Fable-Hub&apos;s library.
               </p>
               <div className="flex items-center text-coffee dark:text-sand group-hover:text-grape dark:group-hover:text-sky transition-colors duration-300">
                 <span className="mr-2">Explore</span>
                 <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
               </div>
             </Link>
-            {/* TODO: Add link to recent additions page */}
-            <Link href="/library/recent" className="group bg-sky/20 dark:bg-plum/20 p-6 rounded-lg shadow-lg hover:bg-sky/30 dark:hover:bg-plum/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
-              <h2 className="text-xl font-semibold mb-2 text-coffee dark:text-sand group-hover:text-grape dark:group-hover:text-sky transition-colors duration-300">
+            <Link
+              href="/library/recent"
+              className="group bg-sky/20 dark:bg-plum/20 p-6 rounded-lg shadow-lg hover:bg-sky/30 dark:hover:bg-plum/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
+            >
+              <h2 className="text-xl font-semibold mb-2 text-plum dark:text-sand group-hover:text-grape dark:group-hover:text-sky transition-colors duration-300">
                 Recent Additions
               </h2>
               <p className="text-grape dark:text-sky mb-4">
@@ -117,9 +74,11 @@ export default function LibraryPage() {
                 <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
               </div>
             </Link>
-            {/* TODO: Add link to categories page */}
-            <Link href="/library/categories" className="group bg-sky/20 dark:bg-plum/20 p-6 rounded-lg shadow-lg hover:bg-sky/30 dark:hover:bg-plum/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
-              <h2 className="text-xl font-semibold mb-2 text-coffee dark:text-sand group-hover:text-grape dark:group-hover:text-sky transition-colors duration-300">
+            <Link
+              href="/library/categories"
+              className="group bg-sky/20 dark:bg-plum/20 p-6 rounded-lg shadow-lg hover:bg-sky/30 dark:hover:bg-plum/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl"
+            >
+              <h2 className="text-xl font-semibold mb-2 text-plum dark:text-sand group-hover:text-grape dark:group-hover:text-sky transition-colors duration-300">
                 Categories
               </h2>
               <p className="text-grape dark:text-sky mb-4">
@@ -136,7 +95,10 @@ export default function LibraryPage() {
 
         <AnimatedSection delay={200}>
           <div className="bg-sand/20 dark:bg-midnight/20 p-8 rounded-lg shadow-xl mb-12">
-            <h2 className="text-2xl font-bold mb-4 text-coffee dark:text-sky">
+            <h2
+              className="text-2xl font-bold mb-4 text-plum dark:text-sky text-glow text-glow-lg"
+              style={glowStyle}
+            >
               About Our Library
             </h2>
             <p className="text-grape dark:text-sand mb-4">
@@ -157,9 +119,11 @@ export default function LibraryPage() {
 
         <AnimatedSection delay={400}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* TODO: Add link to user collections page */}
-            <Link href="/library/user-collections" className="bg-coffee/20 dark:bg-grape/20 p-6 rounded-lg shadow-lg hover:bg-coffee/30 dark:hover:bg-grape/30 transition-colors duration-200">
-              <h2 className="text-xl font-semibold mb-2 text-coffee dark:text-sand">
+            <Link
+              href="/library/user-collections"
+              className="bg-coffee/20 dark:bg-grape/20 p-6 rounded-lg shadow-lg hover:bg-coffee/30 dark:hover:bg-grape/30 transition-colors duration-200"
+            >
+              <h2 className="text-xl font-semibold mb-2 text-plum dark:text-sand">
                 User Collections
               </h2>
               <p className="text-grape dark:text-sky">
@@ -167,9 +131,11 @@ export default function LibraryPage() {
                 making it easy to access your most-used resources.
               </p>
             </Link>
-            {/* TODO: Add link to activity feed page */}
-            <Link href="/library/activity-feed" className="bg-coffee/20 dark:bg-grape/20 p-6 rounded-lg shadow-lg hover:bg-coffee/30 dark:hover:bg-grape/30 transition-colors duration-200">
-              <h2 className="text-xl font-semibold mb-2 text-coffee dark:text-sand">
+            <Link
+              href="/library/activity-feed"
+              className="bg-coffee/20 dark:bg-grape/20 p-6 rounded-lg shadow-lg hover:bg-coffee/30 dark:hover:bg-grape/30 transition-colors duration-200"
+            >
+              <h2 className="text-xl font-semibold mb-2 text-plum dark:text-sand">
                 Activity Feed
               </h2>
               <p className="text-grape dark:text-sky">

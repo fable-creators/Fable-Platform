@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronRight } from "lucide-react";
 import { CarouselButton } from "./CarouselButton";
+import AnimatedSection from "../animated-section";
 
 const games = [
   {
@@ -184,88 +185,90 @@ export default function GamesList() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4">
-      <section className="relative w-full max-w-6xl mx-auto pt-24 pb-8 overflow-hidden">
-        {games.map((game, index) => (
-          <div
-            key={game.name}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === activeIndex
-                ? "opacity-100"
-                : index === nextIndex
-                  ? "opacity-0"
-                  : "hidden"
-            }`}
-            style={{
-              zIndex: index === activeIndex ? 1 : 0,
-            }}
-          >
-            {imagesLoaded[index] ? (
-              <Image
-                src={game.background}
-                alt={`${game.name} Background`}
-                layout="fill"
-                objectFit="cover"
-                style={{ filter: "brightness(50%) blur(5px)" }}
-                priority={true}
-              />
-            ) : (
-              <div className="w-full h-full"></div>
-            )}
-          </div>
-        ))}
-        <div className="relative z-10">
-          <div
-            ref={carouselRef}
-            className="relative w-full overflow-hidden select-none"
-            onMouseDown={handleMouseDown}
-          >
-            <div className="flex justify-center items-center h-[375px]">
-              {games.map((game, index) => {
-                const distance = Math.abs(activeIndex - index);
-                const scale = distance === 0 ? 1 : 0.8 - distance * 0.1;
-                const opacity = distance === 0 ? 1 : 0.6 - distance * 0.2;
-                const zIndex = games.length - distance;
+    <AnimatedSection>
+      <div className="container mx-auto px-4">
+        <section className="relative w-full max-w-6xl mx-auto pt-24 pb-8 overflow-hidden">
+          {games.map((game, index) => (
+            <div
+              key={game.name}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                index === activeIndex
+                  ? "opacity-100"
+                  : index === nextIndex
+                    ? "opacity-0"
+                    : "hidden"
+              }`}
+              style={{
+                zIndex: index === activeIndex ? 1 : 0,
+              }}
+            >
+              {imagesLoaded[index] ? (
+                <Image
+                  src={game.background}
+                  alt={`${game.name} Background`}
+                  layout="fill"
+                  objectFit="cover"
+                  style={{ filter: "brightness(50%) blur(5px)" }}
+                  priority={true}
+                />
+              ) : (
+                <div className="w-full h-full"></div>
+              )}
+            </div>
+          ))}
+          <div className="relative z-10">
+            <div
+              ref={carouselRef}
+              className="relative w-full overflow-hidden select-none"
+              onMouseDown={handleMouseDown}
+            >
+              <div className="flex justify-center items-center h-[375px]">
+                {games.map((game, index) => {
+                  const distance = Math.abs(activeIndex - index);
+                  const scale = distance === 0 ? 1 : 0.8 - distance * 0.1;
+                  const opacity = distance === 0 ? 1 : 0.6 - distance * 0.2;
+                  const zIndex = games.length - distance;
 
-                return (
-                  <div
-                    key={game.name}
-                    className="absolute transition-all duration-300 ease-in-out cursor-pointer"
-                    style={{
-                      transform: `translateX(${(index - activeIndex) * 75}%) scale(${scale})`,
-                      opacity,
-                      zIndex,
-                    }}
-                    onClick={() => handleCardClick(index)}
-                  >
-                    <div className="block w-60 h-90 rounded-2xl overflow-hidden border-2 border-coffee/20 dark:border-sky/20">
-                      <Image
-                        src={game.image}
-                        alt={game.name}
-                        width={240}
-                        height={360}
-                        className="w-full h-full object-cover pointer-events-none"
-                        draggable="false"
-                      />
+                  return (
+                    <div
+                      key={game.name}
+                      className="absolute transition-all duration-300 ease-in-out cursor-pointer"
+                      style={{
+                        transform: `translateX(${(index - activeIndex) * 75}%) scale(${scale})`,
+                        opacity,
+                        zIndex,
+                      }}
+                      onClick={() => handleCardClick(index)}
+                    >
+                      <div className="block w-60 h-90 rounded-2xl overflow-hidden border-2 border-coffee/20 dark:border-sky/20">
+                        <Image
+                          src={game.image}
+                          alt={game.name}
+                          width={240}
+                          height={360}
+                          className="w-full h-full object-cover pointer-events-none"
+                          draggable="false"
+                        />
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+            </div>
+            <CarouselButton direction="left" onClick={handlePrev} />
+            <CarouselButton direction="right" onClick={handleNext} />
+            <div className="text-center mt-6">
+              <Link
+                href="/games"
+                className="inline-flex items-center gap-1.5 text-sky dark:text-sky font-semibold hover:text-midnight dark:hover:text-sand transition-colors"
+              >
+                View All Games
+                <ChevronRight size={18} />
+              </Link>
             </div>
           </div>
-          <CarouselButton direction="left" onClick={handlePrev} />
-          <CarouselButton direction="right" onClick={handleNext} />
-          <div className="text-center mt-6">
-            <Link
-              href="/games"
-              className="inline-flex items-center gap-1.5 text-coffee dark:text-sky font-semibold hover:text-grape dark:hover:text-sand transition-colors"
-            >
-              View All Games
-              <ChevronRight size={18} />
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </AnimatedSection>
   );
 }

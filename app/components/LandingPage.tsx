@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header/Header";
@@ -8,59 +8,13 @@ import { SectionDivider } from "../components/Body/SectionDivider";
 import GamesList from "../components/Body/GamesList";
 import BooksList from "../components/Body/BooksList";
 import ExploreSection from "../components/Body/ExploreSection";
+import AnimatedSection from "../components/animated-section";
 
 type LandingPageProps = {
   setIsNavbarVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AnimatedSection: React.FC<{
-  children: React.ReactNode;
-  delay?: number;
-}> = ({ children, delay = 0 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            setIsVisible(true);
-          }, delay);
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.1,
-      },
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, [delay]);
-
-  return (
-    <div
-      ref={sectionRef}
-      className={`transition-all duration-1000 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
-      }`}
-    >
-      {children}
-    </div>
-  );
-};
-
-const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
+export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
   const [heroHeight, setHeroHeight] = useState(0);
 
   useEffect(() => {
@@ -78,6 +32,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
       window.removeEventListener("resize", updateHeroHeight);
     };
   }, []);
+
+  const glowStyle = {
+    "--glow-color": "var(--grape)",
+    "--glow-color-dark": "var(--sky)",
+    "--shadow-color": "rgba(0, 0, 0, 0.3)",
+  } as React.CSSProperties;
+
+  const shadowStyle = {
+    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+  } as React.CSSProperties;
 
   return (
     <div className="min-h-screen landing-page">
@@ -100,13 +64,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <h2
-              className="text-3xl font-bold mb-4 text-coffee dark:text-sky text-center text-glow text-glow-lg mt-20"
-              style={
-                {
-                  "--glow-color": "var(--sand)",
-                  "--shadow-color": "rgba(0, 0, 0, 0.3)",
-                } as React.CSSProperties
-              }
+              className="text-3xl font-bold mb-4 text-plum dark:text-sky text-center text-glow text-glow-lg mt-20"
+              style={glowStyle}
             >
               Featured Games
             </h2>
@@ -115,13 +74,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
           <SectionDivider />
           <AnimatedSection>
             <h2
-              className="text-3xl font-bold mb-4 text-coffee dark:text-sky text-center text-glow text-glow-lg"
-              style={
-                {
-                  "--glow-color": "var(--sand)",
-                  "--shadow-color": "rgba(0, 0, 0, 0.3)",
-                } as React.CSSProperties
-              }
+              className="text-3xl font-bold mb-4 text-plum dark:text-sky text-center text-glow text-glow-lg"
+              style={glowStyle}
             >
               Featured Books
             </h2>
@@ -131,13 +85,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
           <ExploreSection />
           <SectionDivider />
 
-          {/* Upcoming Events */}
           <AnimatedSection delay={200}>
             <Link
               href="/events"
               className="block bg-sand/20 dark:bg-midnight/20 p-6 rounded-lg shadow-lg mb-8 max-w-4xl mx-auto hover:bg-sand/30 dark:hover:bg-midnight/30 transition-colors duration-200"
             >
-              <h2 className="text-2xl font-semibold mb-2 text-coffee dark:text-sand">
+              <h2
+                className="text-2xl font-semibold mb-2 text-midnight dark:text-sand"
+                style={shadowStyle}
+              >
                 Upcoming Events
               </h2>
               <p className="text-grape dark:text-sky">
@@ -147,20 +103,22 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
             </Link>
           </AnimatedSection>
 
-          {/* Discover Fable-Hub's Creative Ecosystem */}
           <AnimatedSection delay={400}>
             <section className="py-8">
               <div className="container mx-auto px-4">
-                <h2 className="text-2xl font-bold mb-4 text-coffee dark:text-sky">
-                  Discover Fable-Hub's Creative Ecosystem
+                <h2
+                  className="text-3xl font-bold mb-4 text-plum dark:text-sky text-center text-glow text-glow-lg"
+                  style={glowStyle}
+                >
+                  Discover Fable-Hub&apos;s Creative Ecosystem
                 </h2>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-coffee dark:text-sky">
+                    <h3 className="text-xl font-bold mb-2 text-midnight dark:text-sky">
                       Collaborative Projects
                     </h3>
                     <div className="bg-sand dark:bg-plum p-4 rounded-lg">
-                      <h4 className="font-bold mb-2 text-coffee dark:text-sky">
+                      <h4 className="font-bold mb-2 text-plum dark:text-sky">
                         The Fable Forge
                       </h4>
                       <p className="text-sm mb-4 text-coffee dark:text-sky">
@@ -180,7 +138,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-coffee dark:text-sky">
+                    <h3 className="text-xl font-bold mb-2 text-midnight dark:text-sky">
                       Creator Showcase
                     </h3>
                     <div className="bg-sand dark:bg-plum p-4 rounded-lg">
@@ -204,13 +162,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
             </section>
           </AnimatedSection>
 
-          {/* Creator Resources */}
           <AnimatedSection delay={600}>
             <Link
               href="/resources"
               className="block bg-coffee/20 dark:bg-grape/20 p-6 rounded-lg shadow-lg mb-8 max-w-4xl mx-auto hover:bg-coffee/30 dark:hover:bg-grape/30 transition-colors duration-200"
             >
-              <h2 className="text-2xl font-semibold mb-2 text-coffee dark:text-sand">
+              <h2
+                className="text-2xl font-semibold mb-2 text-midnight dark:text-sand"
+                style={shadowStyle}
+              >
                 Creator Resources
               </h2>
               <p className="text-grape dark:text-sky">
@@ -220,16 +180,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
             </Link>
           </AnimatedSection>
 
-          {/* Engage with the Fable-Hub Community */}
           <AnimatedSection delay={800}>
             <section className="py-8">
               <div className="container mx-auto px-4">
-                <h2 className="text-2xl font-bold mb-4 text-coffee dark:text-sky">
+                <h2
+                  className="text-3xl font-bold mb-4 text-plum dark:text-sky text-center text-glow text-glow-lg"
+                  style={glowStyle}
+                >
                   Engage with the Fable-Hub Community
                 </h2>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-coffee dark:text-sky">
+                    <h3 className="text-xl font-bold mb-2 text-midnight dark:text-sky">
                       Workshops
                     </h3>
                     <div className="bg-sand dark:bg-plum p-4 rounded-lg">
@@ -248,17 +210,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-coffee dark:text-sky">
+                    <h3 className="text-xl font-bold mb-2 text-midnight dark:text-sky">
                       Forums
                     </h3>
                     <div className="bg-sand dark:bg-plum p-4 rounded-lg">
-                      <h4 className="font-bold mb-2 text-coffee dark:text-sky">
-                        The Storytellers' Circle
+                      <h4 className="font-bold mb-2 text-plum dark:text-sky">
+                        The Storytellers&apos; Circle
                       </h4>
                       <p className="text-sm mb-4 text-coffee dark:text-sky">
                         Dive into lively discussions, share your ideas, and
                         connect with fellow creators in our vibrant community
-                        forums. The Storytellers' Circle is where tales are
+                        forums. The Storytellers&apos; Circle is where tales are
                         born, worlds are built, and friendships are forged.
                       </p>
                       <Link
@@ -274,13 +236,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
             </section>
           </AnimatedSection>
 
-          {/* Community Spotlight */}
           <AnimatedSection delay={1000}>
             <Link
               href="/community-spotlight"
               className="block bg-sky/20 dark:bg-plum/20 p-6 rounded-lg shadow-lg mb-8 max-w-4xl mx-auto hover:bg-sky/30 dark:hover:bg-plum/30 transition-colors duration-200"
             >
-              <h2 className="text-2xl font-semibold mb-2 text-coffee dark:text-sand">
+              <h2
+                className="text-2xl font-semibold mb-2 text-midnight dark:text-sand"
+                style={shadowStyle}
+              >
                 Community Spotlight
               </h2>
               <p className="text-grape dark:text-sky">
@@ -290,13 +254,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
             </Link>
           </AnimatedSection>
 
-          {/* Community Challenges */}
           <AnimatedSection delay={1200}>
             <Link
               href="/challenges"
               className="block bg-plum/20 dark:bg-sky/20 p-6 rounded-lg shadow-lg mb-8 max-w-4xl mx-auto hover:bg-plum/30 dark:hover:bg-sky/30 transition-colors duration-200"
             >
-              <h2 className="text-2xl font-semibold mb-2 text-coffee dark:text-sand">
+              <h2
+                className="text-2xl font-semibold mb-2 text-midnight dark:text-sand"
+                style={shadowStyle}
+              >
                 Community Challenges
               </h2>
               <p className="text-grape dark:text-sky">
@@ -306,13 +272,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
             </Link>
           </AnimatedSection>
 
-          {/* Fable Marketplace Updates */}
           <AnimatedSection delay={1400}>
             <Link
               href="/marketplace-updates"
               className="block bg-grape/20 dark:bg-sand/20 p-6 rounded-lg shadow-lg mb-8 max-w-4xl mx-auto hover:bg-grape/30 dark:hover:bg-sand/30 transition-colors duration-200"
             >
-              <h2 className="text-2xl font-semibold mb-2 text-coffee dark:text-sand">
+              <h2
+                className="text-2xl font-semibold mb-2 text-midnight dark:text-sand"
+                style={shadowStyle}
+              >
                 Fable Marketplace Updates
               </h2>
               <p className="text-grape dark:text-sky">
@@ -325,6 +293,4 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsNavbarVisible }) => {
       </div>
     </div>
   );
-};
-
-export default LandingPage;
+}
