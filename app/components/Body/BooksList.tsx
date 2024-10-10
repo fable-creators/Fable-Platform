@@ -192,9 +192,6 @@ export default function BooksList() {
           </div>
         ))}
         <div className="relative z-10">
-          <div className="text-left pl-4 md:pl-40 mb-6">
-            <h2 className="text-3xl font-bold text-white">Featured Books</h2>
-          </div>
           <div
             ref={carouselRef}
             className="relative w-full overflow-hidden select-none"

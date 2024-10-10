@@ -11,47 +11,47 @@ const games = [
   {
     name: "Outpost Surge",
     image: "/GameCard/outpostsurge_384x576.jpg",
-    background: "/GameBackgrounds/outpostsurge_bg.jpg",
+    background: "/GameBackgrounds/outpostsurge.jpg",
   },
   {
     name: "Bera Horses",
     image: "/GameCard/berahorses_384x576.jpg",
-    background: "/GameBackgrounds/berahorses_bg.jpg",
+    background: "/GameBackgrounds/berahorses.jpg",
   },
   {
     name: "Gemhunters",
     image: "/GameCard/gemhunters_384x576.jpg",
-    background: "/GameBackgrounds/gemhunters_bg.jpg",
+    background: "/GameBackgrounds/gemhunters.jpg",
   },
   {
     name: "Forest Bear",
     image: "/GameCard/forrestbear_384x576.jpg",
-    background: "/GameBackgrounds/forrestbear_bg.jpg",
+    background: "/GameBackgrounds/forrestbear.jpg",
   },
   {
-    name: "Bera Racer",
+    name: "BeRacer",
     image: "/GameCard/Beracer_384x576.jpg",
-    background: "/GameBackgrounds/beraracer_bg.jpg",
+    background: "/GameBackgrounds/Beraracer.png",
   },
   {
     name: "Bera Pong",
     image: "/GameCard/berapong_384x576.jpg",
-    background: "/GameBackgrounds/berapong_bg.jpg",
+    background: "/GameBackgrounds/berapong.jpg",
   },
   {
     name: "Bera Farm",
     image: "/GameCard/berafamer_384x576.jpg",
-    background: "/GameBackgrounds/berafarm_bg.jpg",
+    background: "/GameBackgrounds/berafamer.jpg",
   },
   {
     name: "Bera Bee Catcher",
     image: "/GameCard/berabeecatcher_384x576.jpg",
-    background: "/GameBackgrounds/berabeecatcher_bg.jpg",
+    background: "/GameBackgrounds/berabeecatcher.jpg",
   },
   {
     name: "Bear Arena",
     image: "/GameCard/beararena_384x576.jpg",
-    background: "/GameBackgrounds/beararena_bg.jpg",
+    background: "/GameBackgrounds/beararena.jpg",
   },
 ];
 
@@ -206,7 +206,7 @@ export default function GamesList() {
                 alt={`${game.name} Background`}
                 layout="fill"
                 objectFit="cover"
-                style={{ filter: "brightness(50%) blur(3px)" }}
+                style={{ filter: "brightness(50%) blur(5px)" }}
                 priority={true}
               />
             ) : (
@@ -215,11 +215,6 @@ export default function GamesList() {
           </div>
         ))}
         <div className="relative z-10">
-          <div className="text-left pl-4 md:pl-40 mb-6">
-            <h2 className="text-3xl font-bold text-coffee dark:text-sky">
-              Featured Games
-            </h2>
-          </div>
           <div
             ref={carouselRef}
             className="relative w-full overflow-hidden select-none"
