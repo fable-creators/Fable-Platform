@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { GamesGrid } from "../components/GamesGrid";
 import { FilterSection } from "../components/FilterSection";
+import Loading from "../components/loading";
 
 export default function GamesPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -12,6 +13,16 @@ export default function GamesPage() {
     genre: [] as string[],
     chain: [] as string[],
   });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -31,6 +42,10 @@ export default function GamesPage() {
           ),
     }));
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="min-h-screen games-page">

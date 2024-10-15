@@ -1,18 +1,34 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { VideoHeroBanner } from "../components/VideoHeroBanner";
 import { ChevronRight } from "lucide-react";
 import AnimatedSection from "../components/animated-section";
+import Loading from "../components/loading";
 
 export default function LibraryPage() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const glowStyle = {
     "--glow-color": "var(--grape)",
     "--glow-color-dark": "var(--sky)",
     "--shadow-color": "rgba(0, 0, 0, 0.3)",
   } as React.CSSProperties;
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col library-page">

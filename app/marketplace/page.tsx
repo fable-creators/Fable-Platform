@@ -3,9 +3,11 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Loading from "../components/loading";
 
 export default function Marketplace() {
   const [headerHeight, setHeaderHeight] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const updateHeaderHeight = () => {
@@ -18,8 +20,14 @@ export default function Marketplace() {
     updateHeaderHeight();
     window.addEventListener("resize", updateHeaderHeight);
 
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
     return () => {
       window.removeEventListener("resize", updateHeaderHeight);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -85,6 +93,10 @@ export default function Marketplace() {
       image: "/placeholder.svg?height=300&width=400",
     },
   ];
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="min-h-screen marketplace-page">
