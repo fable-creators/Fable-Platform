@@ -1,58 +1,58 @@
-"use client";
+'use client'
 
-import React, { useEffect, useState, Suspense } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import Header from "../components/Header/Header";
-import { SectionDivider } from "../components/Body/SectionDivider";
-import GamesList from "../components/Body/GamesList";
-import BooksList from "../components/Body/BooksList";
-import ExploreSection from "../components/Body/ExploreSection";
-import AnimatedSection from "../components/animated-section";
-import Loading from "./loading";
+import React, { useEffect, useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import Header from "../components/Header/Header"
+import { SectionDivider } from "../components/Body/SectionDivider"
+import GamesList from "../components/Body/GamesList"
+import BooksList from "../components/Body/BooksList"
+import ExploreSection from "../components/Body/ExploreSection"
+import AnimatedSection from "../components/animated-section"
+import Loading from "./loading"
 
 type LandingPageProps = {
-  setIsNavbarVisible: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  setIsNavbarVisible: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
-  const [heroHeight, setHeroHeight] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [heroHeight, setHeroHeight] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const updateHeroHeight = () => {
-      const heroElement = document.querySelector(".hero-banner");
+      const heroElement = document.querySelector(".hero-banner")
       if (heroElement) {
-        setHeroHeight(heroElement.clientHeight);
+        setHeroHeight(heroElement.clientHeight)
       }
-    };
+    }
 
-    updateHeroHeight();
-    window.addEventListener("resize", updateHeroHeight);
+    updateHeroHeight()
+    window.addEventListener("resize", updateHeroHeight)
 
     // Simulate loading delay
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+      setIsLoading(false)
+    }, 2000)
 
     return () => {
-      window.removeEventListener("resize", updateHeroHeight);
-      clearTimeout(timer);
-    };
-  }, []);
+      window.removeEventListener("resize", updateHeroHeight)
+      clearTimeout(timer)
+    }
+  }, [])
 
   const glowStyle = {
     "--glow-color": "var(--grape)",
     "--glow-color-dark": "var(--sky)",
     "--shadow-color": "rgba(0, 0, 0, 0.3)",
-  } as React.CSSProperties;
+  } as React.CSSProperties
 
   const shadowStyle = {
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-  } as React.CSSProperties;
+  } as React.CSSProperties
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading />
   }
 
   return (
@@ -81,11 +81,13 @@ export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
             >
               Featured Games
             </h2>
-            <Suspense fallback={<Loading />}>
-              <GamesList />
-            </Suspense>
+            <GamesList />
           </AnimatedSection>
-          <SectionDivider />
+
+          <AnimatedSection>
+            <SectionDivider />
+          </AnimatedSection>
+
           <AnimatedSection>
             <h2
               className="text-3xl font-bold mb-4 text-plum dark:text-sky text-center text-glow text-glow-lg"
@@ -93,13 +95,12 @@ export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
             >
               Featured Books
             </h2>
-            <Suspense fallback={<Loading />}>
-              <BooksList />
-            </Suspense>
+            <BooksList />
           </AnimatedSection>
-          <SectionDivider />
-          <ExploreSection />
-          <SectionDivider />
+
+          <AnimatedSection>
+            <SectionDivider />
+          </AnimatedSection>
 
           <AnimatedSection delay={200}>
             <Link
@@ -308,5 +309,5 @@ export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }
