@@ -57,7 +57,7 @@ export function MobileNav({
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-30 bg-[#5E20C1] transform ${
+        className={`fixed inset-0 z-30 w-1/2 bg-plum transform ${
           isMenuOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out`}
       >
@@ -65,9 +65,15 @@ export function MobileNav({
           <Link
             href="/"
             className="logo flex items-center hover:opacity-80 transition-opacity"
+            onClick={toggleMenu}
           >
             <div className="logo-animation">
-              <Image src="/NavItems/Logo.png" alt="Fable Logo" width={40} height={40} />
+              <Image
+                src="/NavItems/Logo.png"
+                alt="Fable Logo"
+                width={40}
+                height={40}
+              />
             </div>
           </Link>
 
@@ -100,7 +106,8 @@ export function MobileNav({
             <li>
               <Link
                 href="/"
-                className="text-white hover:text-[#91ADE6] transition-colors duration-300 text-lg"
+                className="text-white hover:text-sky transition-colors duration-300 text-lg"
+                onClick={toggleMenu}
               >
                 Home
               </Link>
@@ -108,7 +115,8 @@ export function MobileNav({
             <li>
               <Link
                 href="/games"
-                className="text-white hover:text-[#91ADE6] transition-colors duration-300 text-lg"
+                className="text-white hover:text-sky transition-colors duration-300 text-lg"
+                onClick={toggleMenu}
               >
                 Games
               </Link>
@@ -116,7 +124,8 @@ export function MobileNav({
             <li>
               <Link
                 href="/marketplace"
-                className="text-white hover:text-[#91ADE6] transition-colors duration-300 text-lg"
+                className="text-white hover:text-sky transition-colors duration-300 text-lg"
+                onClick={toggleMenu}
               >
                 Marketplace
               </Link>
@@ -124,21 +133,22 @@ export function MobileNav({
             <li>
               <Link
                 href="/library"
-                className="text-white hover:text-[#91ADE6] transition-colors duration-300 text-lg"
+                className="text-white hover:text-sky transition-colors duration-300 text-lg"
+                onClick={toggleMenu}
               >
                 Library
               </Link>
             </li>
+            <li className="mt-4">
+              <w3m-button />
+            </li>
+            <li className="mt-4">
+              <div className="flex space-x-4 px-6">
+                <SocialIcons />
+              </div>
+            </li>
           </ul>
         </nav>
-
-        {/* Social Icons */}
-        <div className="mt-8 px-4">
-          <w3m-button />
-          <div className="flex justify-center space-x-4 mt-4">
-            <SocialIcons />
-          </div>
-        </div>
       </div>
     </div>
   );
