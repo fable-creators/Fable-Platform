@@ -47,81 +47,79 @@ const books = [
 
 export default function BooksList() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [nextIndex, setNextIndex] = useState(1);
+  const [dragOffset, setDragOffset] = useState(0);
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(
     new Array(books.length).fill(false),
   );
   const carouselRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const [clickStartTime, setClickStartTime] = useState(0);
-  const [lastDragTime, setLastDragTime] = useState(0);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const currentX = useRef(0);
+  const animationRef = useRef<number>();
 
-  const MAX_SPEED = 300;
-  const DEBOUNCE_TIME = 50;
+  const DRAG_THRESHOLD = 5;
+  const TRANSITION_SPEED = 0.3;
+  const CARD_WIDTH = 240;
+  const VISIBLE_CARDS = 5;
 
   const handlePrev = useCallback(() => {
-    const newIndex = activeIndex === 0 ? books.length - 1 : activeIndex - 1;
-    setNextIndex(activeIndex);
-    setActiveIndex(newIndex);
-  }, [activeIndex]);
+    setActiveIndex(
+      (prevIndex) => (prevIndex - 1 + books.length) % books.length,
+    );
+  }, []);
 
   const handleNext = useCallback(() => {
-    const newIndex = activeIndex === books.length - 1 ? 0 : activeIndex + 1;
-    setNextIndex(activeIndex);
-    setActiveIndex(newIndex);
-  }, [activeIndex]);
+    setActiveIndex((prevIndex) => (prevIndex + 1) % books.length);
+  }, []);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsDragging(false);
-    setStartX(e.pageX - (carouselRef.current?.offsetLeft || 0));
-    setScrollLeft(carouselRef.current?.scrollLeft || 0);
-    setClickStartTime(Date.now());
-    setLastDragTime(Date.now());
+    isDragging.current = true;
+    startX.current = e.pageX - dragOffset;
+    currentX.current = e.pageX;
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
+    cancelAnimationFrame(animationRef.current!);
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (e.buttons !== 1) return;
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging.current) return;
     e.preventDefault();
-    setIsDragging(true);
 
-    const currentTime = Date.now();
-    const timeDiff = currentTime - lastDragTime;
+    const x = e.pageX;
+    const dx = x - currentX.current;
+    currentX.current = x;
 
-    if (timeDiff < DEBOUNCE_TIME) return;
+    setDragOffset((prevOffset) => prevOffset + dx);
+  }, []);
 
-    const x = e.pageX - (carouselRef.current?.offsetLeft || 0);
-    const walk = (x - startX) * 2;
+  const handleMouseUp = useCallback(
+    (e: MouseEvent) => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
 
-    if (carouselRef.current) {
-      const limitedWalk =
-        Math.sign(walk) *
-        Math.min(Math.abs(walk), (MAX_SPEED * timeDiff) / 1000);
-      const newIndex = Math.round(
-        (scrollLeft - limitedWalk) /
-          (carouselRef.current.offsetWidth / books.length),
-      );
-      const clampedIndex = Math.max(0, Math.min(books.length - 1, newIndex));
-      setNextIndex(activeIndex);
-      setActiveIndex(clampedIndex);
-    }
+      if (Math.abs(e.pageX - startX.current) < DRAG_THRESHOLD) {
+        const clickedIndex = Math.round(-dragOffset / CARD_WIDTH);
+        const bookName = books[
+          (activeIndex + clickedIndex + books.length) % books.length
+        ].name
+          .toLowerCase()
+          .replace(/\s+/g, "-");
+        console.log("Clicked on book:", bookName);
+        // Navigate to the book page here
+      } else {
+        const targetIndex = Math.round(-dragOffset / CARD_WIDTH);
+        setActiveIndex(
+          (prevIndex) =>
+            (prevIndex + targetIndex + books.length) % books.length,
+        );
+      }
 
-    setLastDragTime(currentTime);
-  };
-
-  const handleMouseUp = (e: MouseEvent) => {
-    const clickDuration = Date.now() - clickStartTime;
-    if (clickDuration < 200 && !isDragging) {
-      console.log("Clicked on book:", books[activeIndex].name);
-    }
-    setIsDragging(false);
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-  };
+      setDragOffset(0);
+      isDragging.current = false;
+    },
+    [activeIndex, dragOffset, books],
+  );
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -162,6 +160,30 @@ export default function BooksList() {
     preloadImages();
   }, []);
 
+  const getItemStyle = (index: number) => {
+    const adjustedIndex = (index - activeIndex + books.length) % books.length;
+    const distance = Math.min(
+      Math.abs(adjustedIndex),
+      Math.abs(adjustedIndex - books.length),
+    );
+    const scale = distance === 0 ? 1 : 0.7 - distance * 0.1;
+    const opacity = 1 - distance * 0.2;
+    const zIndex = VISIBLE_CARDS - distance;
+    let translateX = adjustedIndex * CARD_WIDTH + dragOffset;
+
+    if (adjustedIndex > books.length / 2) {
+      translateX -= books.length * CARD_WIDTH;
+    } else if (adjustedIndex < -books.length / 2) {
+      translateX += books.length * CARD_WIDTH;
+    }
+
+    return {
+      transform: `translateX(${translateX}px) scale(${scale})`,
+      opacity,
+      zIndex,
+    };
+  };
+
   return (
     <AnimatedSection>
       <div className="container mx-auto px-4">
@@ -170,11 +192,7 @@ export default function BooksList() {
             <div
               key={book.name}
               className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                index === activeIndex
-                  ? "opacity-100"
-                  : index === nextIndex
-                    ? "opacity-0"
-                    : "hidden"
+                index === activeIndex ? "opacity-100" : "opacity-0"
               }`}
               style={{
                 zIndex: index === activeIndex ? 1 : 0,
@@ -199,37 +217,27 @@ export default function BooksList() {
               ref={carouselRef}
               className="relative w-full overflow-hidden select-none"
               onMouseDown={handleMouseDown}
+              style={{ cursor: isDragging.current ? "grabbing" : "grab" }}
             >
-              <div className="flex justify-center items-center h-[375px]">
-                {books.map((book, index) => {
-                  const distance = Math.abs(activeIndex - index);
-                  const scale = distance === 0 ? 1 : 0.8 - distance * 0.1;
-                  const opacity = distance === 0 ? 1 : 0.6 - distance * 0.2;
-                  const zIndex = books.length - distance;
-
-                  return (
-                    <div
-                      key={book.name}
-                      className="absolute transition-all duration-300 ease-in-out"
-                      style={{
-                        transform: `translateX(${(index - activeIndex) * 75}%) scale(${scale})`,
-                        opacity,
-                        zIndex,
-                      }}
-                    >
-                      <div className="block w-60 h-90 rounded-2xl overflow-hidden border-2 border-white/20">
-                        <Image
-                          src={book.image}
-                          alt={book.name}
-                          width={240}
-                          height={360}
-                          className="w-full h-full object-cover pointer-events-none"
-                          draggable="false"
-                        />
-                      </div>
+              <div className="flex items-center justify-center h-[375px]">
+                {books.map((book, index) => (
+                  <div
+                    key={book.name}
+                    className="absolute transition-all duration-300 ease-in-out cursor-pointer"
+                    style={getItemStyle(index)}
+                  >
+                    <div className="block w-60 h-90 rounded-2xl overflow-hidden border-2 border-white/20">
+                      <Image
+                        src={book.image}
+                        alt={book.name}
+                        width={240}
+                        height={360}
+                        className="w-full h-full object-cover pointer-events-none"
+                        draggable="false"
+                      />
                     </div>
-                  );
-                })}
+                  </div>
+                ))}
               </div>
             </div>
             <CarouselButton direction="left" onClick={handlePrev} />

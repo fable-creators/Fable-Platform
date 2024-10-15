@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState, useEffect } from "react";
 import ErrorBoundary from "./ErrorBoundary";
@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <ErrorBoundary>
       {showPreloader && <VideoPreloader onVideoEnd={handleVideoEnd} />}
-      {showContent && <LandingPage setIsNavbarVisible={setIsNavbarVisible} />} 
+      {showContent && <LandingPage setIsNavbarVisible={setIsNavbarVisible} />}
     </ErrorBoundary>
   );
 }

@@ -68,7 +68,7 @@ const games: Game[] = [
   {
     id: "6",
     title: "BERACER",
-    image: "/GameCard/Beraracer_384x576.jpg",
+    image: "/GameCard/Beracer_384x576.jpg",
     price: "LIVE",
     platform: ["Windows", "Android"],
     genre: ["Racing", "Action"],

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header/Header";
@@ -9,6 +9,7 @@ import GamesList from "../components/Body/GamesList";
 import BooksList from "../components/Body/BooksList";
 import ExploreSection from "../components/Body/ExploreSection";
 import AnimatedSection from "../components/animated-section";
+import Loading from "./loading";
 
 type LandingPageProps = {
   setIsNavbarVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +17,7 @@ type LandingPageProps = {
 
 export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
   const [heroHeight, setHeroHeight] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const updateHeroHeight = () => {
@@ -28,8 +30,14 @@ export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
     updateHeroHeight();
     window.addEventListener("resize", updateHeroHeight);
 
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
     return () => {
       window.removeEventListener("resize", updateHeroHeight);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -42,6 +50,10 @@ export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
   const shadowStyle = {
     textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
   } as React.CSSProperties;
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="min-h-screen landing-page">
@@ -69,7 +81,9 @@ export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
             >
               Featured Games
             </h2>
-            <GamesList />
+            <Suspense fallback={<Loading />}>
+              <GamesList />
+            </Suspense>
           </AnimatedSection>
           <SectionDivider />
           <AnimatedSection>
@@ -79,7 +93,9 @@ export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
             >
               Featured Books
             </h2>
-            <BooksList />
+            <Suspense fallback={<Loading />}>
+              <BooksList />
+            </Suspense>
           </AnimatedSection>
           <SectionDivider />
           <ExploreSection />

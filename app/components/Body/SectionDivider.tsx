@@ -1,23 +1,35 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 import AnimatedSection from "../animated-section";
 
 export const SectionDivider: React.FC = () => {
+  const { theme } = useTheme();
+
   return (
     <AnimatedSection>
-      <div className="w-full px-4 py-8">
-        <div className="relative">
-          <div
-            className="absolute inset-0 flex items-center"
-            aria-hidden="true"
-          >
-            <div className="w-full border-t-2 border-plum dark:border-sand transition-all duration-1000 ease-in-out transform origin-left scale-x-0 animate-scale-x"></div>
-          </div>
-          <div className="relative flex justify-center">
-            <span className="bg-sky dark:bg-midnight px-3 text-sm text-coffee dark:text-sky font-semibold opacity-0 animate-fade-in">
-              •••
-            </span>
+      <div className="w-full px-4 py-12">
+        <div className="relative overflow-hidden max-w-4xl mx-auto">
+          <div className="flex items-center justify-center">
+            {theme === "light" ? (
+              <Image
+                src="/Dark_mode_divider_v2.webp"
+                alt=""
+                width={1800}
+                height={6}
+                className="w-auto h-auto"
+              />
+            ) : (
+              <Image
+                src="/devider_v2.png"
+                alt=""
+                width={1800}
+                height={6}
+                className="w-auto h-auto"
+              />
+            )}
           </div>
         </div>
       </div>

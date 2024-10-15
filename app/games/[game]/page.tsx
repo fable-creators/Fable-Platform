@@ -1,4 +1,8 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { notFound } from "next/navigation";
+import Loading from "../../components/loading";
 import ForestBearContent from "../../components/ForestBearContent";
 import OutpostSurgeContent from "../../components/OutpostSurgeContent";
 import BeraHorsesContent from "../../components/BeraHorsesContent";
@@ -10,6 +14,17 @@ import BeraBeeCatcherContent from "../../components/BeraBeeCatcherContent";
 import BearArenaContent from "../../components/BearArenaContent";
 
 export default function GamePage({ params }: { params: { game: string } }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   console.log(`Rendering GamePage for: ${params.game}`);
 
   const gameData = {
@@ -99,11 +114,11 @@ The bear asked himself, is this the end...? Can they return to their normal live
       description:
         "A fast-paced racing game featuring adorable bear characters.",
       images: [
-        "/GameCard/Beraracer_384x576.jpg",
-        "/GameCard/Beraracer_384x576.jpg",
-        "/GameCard/Beraracer_384x576.jpg",
-        "/GameCard/Beraracer_384x576.jpg",
-        "/GameCard/Beraracer_384x576.jpg",
+        "/GameCard/Beracer_384x576.jpg",
+        "/GameCard/Beracer_384x576.jpg",
+        "/GameCard/Beracer_384x576.jpg",
+        "/GameCard/Beracer_384x576.jpg",
+        "/GameCard/Beracer_384x576.jpg",
       ],
       genre: ["Racing", "Arcade"],
       platform: ["Web", "Mobile"],
@@ -189,6 +204,10 @@ The bear asked himself, is this the end...? Can they return to their normal live
       relatedGames: ["Outpost Surge", "Beracer", "Bera Pong"],
     },
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const game = gameData[params.game as keyof typeof gameData];
 

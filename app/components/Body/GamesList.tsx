@@ -59,91 +59,80 @@ const games = [
 export default function GamesList() {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [nextIndex, setNextIndex] = useState(1);
+  const [dragOffset, setDragOffset] = useState(0);
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(
     new Array(games.length).fill(false),
   );
   const carouselRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const [clickStartTime, setClickStartTime] = useState(0);
-  const [lastDragTime, setLastDragTime] = useState(0);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const currentX = useRef(0);
+  const animationRef = useRef<number>();
 
-  const MAX_SPEED = 300;
-  const DEBOUNCE_TIME = 50;
+  const DRAG_THRESHOLD = 5;
+  const TRANSITION_SPEED = 0.3;
+  const CARD_WIDTH = 240;
+  const VISIBLE_CARDS = 5;
 
   const handlePrev = useCallback(() => {
-    const newIndex = activeIndex === 0 ? games.length - 1 : activeIndex - 1;
-    setNextIndex(activeIndex);
-    setActiveIndex(newIndex);
-  }, [activeIndex]);
+    setActiveIndex(
+      (prevIndex) => (prevIndex - 1 + games.length) % games.length,
+    );
+  }, []);
 
   const handleNext = useCallback(() => {
-    const newIndex = activeIndex === games.length - 1 ? 0 : activeIndex + 1;
-    setNextIndex(activeIndex);
-    setActiveIndex(newIndex);
-  }, [activeIndex]);
+    setActiveIndex((prevIndex) => (prevIndex + 1) % games.length);
+  }, []);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsDragging(false);
-    setStartX(e.pageX - (carouselRef.current?.offsetLeft || 0));
-    setScrollLeft(carouselRef.current?.scrollLeft || 0);
-    setClickStartTime(Date.now());
-    setLastDragTime(Date.now());
+    isDragging.current = true;
+    startX.current = e.pageX - dragOffset;
+    currentX.current = e.pageX;
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
+    cancelAnimationFrame(animationRef.current!);
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (e.buttons !== 1) return;
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging.current) return;
     e.preventDefault();
-    setIsDragging(true);
 
-    const currentTime = Date.now();
-    const timeDiff = currentTime - lastDragTime;
+    const x = e.pageX;
+    const dx = x - currentX.current;
+    currentX.current = x;
 
-    if (timeDiff < DEBOUNCE_TIME) return;
+    setDragOffset((prevOffset) => prevOffset + dx);
+  }, []);
 
-    const x = e.pageX - (carouselRef.current?.offsetLeft || 0);
-    const walk = (x - startX) * 2;
+  const handleMouseUp = useCallback(
+    (e: MouseEvent) => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
 
-    if (carouselRef.current) {
-      const limitedWalk =
-        Math.sign(walk) *
-        Math.min(Math.abs(walk), (MAX_SPEED * timeDiff) / 1000);
-      const newIndex = Math.round(
-        (scrollLeft - limitedWalk) /
-          (carouselRef.current.offsetWidth / games.length),
-      );
-      const clampedIndex = Math.max(0, Math.min(games.length - 1, newIndex));
-      setNextIndex(activeIndex);
-      setActiveIndex(clampedIndex);
-    }
+      if (Math.abs(e.pageX - startX.current) < DRAG_THRESHOLD) {
+        const clickedIndex = Math.round(-dragOffset / CARD_WIDTH);
+        const gameName = games[
+          (activeIndex + clickedIndex + games.length) % games.length
+        ].name
+          .toLowerCase()
+          .replace(/\s+/g, "-");
+        router.push(`/games/${gameName}`);
+      } else {
+        const targetIndex = Math.round(-dragOffset / CARD_WIDTH);
+        setActiveIndex(
+          (prevIndex) =>
+            (prevIndex + targetIndex + games.length) % games.length,
+        );
+      }
 
-    setLastDragTime(currentTime);
-  };
+      setDragOffset(0);
+      isDragging.current = false;
+    },
+    [activeIndex, dragOffset, router, games],
+  );
 
-  const handleMouseUp = (e: MouseEvent) => {
-    const clickDuration = Date.now() - clickStartTime;
-    if (clickDuration < 200 && !isDragging) {
-      const gameName = games[activeIndex].name
-        .toLowerCase()
-        .replace(/\s+/g, "-");
-      router.push(`/games/${gameName}`);
-    }
-    setIsDragging(false);
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-  };
-
-  const handleCardClick = (index: number) => {
-    if (!isDragging) {
-      const gameName = games[index].name.toLowerCase().replace(/\s+/g, "-");
-      router.push(`/games/${gameName}`);
-    }
-  };
+  // Removed animateCarousel and its useEffect
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -184,6 +173,30 @@ export default function GamesList() {
     preloadImages();
   }, []);
 
+  const getItemStyle = (index: number) => {
+    const adjustedIndex = (index - activeIndex + games.length) % games.length;
+    const distance = Math.min(
+      Math.abs(adjustedIndex),
+      Math.abs(adjustedIndex - games.length),
+    );
+    const scale = distance === 0 ? 1 : 0.7 - distance * 0.1;
+    const opacity = 1 - distance * 0.2;
+    const zIndex = VISIBLE_CARDS - distance;
+    let translateX = adjustedIndex * CARD_WIDTH + dragOffset;
+
+    if (adjustedIndex > games.length / 2) {
+      translateX -= games.length * CARD_WIDTH;
+    } else if (adjustedIndex < -games.length / 2) {
+      translateX += games.length * CARD_WIDTH;
+    }
+
+    return {
+      transform: `translateX(${translateX}px) scale(${scale})`,
+      opacity,
+      zIndex,
+    };
+  };
+
   return (
     <AnimatedSection>
       <div className="container mx-auto px-4">
@@ -192,11 +205,7 @@ export default function GamesList() {
             <div
               key={game.name}
               className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                index === activeIndex
-                  ? "opacity-100"
-                  : index === nextIndex
-                    ? "opacity-0"
-                    : "hidden"
+                index === activeIndex ? "opacity-100" : "opacity-0"
               }`}
               style={{
                 zIndex: index === activeIndex ? 1 : 0,
@@ -221,38 +230,27 @@ export default function GamesList() {
               ref={carouselRef}
               className="relative w-full overflow-hidden select-none"
               onMouseDown={handleMouseDown}
+              style={{ cursor: isDragging.current ? "grabbing" : "grab" }}
             >
-              <div className="flex justify-center items-center h-[375px]">
-                {games.map((game, index) => {
-                  const distance = Math.abs(activeIndex - index);
-                  const scale = distance === 0 ? 1 : 0.8 - distance * 0.1;
-                  const opacity = distance === 0 ? 1 : 0.6 - distance * 0.2;
-                  const zIndex = games.length - distance;
-
-                  return (
-                    <div
-                      key={game.name}
-                      className="absolute transition-all duration-300 ease-in-out cursor-pointer"
-                      style={{
-                        transform: `translateX(${(index - activeIndex) * 75}%) scale(${scale})`,
-                        opacity,
-                        zIndex,
-                      }}
-                      onClick={() => handleCardClick(index)}
-                    >
-                      <div className="block w-60 h-90 rounded-2xl overflow-hidden border-2 border-coffee/20 dark:border-sky/20">
-                        <Image
-                          src={game.image}
-                          alt={game.name}
-                          width={240}
-                          height={360}
-                          className="w-full h-full object-cover pointer-events-none"
-                          draggable="false"
-                        />
-                      </div>
+              <div className="flex items-center justify-center h-[375px]">
+                {games.map((game, index) => (
+                  <div
+                    key={game.name}
+                    className="absolute transition-all duration-300 ease-in-out cursor-pointer"
+                    style={getItemStyle(index)}
+                  >
+                    <div className="block w-60 h-90 rounded-2xl overflow-hidden border-2 border-coffee/20 dark:border-sky/20">
+                      <Image
+                        src={game.image}
+                        alt={game.name}
+                        width={240}
+                        height={360}
+                        className="w-full h-full object-cover pointer-events-none"
+                        draggable="false"
+                      />
                     </div>
-                  );
-                })}
+                  </div>
+                ))}
               </div>
             </div>
             <CarouselButton direction="left" onClick={handlePrev} />
