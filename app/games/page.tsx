@@ -1,32 +1,33 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { GamesGrid } from "../components/GamesGrid";
-import { FilterSection } from "../components/FilterSection";
-import Loading from "../components/loading";
+import React, { useState, useEffect } from "react"
+import Image from "next/image"
+import { GamesGrid } from "../components/GamesGrid"
+import { FilterSection } from "../components/FilterSection"
+import Loading from "../components/loading"
+import Header from "../components/Header/Header"
 
 export default function GamesPage() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("")
   const [filters, setFilters] = useState({
     platform: [] as string[],
     genre: [] as string[],
     chain: [] as string[],
-  });
-  const [isLoading, setIsLoading] = useState(true);
+  })
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // Simulate loading delay
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+      setIsLoading(false)
+    }, 2000)
 
-    return () => clearTimeout(timer);
-  }, []);
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleSearch = (query: string) => {
-    setSearchQuery(query);
-  };
+    setSearchQuery(query)
+  }
 
   const handleFilterChange = (
     filterType: string,
@@ -40,25 +41,16 @@ export default function GamesPage() {
         : prevFilters[filterType as keyof typeof prevFilters].filter(
             (item) => item !== value,
           ),
-    }));
-  };
+    }))
+  }
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading />
   }
 
   return (
     <div className="min-h-screen games-page">
-      <div className="fixed inset-0 z-[-2]">
-        <Image
-          src="/fable_games.png"
-          alt="Background"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-          priority
-        />
-      </div>
+      <Header />
       <div className="fixed inset-0 z-[-1] bg-gradient-custom from-sky/90 via-sand/90 to-coffee/90 dark:from-grape/90 dark:via-plum/90 dark:to-midnight/90"></div>
       <div className="relative z-[1]">
         <div className="container mx-auto px-4 py-10 pt-20">
@@ -92,5 +84,5 @@ export default function GamesPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
