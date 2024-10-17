@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import Image from "next/image"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { useState, useEffect, useRef, useCallback } from "react"
-import { ChevronRight } from "lucide-react"
-import { CarouselButton } from "./CarouselButton"
-import AnimatedSection from "../animated-section"
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { ChevronRight } from "lucide-react";
+import { CarouselButton } from "./CarouselButton";
+import AnimatedSection from "../animated-section";
 
 const games = [
   {
@@ -54,143 +54,143 @@ const games = [
     image: "/GameCard/beararena_384x576.jpg",
     background: "/GameBackgrounds/beararena.jpg",
   },
-]
+];
 
 export default function GamesList() {
-  const router = useRouter()
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [dragOffset, setDragOffset] = useState(0)
+  const router = useRouter();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(
-    new Array(games.length).fill(false)
-  )
-  const carouselRef = useRef<HTMLDivElement>(null)
-  const isDragging = useRef(false)
-  const startX = useRef(0)
-  const currentX = useRef(0)
+    new Array(games.length).fill(false),
+  );
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const currentX = useRef(0);
 
-  const DRAG_THRESHOLD = 5
-  const CARD_WIDTH = 240
-  const VISIBLE_CARDS = 5
+  const DRAG_THRESHOLD = 5;
+  const CARD_WIDTH = 240;
+  const VISIBLE_CARDS = 5;
 
   const handlePrev = useCallback(() => {
     setActiveIndex(
-      (prevIndex) => (prevIndex - 1 + games.length) % games.length
-    )
-  }, [])
+      (prevIndex) => (prevIndex - 1 + games.length) % games.length,
+    );
+  }, []);
 
   const handleNext = useCallback(() => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % games.length)
-  }, [])
+    setActiveIndex((prevIndex) => (prevIndex + 1) % games.length);
+  }, []);
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault()
-    isDragging.current = true
-    startX.current = e.pageX - dragOffset
-    currentX.current = e.pageX
-    document.addEventListener("mousemove", handleMouseMove)
-    document.addEventListener("mouseup", handleMouseUp)
-  }
+    e.preventDefault();
+    isDragging.current = true;
+    startX.current = e.pageX - dragOffset;
+    currentX.current = e.pageX;
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging.current) return
-    e.preventDefault()
+    if (!isDragging.current) return;
+    e.preventDefault();
 
-    const x = e.pageX
-    const dx = x - currentX.current
-    currentX.current = x
+    const x = e.pageX;
+    const dx = x - currentX.current;
+    currentX.current = x;
 
-    setDragOffset((prevOffset) => prevOffset + dx)
-  }, [])
+    setDragOffset((prevOffset) => prevOffset + dx);
+  }, []);
 
   const handleMouseUp = useCallback(
     (e: MouseEvent) => {
-      document.removeEventListener("mousemove", handleMouseMove)
-      document.removeEventListener("mouseup", handleMouseUp)
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
 
       if (Math.abs(e.pageX - startX.current) < DRAG_THRESHOLD) {
-        const clickedIndex = Math.round(-dragOffset / CARD_WIDTH)
+        const clickedIndex = Math.round(-dragOffset / CARD_WIDTH);
         const gameName = games[
           (activeIndex + clickedIndex + games.length) % games.length
         ].name
           .toLowerCase()
-          .replace(/\s+/g, "-")
-        router.push(`/games/${gameName}`)
+          .replace(/\s+/g, "-");
+        router.push(`/games/${gameName}`);
       } else {
-        const targetIndex = Math.round(-dragOffset / CARD_WIDTH)
+        const targetIndex = Math.round(-dragOffset / CARD_WIDTH);
         setActiveIndex(
           (prevIndex) =>
-            (prevIndex + targetIndex + games.length) % games.length
-        )
+            (prevIndex + targetIndex + games.length) % games.length,
+        );
       }
 
-      setDragOffset(0)
-      isDragging.current = false
+      setDragOffset(0);
+      isDragging.current = false;
     },
-    [activeIndex, dragOffset, router]
-  )
+    [activeIndex, dragOffset, router],
+  );
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") handlePrev()
-      if (e.key === "ArrowRight") handleNext()
-    }
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") handleNext();
+    };
 
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [handleNext, handlePrev])
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleNext, handlePrev]);
 
   useEffect(() => {
     const preloadImages = () => {
       const imagePromises = games.map((game, index) => {
         return new Promise<void>((resolve) => {
-          const img = new window.Image()
-          img.src = game.background
+          const img = new window.Image();
+          img.src = game.background;
           img.onload = () => {
             setImagesLoaded((prev) => {
-              const newState = [...prev]
-              newState[index] = true
-              return newState
-            })
-            resolve()
-          }
+              const newState = [...prev];
+              newState[index] = true;
+              return newState;
+            });
+            resolve();
+          };
           img.onerror = () => {
-            console.error(`Failed to load image: ${game.background}`)
-            resolve()
-          }
-        })
-      })
+            console.error(`Failed to load image: ${game.background}`);
+            resolve();
+          };
+        });
+      });
 
       Promise.all(imagePromises).then(() => {
-        console.log("All game background images loaded")
-      })
-    }
+        console.log("All game background images loaded");
+      });
+    };
 
-    preloadImages()
-  }, [])
+    preloadImages();
+  }, []);
 
   const getItemStyle = (index: number) => {
-    const adjustedIndex = (index - activeIndex + games.length) % games.length
+    const adjustedIndex = (index - activeIndex + games.length) % games.length;
     const distance = Math.min(
       Math.abs(adjustedIndex),
-      Math.abs(adjustedIndex - games.length)
-    )
-    const scale = distance === 0 ? 1 : 0.7 - distance * 0.1
-    const opacity = 1 - distance * 0.2
-    const zIndex = VISIBLE_CARDS - distance
-    let translateX = adjustedIndex * CARD_WIDTH + dragOffset
+      Math.abs(adjustedIndex - games.length),
+    );
+    const scale = distance === 0 ? 1 : 0.7 - distance * 0.1;
+    const opacity = 1 - distance * 0.2;
+    const zIndex = VISIBLE_CARDS - distance;
+    let translateX = adjustedIndex * CARD_WIDTH + dragOffset;
 
     if (adjustedIndex > games.length / 2) {
-      translateX -= games.length * CARD_WIDTH
+      translateX -= games.length * CARD_WIDTH;
     } else if (adjustedIndex < -games.length / 2) {
-      translateX += games.length * CARD_WIDTH
+      translateX += games.length * CARD_WIDTH;
     }
 
     return {
       transform: `translateX(${translateX}px) scale(${scale})`,
       opacity,
       zIndex,
-    }
-  }
+    };
+  };
 
   return (
     <AnimatedSection className="w-full">
@@ -263,5 +263,5 @@ export default function GamesList() {
         </section>
       </div>
     </AnimatedSection>
-  )
+  );
 }

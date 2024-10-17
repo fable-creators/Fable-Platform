@@ -1,7 +1,9 @@
+/* Tailwind CSS Directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Custom Color Variables */
 :root {
   --sand: #E6B686;
   --coffee: #66321A;
@@ -15,6 +17,7 @@
   --shadow-strength: 3px;
 }
 
+/* Base Styles */
 @layer base {
   body {
     @apply bg-gradient-custom from-sky via-sand to-coffee text-coffee;
@@ -24,38 +27,43 @@
   }
 }
 
+/* Custom Utility Classes */
 @layer utilities {
+  /* Custom Font Sans */
+  .font-sans {
+    font-family: var(--font-custom), var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+
+  /* Hide Scrollbar */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
-
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
 
+  /* Text Glow Effects */
   .text-glow {
     text-shadow: 
       0 0 var(--glow-strength) var(--glow-color),
       0 var(--shadow-strength) var(--shadow-strength) var(--shadow-color);
   }
-
   .text-glow-sm {
     --glow-strength: 2px;
     --shadow-strength: 1px;
   }
-
   .text-glow-md {
     --glow-strength: 5px;
     --shadow-strength: 3px;
   }
-
   .text-glow-lg {
     --glow-strength: 10px;
     --shadow-strength: 5px;
   }
 }
 
+/* Layout and Container Styles */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -70,29 +78,12 @@ body,
   overflow-x: hidden;
 }
 
-@keyframes scale-x {
-  0% { transform: scaleX(0); }
-  100% { transform: scaleX(1); }
-}
-
-@keyframes fade-in {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-.animate-scale-x {
-  animation: scale-x 1s ease-out forwards;
-}
-
-.animate-fade-in {
-  animation: fade-in 1s ease-out 0.5s forwards;
-}
-
 .fixed.inset-0 {
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
 }
 
+/* Page-specific Styles */
 .landing-page,
 .marketplace-page {
   position: relative;
@@ -123,6 +114,7 @@ body,
   );
 }
 
+/* Box Component Styles */
 .box {
   overflow: hidden;
 }
@@ -145,13 +137,14 @@ body,
   }
 }
 
+/* Button Fable Styles */
 .button-fable,
 .button-fable:after {
   width: 200px;
   height: 60px;
   line-height: 62px;
   font-size: 20px;
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: var(--font-custom), 'Bebas Neue', sans-serif;
   background: linear-gradient(45deg, transparent 5%, var(--midnight) 5%);
   border: 0;
   color: var(--sky);
@@ -195,12 +188,6 @@ body,
   border-radius: 10px;
 }
 
-@keyframes glowing-button-fable {
-  0% { background-position: 0 0; }
-  50% { background-position: 400% 0; }
-  100% { background-position: 0 0; }
-}
-
 .button-fable:after {
   --slice-0: inset(50% 50% 50% 50%);
   --slice-1: inset(80% -6px 0 0);
@@ -234,25 +221,12 @@ body,
   animation: glitch-button 1s steps(2, end) infinite;
 }
 
-@keyframes glitch-button {
-  0% { clip-path: var(--slice-1); transform: translate(-20px, -10px); }
-  10% { clip-path: var(--slice-3); transform: translate(10px, 10px); }
-  20% { clip-path: var(--slice-1); transform: translate(-10px, 10px); }
-  30% { clip-path: var(--slice-3); transform: translate(0px, 5px); }
-  40% { clip-path: var(--slice-2); transform: translate(-5px, 0px); }
-  50% { clip-path: var(--slice-3); transform: translate(5px, 0px); }
-  60% { clip-path: var(--slice-4); transform: translate(5px, 10px); }
-  70% { clip-path: var(--slice-2); transform: translate(-10px, 10px); }
-  80% { clip-path: var(--slice-5); transform: translate(20px, -10px); }
-  90% { clip-path: var(--slice-1); transform: translate(-10px, 0px); }
-  100% { clip-path: var(--slice-1); transform: translate(0); }
-}
-
 .button-fable:active {
   color: var(--sky);
   box-shadow: inset 0 0 20px var(--coffee);
 }
 
+/* Dark Mode Button Fable Styles */
 .dark .button-fable {
   background: linear-gradient(45deg, transparent 5%, var(--sky) 5%);
   color: var(--sky);
@@ -275,6 +249,7 @@ body,
   box-shadow: inset 0 0 20px var(--grape);
 }
 
+/* Loader Styles */
 .loader {
   display: flex;
   justify-content: center;
@@ -283,6 +258,7 @@ body,
   background-color: var(--midnight);
 }
 
+/* Glitch Effect Styles */
 .glitch {
   position: relative;
   font-size: 25px;
@@ -315,6 +291,37 @@ body,
   z-index: -2;
 }
 
+/* Animation Keyframes */
+@keyframes scale-x {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes glowing-button-fable {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes glitch-button {
+  0% { clip-path: var(--slice-1); transform: translate(-20px, -10px); }
+  10% { clip-path: var(--slice-3); transform: translate(10px, 10px); }
+  20% { clip-path: var(--slice-1); transform: translate(-10px, 10px); }
+  30% { clip-path: var(--slice-3); transform: translate(0px, 5px); }
+  40% { clip-path: var(--slice-2); transform: translate(-5px, 0px); }
+  50% { clip-path: var(--slice-3); transform: translate(5px, 0px); }
+  60% { clip-path: var(--slice-4); transform: translate(5px, 10px); }
+  70% { clip-path: var(--slice-2); transform: translate(-10px, 10px); }
+  80% { clip-path: var(--slice-5); transform: translate(20px, -10px); }
+  90% { clip-path: var(--slice-1); transform: translate(-10px, 0px); }
+  100% { clip-path: var(--slice-1); transform: translate(0); }
+}
+
 @keyframes glitch {
   0% { transform: translate(0); }
   20% { transform: translate(-3px, 3px); }
@@ -335,6 +342,16 @@ body,
   71% { transform: skewX(10deg) skewY(-10deg); }
 }
 
+/* Animation Classes */
+.animate-scale-x {
+  animation: scale-x 1s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out 0.5s forwards;
+}
+
+/* Media Queries */
 @media (max-width: 767px) {
   .glitch {
     font-size: 20px;
