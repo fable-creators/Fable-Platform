@@ -20,7 +20,7 @@ export default function GamesPage() {
     // Simulate loading delay
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 2000)
+    }, 1000)
 
     return () => clearTimeout(timer)
   }, [])
@@ -51,6 +51,16 @@ export default function GamesPage() {
   return (
     <div className="min-h-screen games-page">
       <Header />
+      <div className="fixed inset-0 z-[-2]">
+        <Image
+          src="/fable_games.png"
+          alt="Fable Games Background"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+          priority
+        />
+      </div>
       <div className="fixed inset-0 z-[-1] bg-gradient-custom from-sky/90 via-sand/90 to-coffee/90 dark:from-grape/90 dark:via-plum/90 dark:to-midnight/90"></div>
       <div className="relative z-[1]">
         <div className="container mx-auto px-4 py-10 pt-20">
