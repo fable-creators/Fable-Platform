@@ -32,7 +32,8 @@ export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
   }
 
   return (
-    <div className="min-h-screen landing-page">
+    <div className="min-h-screen landing-page relative">
+      <div className="fixed inset-0 landing-page-background" />
       <ParallaxHero onScrollComplete={handleParallaxComplete} />
       <BackToTopButton />
     </div>

@@ -1,68 +1,72 @@
-'use client'
+"use client";
 
-import React, { useRef, useState, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Parallax, ParallaxLayer, IParallax } from "@react-spring/parallax"
-import { useSpring, animated } from "@react-spring/web"
-import AboutSection from "./AboutSection"
+import React, { useRef, useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Parallax, ParallaxLayer, IParallax } from "@react-spring/parallax";
+import { useSpring, animated } from "@react-spring/web";
+import AboutSection from "./AboutSection";
+import ParallaxBooks from './ParallaxBooks';
 
 interface ParallaxHeroProps {
-  onScrollComplete: () => void
+  onScrollComplete: () => void;
 }
 
 export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
-  const parallax = useRef<IParallax>(null!)
-  const [moonSize, setMoonSize] = useState(800)
-  const [logoSize, setLogoSize] = useState({ width: 1600, height: 800 })
-  const [iconSize, setIconSize] = useState(60)
-  const [iconPadding, setIconPadding] = useState("ml-4")
-  const [iconSpacing, setIconSpacing] = useState("space-y-4")
-  const [scrollY, setScrollY] = useState(0)
+  const parallax = useRef<IParallax>(null!);
+  const [moonSize, setMoonSize] = useState(800);
+  const [logoSize, setLogoSize] = useState({ width: 1600, height: 800 });
+  const [iconSize, setIconSize] = useState(60);
+  const [iconPadding, setIconPadding] = useState("ml-4");
+  const [iconSpacing, setIconSpacing] = useState("space-y-4");
+  const [scrollY, setScrollY] = useState(0);
 
   const [logoSpring, setLogoSpring] = useSpring(() => ({
     opacity: 0,
     transform: "translateY(50px)",
-  }))
+  }));
 
   const [discordSpring, setDiscordSpring] = useSpring(() => ({
     opacity: 0,
     transform: "translateX(50px)",
-  }))
+  }));
 
   const [xSpring, setXSpring] = useSpring(() => ({
     opacity: 0,
     transform: "translateX(50px)",
-  }))
+  }));
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [shouldPlayVideo, setShouldPlayVideo] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth
+      const width = window.innerWidth;
       if (width < 640) {
-        setMoonSize(200)
-        setLogoSize({ width: 300, height: 300 })
-        setIconSize(40)
-        setIconPadding("ml-1")
-        setIconSpacing("space-y-4")
+        setMoonSize(200);
+        setLogoSize({ width: 300, height: 300 });
+        setIconSize(40);
+        setIconPadding("ml-1");
+        setIconSpacing("space-y-4");
       } else if (width < 1024) {
-        setMoonSize(350)
-        setLogoSize({ width: 600, height: 450 })
-        setIconSize(50)
-        setIconPadding("ml-2")
-        setIconSpacing("space-y-3")
+        setMoonSize(350);
+        setLogoSize({ width: 600, height: 450 });
+        setIconSize(50);
+        setIconPadding("ml-2");
+        setIconSpacing("space-y-3");
       } else {
-        setMoonSize(600)
-        setLogoSize({ width: 1000, height: 750 })
-        setIconSize(90)
-        setIconPadding("ml-4")
-        setIconSpacing("space-y-24")
+        setMoonSize(600);
+        setLogoSize({ width: 1000, height: 750 });
+        setIconSize(90);
+        setIconPadding("ml-4");
+        setIconSpacing("space-y-24");
       }
-    }
+    };
 
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     setLogoSpring({
@@ -70,45 +74,59 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
       transform: "translateY(0px)",
       delay: 1500,
       config: { duration: 1000 },
-    })
+    });
     setDiscordSpring({
       opacity: 1,
       transform: "translateX(0px)",
       delay: 1700,
       config: { duration: 1000 },
-    })
+    });
     setXSpring({
       opacity: 1,
       transform: "translateX(0px)",
       delay: 1500,
       config: { duration: 1000 },
-    })
-  }, [])
+    });
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       if (typeof window !== "undefined") {
-        setScrollY(window.pageYOffset)
-        if (window.pageYOffset >= window.innerHeight * 2.05) {
-          console.log("Triggering onScrollComplete from ParallaxHero")
-          onScrollComplete()
+        setScrollY(window.pageYOffset);
+        if (window.pageYOffset >= window.innerHeight * 5) {
+          console.log("Triggering onScrollComplete from ParallaxHero");
+          onScrollComplete();
         }
       }
-    }
+    };
 
-    handleScroll() // Call once to set initial value
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [onScrollComplete])
+    handleScroll(); // Call once to set initial value
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [onScrollComplete]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShouldPlayVideo(true);
+    }, 8000); // 2000 milliseconds (2 seconds) delay
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (shouldPlayVideo && videoRef.current) {
+      videoRef.current.play();
+    }
+  }, [shouldPlayVideo]);
 
   const logoOpacity = useSpring({
     opacity: scrollY > window.innerHeight * 0.65 ? 0 : 1,
     config: { duration: 300 },
-  })
+  });
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      <Parallax ref={parallax} pages={3.05}>
+      <Parallax ref={parallax} pages={5}>
         <ParallaxLayer offset={0} speed={0} factor={2.25}>
           <div className="absolute inset-0">
             <Image
@@ -150,8 +168,11 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={0.1} speed={-1.48} factor={1}>
-          <div className="absolute bottom-0 w-full" style={{marginLeft:'750px', marginBottom:'700px'}}>
+        <ParallaxLayer offset={0.80} speed={-1.45} factor={.3}>
+          <div
+            className="absolute bottom-0 w-full"
+            style={{ marginLeft: "750px", marginBottom: "700px" }}
+          >
             <animated.div className="flex items-center" style={logoOpacity}>
               <animated.div style={logoSpring}>
                 <Image
@@ -174,7 +195,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
                   </Link>
                 </animated.div>
                 <animated.div style={discordSpring}>
-                  <Link href="/discord-link" passHref>
+                  <Link href="https://discord.gg/uFEnUyUA" passHref>
                     <Image
                       src="/parallax/1-2 Discord icon.png"
                       alt="Discord Icon"
@@ -189,7 +210,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={0.5} speed={-0.78}>
+        <ParallaxLayer offset={1.7} speed={-0.6} factor={0.5}>
           <div className="absolute bottom-0 w-full">
             <Image
               src="/parallax/4 Mountains.png"
@@ -197,7 +218,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
               layout="responsive"
               width={1920}
               height={1080}
-              objectFit="overflow"
+              objectFit="contain"
             />
           </div>
         </ParallaxLayer>
@@ -266,7 +287,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={1.99} speed={.4} >
+        <ParallaxLayer offset={1.99} speed={0.4}>
           <AboutSection />
         </ParallaxLayer>
 
@@ -284,7 +305,27 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             </video>
           </div>
         </ParallaxLayer>
+
+        <ParallaxLayer offset={2.995} speed={0.38}>
+          <ParallaxBooks />
+        </ParallaxLayer>
+
+        <ParallaxLayer offset={3.25} speed={0.45}>
+          <div className="w-full h-full flex items-center justify-center bg-black">
+            <video
+              ref={videoRef}
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+              autoPlay={shouldPlayVideo}
+            >
+              <source src="/videos/Arcade_render_2.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </ParallaxLayer>
+        
       </Parallax>
     </div>
-  )
+  );
 }
