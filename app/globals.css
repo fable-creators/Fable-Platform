@@ -43,6 +43,10 @@
     scrollbar-width: none;
   }
 
+  .landing-page-background {
+    background-color: #0f0620;
+  }
+
   /* Text Glow Effects */
   .text-glow {
     text-shadow: 
