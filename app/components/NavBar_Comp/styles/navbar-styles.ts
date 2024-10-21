@@ -24,9 +24,7 @@ export const navbarStyles = `
   }
   .logo-container {
     position: relative;
-    width: 42px;
-    height: 42px;
-    overflow: invisible;
+    overflow: visible;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,8 +32,6 @@ export const navbarStyles = `
   .logo-animation {
     position: relative;
     z-index: 1;
-    width: 100%;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,18 +39,13 @@ export const navbarStyles = `
   .logo-animation:hover {
     animation: logoAnimation 2s ease-in-out;
   }
-  .logo-glow {
-    position: absolute;
-    top: -2px;
-    left: -.5px;
-    right: -.5px;
-    bottom: -2px;
-    border-radius: 25%;
-    animation: glowing 3s infinite;
-    pointer-events: none;
+  .logo-mobile {
+    width: 52px;
+    height: 52px;
   }
-  .logo-animation:hover .logo-glow {
-    animation: glowing 3s infinite, logoAnimation 2s ease-in-out;
+  .logo-desktop {
+    width: 105px;
+    height: 128px;
   }
   .x-logo {
     transition: transform 0.3s ease-in-out;
@@ -72,36 +63,5 @@ export const navbarStyles = `
   .w3m-button-container {
     display: flex;
     align-items: center;
-  }
-
-  @keyframes glowing {
-    0% {
-      box-shadow: 0 0 5px var(--plum), 0 0 10px var(--plum), 0 0 15px var(--plum);
-    }
-    50% {
-      box-shadow: 0 0 10px var(--sky), 0 0 20px var(--plum), 0 0 30px var(--sky);
-    }
-    100% {
-      box-shadow: 0 0 5px var(--plum), 0 0 10px var(--plum), 0 0 15px var(--plum);
-    }
-  }
-
-  .dark .logo-glow {
-    animation: glowing-dark 3s infinite;
-  }
-  .dark .logo-animation:hover .logo-glow {
-    animation: glowing-dark 3s infinite, logoAnimation 2s ease-in-out;
-  }
-
-  @keyframes glowing-dark {
-    0% {
-      box-shadow: 0 0 5px var(--grape), 0 0 10px var(--grape), 0 0 15px var(--grape);
-    }
-    50% {
-      box-shadow: 0 0 10px var(--sky), 0 0 20px var(--sky), 0 0 30px var(--sky);
-    }
-    100% {
-      box-shadow: 0 0 5px var(--grape), 0 0 10px var(--grape), 0 0 15px var(--grape);
-    }
   }
 `;

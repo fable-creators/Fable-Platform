@@ -7,6 +7,7 @@ import { Parallax, ParallaxLayer, IParallax } from "@react-spring/parallax";
 import { useSpring, animated } from "@react-spring/web";
 import AboutSection from "./AboutSection";
 import ParallaxBooks from './ParallaxBooks';
+import ParallaxGames from './ParallaxGames';
 
 interface ParallaxHeroProps {
   onScrollComplete: () => void;
@@ -108,7 +109,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShouldPlayVideo(true);
-    }, 8000); // 2000 milliseconds (2 seconds) delay
+    }, 8000); // 8000 milliseconds (8 seconds) delay
 
     return () => clearTimeout(timer);
   }, []);
@@ -126,7 +127,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
-      <Parallax ref={parallax} pages={5}>
+      <Parallax ref={parallax} pages={6}>
         <ParallaxLayer offset={0} speed={0} factor={2.25}>
           <div className="absolute inset-0">
             <Image
@@ -168,7 +169,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={0.80} speed={-1.45} factor={.3}>
+        <ParallaxLayer offset={0.80} speed={-1.295} factor={.3}>
           <div
             className="absolute bottom-0 w-full"
             style={{ marginLeft: "750px", marginBottom: "700px" }}
@@ -210,7 +211,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={1.7} speed={-0.6} factor={0.5}>
+        <ParallaxLayer offset={1.75} speed={-0.6} factor={0.4}>
           <div className="absolute bottom-0 w-full">
             <Image
               src="/parallax/4 Mountains.png"
@@ -276,6 +277,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             className="absolute bottom-0 w-full"
             style={{ marginTop: "78px" }}
           >
+
             <Image
               src="/parallax/8_grass_purple_2.png"
               alt="Purple Grass"
@@ -324,7 +326,11 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             </video>
           </div>
         </ParallaxLayer>
-        
+
+        <ParallaxLayer offset={4} speed={0.45}>
+          <ParallaxGames />
+        </ParallaxLayer>
+
       </Parallax>
     </div>
   );
