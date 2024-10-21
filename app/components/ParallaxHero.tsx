@@ -6,8 +6,8 @@ import Link from "next/link";
 import { Parallax, ParallaxLayer, IParallax } from "@react-spring/parallax";
 import { useSpring, animated } from "@react-spring/web";
 import AboutSection from "./AboutSection";
-import ParallaxBooks from './ParallaxBooks';
-import ParallaxGames from './ParallaxGames';
+import ParallaxBooks from "./ParallaxBooks";
+import ParallaxGames from "./ParallaxGames";
 
 interface ParallaxHeroProps {
   onScrollComplete: () => void;
@@ -20,7 +20,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
   const [iconSize, setIconSize] = useState(60);
   const [iconPadding, setIconPadding] = useState("ml-4");
   const [iconSpacing, setIconSpacing] = useState("space-y-4");
-  const [scrollY, setScrollY] = useState(0);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const [logoSpring, setLogoSpring] = useSpring(() => ({
     opacity: 0,
@@ -92,24 +92,31 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (typeof window !== "undefined") {
-        setScrollY(window.pageYOffset);
-        if (window.pageYOffset >= window.innerHeight * 5) {
+      if (parallax.current) {
+        const currentScrollY = parallax.current.current;
+        setShowBackToTop(currentScrollY > 1); // Show button after first page
+        if (currentScrollY >= 5) {
           console.log("Triggering onScrollComplete from ParallaxHero");
           onScrollComplete();
         }
       }
     };
 
-    handleScroll(); // Call once to set initial value
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    if (parallax.current) {
+      parallax.current.container.current?.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (parallax.current) {
+        parallax.current.container.current?.removeEventListener("scroll", handleScroll);
+      }
+    };
   }, [onScrollComplete]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShouldPlayVideo(true);
-    }, 8000); // 8000 milliseconds (8 seconds) delay
+    }, 8000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -121,9 +128,15 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
   }, [shouldPlayVideo]);
 
   const logoOpacity = useSpring({
-    opacity: scrollY > window.innerHeight * 0.65 ? 0 : 1,
+    opacity: parallax.current?.current > 0.65 ? 0 : 1,
     config: { duration: 300 },
   });
+
+  const scrollTo = (page: number) => {
+    if (parallax.current) {
+      parallax.current.scrollTo(page);
+    }
+  };
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -169,18 +182,19 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={0.80} speed={-1.295} factor={.3}>
+        <ParallaxLayer offset={0.8} speed={-1.295} factor={0.3}>
           <div
             className="absolute bottom-0 w-full"
             style={{ marginLeft: "750px", marginBottom: "700px" }}
           >
             <animated.div className="flex items-center" style={logoOpacity}>
-              <animated.div style={logoSpring}>
+              <animated.div style={logoSpring} onClick={() => scrollTo(1)}>
                 <Image
                   src="/parallax/1-1 Fable logo pink glow.png"
                   alt="Fable Logo"
                   width={logoSize.width}
                   height={logoSize.height}
+                  className="cursor-pointer"
                 />
               </animated.div>
               <div className={`flex flex-col ${iconSpacing} ${iconPadding}`}>
@@ -277,7 +291,6 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             className="absolute bottom-0 w-full"
             style={{ marginTop: "78px" }}
           >
-
             <Image
               src="/parallax/8_grass_purple_2.png"
               alt="Purple Grass"
@@ -290,11 +303,16 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
         </ParallaxLayer>
 
         <ParallaxLayer offset={1.99} speed={0.4}>
-          <AboutSection />
+          <div onClick={() => scrollTo(2)}>
+            <AboutSection />
+          </div>
         </ParallaxLayer>
 
         <ParallaxLayer offset={2} speed={0.35}>
-          <div className="w-full h-full flex items-center justify-center bg-black">
+          <div
+            className="w-full h-full flex items-center justify-center bg-black"
+            onClick={() => scrollTo(3)}
+          >
             <video
               autoPlay
               loop
@@ -309,11 +327,16 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
         </ParallaxLayer>
 
         <ParallaxLayer offset={2.995} speed={0.38}>
-          <ParallaxBooks />
+          <div onClick={() => scrollTo(3.25)}>
+            <ParallaxBooks />
+          </div>
         </ParallaxLayer>
 
         <ParallaxLayer offset={3.25} speed={0.45}>
-          <div className="w-full h-full flex items-center justify-center bg-black">
+          <div
+            className="w-full h-full flex items-center justify-center bg-black"
+            onClick={() => scrollTo(4)}
+          >
             <video
               ref={videoRef}
               muted
@@ -330,8 +353,85 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
         <ParallaxLayer offset={4} speed={0.45}>
           <ParallaxGames />
         </ParallaxLayer>
-
       </Parallax>
+
+      {showBackToTop && (
+        <animated.div 
+          className="fixed bottom-4 right-4 z-50"
+          style={{
+            opacity: showBackToTop ? 1 : 0,
+            transform: `translateY(${showBackToTop ? 0 : 20}px)`,
+          }}
+        >
+          <button
+            className="button"
+            onClick={() => scrollTo(0)}
+            aria-label="Back to Top"
+          >
+            <svg className="svgIcon" viewBox="0 0 384 512">
+              <path
+                d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
+              ></path>
+            </svg>
+          </button>
+        </animated.div>
+      )}
+
+      <style jsx>{`
+        .button {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background-color: rgb(20, 20, 20);
+          border: none;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0px 0px 0px 4px rgba(180, 160, 255, 0.253);
+          cursor: pointer;
+          transition-duration: 0.3s;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .svgIcon {
+          width: 12px;
+          transition-duration: 0.3s;
+        }
+
+        .svgIcon path {
+          fill: white;
+        }
+
+        .button:hover {
+          width: 140px;
+          border-radius: 50px;
+          transition-duration: 0.3s;
+          background-color: rgb(181, 160, 255);
+          align-items: center;
+        }
+
+        .button:hover .svgIcon {
+          transition-duration: 0.3s;
+          transform: translateY(-200%);
+        }
+
+        .button::before {
+          position: absolute;
+          bottom: -20px;
+          content: "Back to Top";
+          color: white;
+          font-size: 0px;
+        }
+
+        .button:hover::before {
+          font-size: 13px;
+          opacity: 1;
+          bottom: unset;
+          transition-duration: 0.3s;
+        }
+      `}</style>
     </div>
   );
 }

@@ -49,18 +49,20 @@ export default function Navbar({ isVisible }: NavbarProps) {
     const checkMobile = () => {
       const isMobileView = window.innerWidth < 1280;
       setIsMobile(isMobileView);
-      const logoImg = document.querySelector('.logo-animation img') as HTMLImageElement;
+      const logoImg = document.querySelector(
+        ".logo-animation img",
+      ) as HTMLImageElement;
       if (logoImg) {
         if (isMobileView) {
           logoImg.width = 52;
           logoImg.height = 52;
-          logoImg.classList.remove('logo-desktop');
-          logoImg.classList.add('logo-mobile');
+          logoImg.classList.remove("logo-desktop");
+          logoImg.classList.add("logo-mobile");
         } else {
           logoImg.width = 128;
           logoImg.height = 128;
-          logoImg.classList.remove('logo-mobile');
-          logoImg.classList.add('logo-desktop');
+          logoImg.classList.remove("logo-mobile");
+          logoImg.classList.add("logo-desktop");
         }
       }
     };
@@ -130,9 +132,9 @@ export default function Navbar({ isVisible }: NavbarProps) {
       {/* Desktop Sliding Tray */}
       <div
         className={`fixed top-0 right-0 h-screen bg-background shadow-lg transform transition-transform duration-300 ease-in-out z-[60] ${
-          isTrayOpen ? 'translate-x-0' : 'translate-x-full'
+          isTrayOpen ? "translate-x-0" : "translate-x-full"
         } hidden xl:flex flex-col`}
-        style={{ width: '300px' }}
+        style={{ width: "300px" }}
       >
         <div className="p-6 flex flex-col items-start">
           <Button
