@@ -2,48 +2,51 @@
 
 import React, { useState, useRef, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { CarouselButton } from "./Body/CarouselButton";
 
-const books = [
-  { name: "Fable Chronicles", image: "/BookCard/fable_cron.png" },
-  { name: "Hooked On Bera", image: "/BookCard/hooked_on_bera.png" },
-  { name: "TBC 1", image: "/BookCard/TBC_1.png" },
-  { name: "TBC 2", image: "/BookCard/TBC_2.png" },
-  { name: "TBC 3", image: "/BookCard/TBC_3.png" },
-  { name: "TBC 4", image: "/BookCard/TBC_4.png" },
-  { name: "TBC 5", image: "/BookCard/TBC_5.png" },
+const games = [
+  { name: "Outpost Surge", image: "/GameCard/outpostsurge_384x576.jpg" },
+  { name: "Bera Horses", image: "/GameCard/berahorses_384x576.jpg" },
+  { name: "Gemhunters", image: "/GameCard/gemhunters_384x576.jpg" },
+  { name: "Forest Bear", image: "/GameCard/forrestbear_384x576.jpg" },
+  { name: "BeRacer", image: "/GameCard/Beracer_384x576.jpg" },
+  { name: "Bera Pong", image: "/GameCard/berapong_384x576.jpg" },
+  { name: "Bera Farm", image: "/GameCard/berafamer_384x576.jpg" },
+  { name: "Bera Bee Catcher", image: "/GameCard/berabeecatcher_384x576.jpg" },
+  { name: "Bear Arena", image: "/GameCard/beararena_384x576.jpg" },
 ];
 
-export default function ParallaxBooks() {
+export default function ParallaxGames() {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const handlePrev = useCallback(() => {
     setActiveIndex(
-      (prevIndex) => (prevIndex - 1 + books.length) % books.length,
+      (prevIndex) => (prevIndex - 1 + games.length) % games.length,
     );
   }, []);
 
   const handleNext = useCallback(() => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % books.length);
+    setActiveIndex((prevIndex) => (prevIndex + 1) % games.length);
   }, []);
 
   const getItemStyle = (index: number) => {
-    const adjustedIndex = (index - activeIndex + books.length) % books.length;
+    const adjustedIndex = (index - activeIndex + games.length) % games.length;
     const distance = Math.min(
       Math.abs(adjustedIndex),
-      Math.abs(adjustedIndex - books.length),
+      Math.abs(adjustedIndex - games.length),
     );
     const scale = distance === 0 ? 1 : 0.7 - distance * 0.1;
     const opacity = 1 - distance * 0.2;
     const zIndex = 5 - distance;
-    let translateX = adjustedIndex * 240; // 240px is the width of each book card
+    let translateX = adjustedIndex * 240; // 240px is the width of each game card
 
-    if (adjustedIndex > books.length / 2) {
-      translateX -= books.length * 240;
-    } else if (adjustedIndex < -books.length / 2) {
-      translateX += books.length * 240;
+    if (adjustedIndex > games.length / 2) {
+      translateX -= games.length * 240;
+    } else if (adjustedIndex < -games.length / 2) {
+      translateX += games.length * 240;
     }
 
     return {
@@ -54,10 +57,10 @@ export default function ParallaxBooks() {
   };
 
   return (
-    <div className="w-full landing-page-background min-h-screen py-16 pt-100">
-      <div className="container mx-auto px-4 pt-100">
-        <h1 className="text-center font-sans text-4xl md:text-6xl font-bold text-white mb-8">
-          Check out some of our Books
+    <div className="w-full landing-page-background min-h-screen">
+      <div className="container mx-auto px-4 ">
+        <h1 className="text-center font-sans text-4xl md:text-6xl font-bold text-white mb-4">
+          Check out some of our Games
         </h1>
         <div className="w-full">
           <Image
@@ -65,7 +68,7 @@ export default function ParallaxBooks() {
             alt="Decorative divider"
             width={1920}
             height={20}
-            className="w-full h-auto mb-16"
+            className="w-full h-auto mb-8"
           />
         </div>
         <div className="relative w-full max-w-6xl mx-auto overflow-hidden">
@@ -74,16 +77,16 @@ export default function ParallaxBooks() {
             className="relative w-full overflow-hidden select-none"
           >
             <div className="flex items-center justify-center h-[375px]">
-              {books.map((book, index) => (
+              {games.map((game, index) => (
                 <div
-                  key={book.name}
+                  key={game.name}
                   className="absolute transition-all duration-300 ease-in-out cursor-pointer"
                   style={getItemStyle(index)}
                 >
                   <div className="block w-60 h-90 rounded-2xl overflow-hidden border-2 border-white/20">
                     <Image
-                      src={book.image}
-                      alt={book.name}
+                      src={game.image}
+                      alt={game.name}
                       width={240}
                       height={360}
                       className="w-full h-full object-cover pointer-events-none"
@@ -97,13 +100,13 @@ export default function ParallaxBooks() {
           <CarouselButton direction="left" onClick={handlePrev} />
           <CarouselButton direction="right" onClick={handleNext} />
           <div className="text-center mt-6">
-            <a
-              href="#"
+            <Link
+              href="/games"
               className="inline-flex items-center gap-1.5 text-sky font-semibold hover:text-sand transition-colors"
             >
-              View All Books
+              View All Games
               <ChevronRight size={18} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

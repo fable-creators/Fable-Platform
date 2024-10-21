@@ -1,41 +1,39 @@
-'use client'
+"use client";
 
-import React, { useState, useEffect } from "react"
-import ParallaxHero from "./ParallaxHero"
-import BackToTopButton from "./BackToTopButton"
+import React, { useState, useEffect } from "react";
+import ParallaxHero from "./ParallaxHero";
 
 type LandingPageProps = {
-  setIsNavbarVisible: React.Dispatch<React.SetStateAction<boolean>>
-}
+  setIsNavbarVisible: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 export default function LandingPage({ setIsNavbarVisible }: LandingPageProps) {
-  const [isMounted, setIsMounted] = useState(false)
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true)
+    setIsMounted(true);
 
     const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      setIsNavbarVisible(scrollPosition <= 100)
-    }
+      const scrollPosition = window.scrollY;
+      setIsNavbarVisible(scrollPosition <= 100);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [setIsNavbarVisible])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [setIsNavbarVisible]);
 
   const handleParallaxComplete = () => {
-    console.log('Parallax complete called')
-  }
+    console.log("Parallax complete called");
+  };
 
   if (!isMounted) {
-    return null // or a loading placeholder
+    return null; // or a loading placeholder
   }
 
   return (
     <div className="min-h-screen landing-page relative">
       <div className="fixed inset-0 landing-page-background" />
       <ParallaxHero onScrollComplete={handleParallaxComplete} />
-      <BackToTopButton />
     </div>
-  )
+  );
 }
