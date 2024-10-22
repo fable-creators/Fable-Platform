@@ -20,6 +20,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
   const [iconSize, setIconSize] = useState(60);
   const [iconPadding, setIconPadding] = useState("ml-4");
   const [iconSpacing, setIconSpacing] = useState("space-y-4");
+  const [scrollY, setScrollY] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
   const [logoSpring, setLogoSpring] = useSpring(() => ({
@@ -35,6 +36,11 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
   const [xSpring, setXSpring] = useSpring(() => ({
     opacity: 0,
     transform: "translateX(50px)",
+  }));
+
+  const [backToTopSpring, setBackToTopSpring] = useSpring(() => ({
+    opacity: 0,
+    transform: "translateY(20px)",
   }));
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -92,26 +98,26 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (parallax.current) {
-        const currentScrollY = parallax.current.current;
-        setShowBackToTop(currentScrollY > 1); // Show button after first page
-        if (currentScrollY >= 5) {
+      if (typeof window !== "undefined") {
+        const currentScrollY = window.pageYOffset;
+        setScrollY(currentScrollY);
+        const shouldShow = currentScrollY > window.innerHeight;
+        setShowBackToTop(shouldShow);
+        setBackToTopSpring({
+          opacity: shouldShow ? 1 : 0,
+          transform: `translateY(${shouldShow ? 0 : 20}px)`,
+        });
+        if (currentScrollY >= window.innerHeight * 2.05) {
           console.log("Triggering onScrollComplete from ParallaxHero");
           onScrollComplete();
         }
       }
     };
 
-    if (parallax.current) {
-      parallax.current.container.current?.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (parallax.current) {
-        parallax.current.container.current?.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [onScrollComplete]);
+    handleScroll(); // Call once to set initial value
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [onScrollComplete, setBackToTopSpring]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -128,7 +134,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
   }, [shouldPlayVideo]);
 
   const logoOpacity = useSpring({
-    opacity: parallax.current?.current > 0.65 ? 0 : 1,
+    opacity: scrollY > window.innerHeight * 0.65 ? 0 : 1,
     config: { duration: 300 },
   });
 
@@ -182,7 +188,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={0.8} speed={-1.295} factor={0.3}>
+        <ParallaxLayer offset={0.80} speed={-1.45} factor={.3}>
           <div
             className="absolute bottom-0 w-full"
             style={{ marginLeft: "750px", marginBottom: "700px" }}
@@ -225,8 +231,8 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={1.75} speed={-0.6} factor={0.4}>
-          <div className="absolute bottom-0 w-full">
+        <ParallaxLayer offset={0.75} speed={-0.69} factor={1}>
+          <div className="absolute bottom-0 w-full" style={{ paddingBottom: '20vh' }}>
             <Image
               src="/parallax/4 Mountains.png"
               alt="Front Mountains"
@@ -355,30 +361,25 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
         </ParallaxLayer>
       </Parallax>
 
-      {showBackToTop && (
-        <animated.div 
-          className="fixed bottom-4 right-4 z-50"
-          style={{
-            opacity: showBackToTop ? 1 : 0,
-            transform: `translateY(${showBackToTop ? 0 : 20}px)`,
-          }}
+      <animated.div 
+        className="fixed bottom-4 right-4 z-50"
+        style={backToTopSpring}
+      >
+        <button
+          className="back-to-top-button"
+          onClick={() => scrollTo(0)}
+          aria-label="Back to Top"
         >
-          <button
-            className="button"
-            onClick={() => scrollTo(0)}
-            aria-label="Back to Top"
-          >
-            <svg className="svgIcon" viewBox="0 0 384 512">
-              <path
-                d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
-              ></path>
-            </svg>
-          </button>
-        </animated.div>
-      )}
+          <svg className="svgIcon" viewBox="0 0 384 512">
+            <path
+              d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
+            ></path>
+          </svg>
+        </button>
+      </animated.div>
 
       <style jsx>{`
-        .button {
+        .back-to-top-button {
           width: 50px;
           height: 50px;
           border-radius: 50%;
@@ -404,7 +405,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           fill: white;
         }
 
-        .button:hover {
+        .back-to-top-button:hover {
           width: 140px;
           border-radius: 50px;
           transition-duration: 0.3s;
@@ -412,12 +413,12 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           align-items: center;
         }
 
-        .button:hover .svgIcon {
+        .back-to-top-button:hover .svgIcon {
           transition-duration: 0.3s;
           transform: translateY(-200%);
         }
 
-        .button::before {
+        .back-to-top-button::before {
           position: absolute;
           bottom: -20px;
           content: "Back to Top";
@@ -425,12 +426,13 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           font-size: 0px;
         }
 
-        .button:hover::before {
+        .back-to-top-button:hover::before {
           font-size: 13px;
           opacity: 1;
           bottom: unset;
           transition-duration: 0.3s;
         }
+
       `}</style>
     </div>
   );
