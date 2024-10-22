@@ -59,7 +59,7 @@ export default function Navbar({ isVisible }: NavbarProps) {
           logoImg.classList.remove("logo-desktop");
           logoImg.classList.add("logo-mobile");
         } else {
-          logoImg.width = 128;
+          logoImg.width = 105;
           logoImg.height = 128;
           logoImg.classList.remove("logo-mobile");
           logoImg.classList.add("logo-desktop");
@@ -93,7 +93,7 @@ export default function Navbar({ isVisible }: NavbarProps) {
           >
             <div className="logo-animation">
               <Image
-                src="/NavItems/Logo.png"
+                src="/NavItems/Fable_Logo_1.png"
                 alt="Fable Logo"
                 width={isMobile ? 52 : 105}
                 height={isMobile ? 52 : 128}

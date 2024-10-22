@@ -325,7 +325,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
 
         <ParallaxLayer offset={2} speed={0.35}>
           <div
-            className="w-full h-full flex items-center justify-center bg-black"
+            className="w-full h-full flex items-center justify-center bg-black relative"
             onClick={() => scrollTo(3)}
           >
             <video
@@ -338,6 +338,9 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
               <source src="/videos/bear_library_room.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
+            <div className="glass-container absolute inset-x-0 top-1/2 -translate-y-1/2 -mt-[50px] mx-auto">
+              {/* You can add content here later */}
+            </div>
           </div>
         </ParallaxLayer>
 
@@ -365,7 +368,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={4} speed={0.45}>
+        <ParallaxLayer offset={4} speed={0.45} factor={1}>
           <ParallaxGames />
         </ParallaxLayer>
       </Parallax>
