@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { SocialIcons } from "./SocialIcons";
 
 interface MobileNavProps {
@@ -68,11 +68,12 @@ export function MobileNav({
             onClick={toggleMenu}
           >
             <div className="logo-animation">
-              <Image
-                src="/NavItems/Logo.png"
-                alt="Fable Logo"
-                width={40}
-                height={40}
+              <div
+                className="nav-fable-logo"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                }}
               />
             </div>
           </Link>

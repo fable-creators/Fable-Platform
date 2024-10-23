@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { DesktopNav } from "./DesktopNav";
@@ -49,20 +48,20 @@ export default function Navbar({ isVisible }: NavbarProps) {
     const checkMobile = () => {
       const isMobileView = window.innerWidth < 1280;
       setIsMobile(isMobileView);
-      const logoImg = document.querySelector(
-        ".logo-animation img",
-      ) as HTMLImageElement;
-      if (logoImg) {
+      const logoElement = document.querySelector(
+        ".nav-fable-logo",
+      ) as HTMLElement;
+      if (logoElement) {
         if (isMobileView) {
-          logoImg.width = 52;
-          logoImg.height = 52;
-          logoImg.classList.remove("logo-desktop");
-          logoImg.classList.add("logo-mobile");
+          logoElement.style.width = "52px";
+          logoElement.style.height = "52px";
+          logoElement.classList.remove("logo-desktop");
+          logoElement.classList.add("logo-mobile");
         } else {
-          logoImg.width = 105;
-          logoImg.height = 128;
-          logoImg.classList.remove("logo-mobile");
-          logoImg.classList.add("logo-desktop");
+          logoElement.style.width = "105px";
+          logoElement.style.height = "128px";
+          logoElement.classList.remove("logo-mobile");
+          logoElement.classList.add("logo-desktop");
         }
       }
     };
@@ -92,12 +91,12 @@ export default function Navbar({ isVisible }: NavbarProps) {
             className="logo flex items-center hover:opacity-80 transition-opacity"
           >
             <div className="logo-animation">
-              <Image
-                src="/NavItems/Fable_Logo_1.png"
-                alt="Fable Logo"
-                width={isMobile ? 52 : 105}
-                height={isMobile ? 52 : 128}
-                className={isMobile ? "logo-mobile" : "logo-desktop"}
+              <div
+                className="nav-fable-logo"
+                style={{
+                  width: isMobile ? "52px" : "105px",
+                  height: isMobile ? "52px" : "128px",
+                }}
               />
             </div>
           </Link>

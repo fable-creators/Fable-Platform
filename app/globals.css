@@ -65,6 +65,65 @@
     --glow-strength: 10px;
     --shadow-strength: 5px;
   }
+
+  /* Responsive Utility Classes */
+  .button-responsive {
+    @apply px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 
+           py-1 sm:py-1.5 md:py-2 xl:py-3 
+           text-xs sm:text-sm md:text-base xl:text-lg;
+  }
+
+  .space-y-responsive {
+    @apply space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6;
+  }
+
+  .h-responsive {
+    @apply h-[250px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px];
+  }
+
+  .container-responsive {
+    @apply container mx-auto px-4 sm:px-6 md:px-8 lg:px-12;
+  }
+
+  .mt-responsive {
+    @apply mt-2 sm:mt-3 md:mt-4 lg:mt-6;
+  }
+
+  .mb-responsive {
+    @apply mb-2 sm:mb-3 md:mb-4 lg:mb-6;
+  }
+
+  .p-responsive {
+    @apply p-4 sm:p-6 md:p-8 lg:p-10;
+  }
+
+  .w-responsive {
+    @apply w-full lg:w-1/2;
+  }
+
+  .fluid-heading {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl;
+  }
+
+  .fluid-text {
+    @apply text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl;
+  }
+
+  .gap-responsive {
+    @apply gap-2 sm:gap-4 md:gap-6 lg:gap-8;
+  }
+
+  .flex-responsive {
+    @apply flex flex-col lg:flex-row;
+  }
+
+  .grid-responsive {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4;
+  }
+
+  .img-fluid {
+    @apply w-full h-full object-cover;
+  }
 }
 
 /* Layout and Container Styles */
@@ -140,6 +199,7 @@ body,
     transform: translate(0, 28px);
   }
 }
+
 /* Glass effect over videos */
 .glass-container {
   background: rgba(147, 55, 198, 0.21);
@@ -155,7 +215,6 @@ body,
 }
 
 /* Back to Top Button Styles */
-
 .svgIcon {
   width: 12px;
   transition-duration: 0.3s;
@@ -208,7 +267,6 @@ body,
   position: absolute;
   bottom: -20px;
   content: "Back to Top";
-
   color: #301A4E;
   font-size: 0px;
 }
@@ -448,4 +506,146 @@ body,
     height: 86px;
     line-height: 88px;
   }
+
+  /* website images */
+  /* nav hover decoration*/
+  .jewel {
+    background-image: url('https://i.ibb.co/D7DKFpM/jewel.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  /* nav logo */
+  .nav-fable-logo {
+    background-image: url('https://i.ibb.co/PYMK3v7/Fable-Logo-1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  /* Parallax page */
+  .parallax-sky {
+    background-image: url('https://i.ibb.co/pZVhr8d/0-sky-new-1.png');
+    background-size: cover; /* This works like objectFit: cover */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+
+    /* Ensure smooth rendering */
+    image-rendering: auto; /* Maintain image quality */
+    backface-visibility: hidden; /* Helps with smooth transitions and image            clarity */
+  }
+
+  .parallax-moon {
+    background-image: url('https://i.ibb.co/D4MBdbd/1-Moon.png');
+    background-size: contain; /* Ensures the moon image fits */
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%; /* Make the div circular */
+    width: 100%;
+    height: 100%;
+  }
+
+  .parallax-mountains {
+    background-image: url('https://i.ibb.co/3FBQNsb/3-Mountains.png');
+    background-size: cover;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+  }
+
+  .parallax-fable-logo {
+    background-image: url('https://i.ibb.co/5kTqtfG/1-1-Fable-logo-pink-glow.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+  }
+
+  .parallax-discord-icon {
+    background-image: url('https://i.ibb.co/zXsYWBx/1-2-Discord-icon.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+  }
+
+  .parallax-x-icon {
+    background-image: url('https://i.ibb.co/Ctmb2gk/1-3-X-icon.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+  }
+
+  .parallax-front-mountains {
+    background-image: url('https://i.ibb.co/wzJNYpj/4-Mountains.png');
+    background-size: contain;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+  }
+
+  .parallax-main-building {
+    background-image: url('https://i.ibb.co/VJHWB4K/5-main-building.png');
+    background-size: cover;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+  }
+
+  .parallax-left-building {
+    background-image: url('https://i.ibb.co/1sjsxtf/6-Building-left-1.png');
+    background-size: cover;
+    background-position: bottom left;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+  }
+
+  .parallax-right-building {
+    background-image: url('https://i.ibb.co/8YVH2vV/7-Building-right-2.png');
+    background-size: cover;
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+  }
+
+  .parallax-purple-grass {
+    background-image: url('https://i.ibb.co/xsMqQy7/8-grass-purple-2.png');
+    background-size: cover;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* section divider */
+  .divider-light {
+    background-image: url('https://i.ibb.co/PtDKpjT/Dark-mode-divider-v2.webp');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 6px;
+  }
+
+  .divider-dark {
+    background-image: url('https://i.ibb.co/q7Dkc7z/Divider-3.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 6px;
+  }
+  
 }

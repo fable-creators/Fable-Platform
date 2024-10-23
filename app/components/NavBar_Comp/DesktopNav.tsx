@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 
 export function DesktopNav() {
@@ -26,19 +25,13 @@ export function DesktopNav() {
           </Link>
           {hoveredItem === item.label && (
             <>
-              <Image
-                src="/jewel.png"
-                alt=""
-                width={24}
-                height={24}
-                className="absolute top-1/2 -translate-y-1/2 left-0"
+              <div
+                className="jewel absolute top-1/2 -translate-y-1/2 left-0 w-6 h-6"
+                aria-hidden="true"
               />
-              <Image
-                src="/jewel.png"
-                alt=""
-                width={24}
-                height={24}
-                className="absolute top-1/2 -translate-y-1/2 right-0"
+              <div
+                className="jewel absolute top-1/2 -translate-y-1/2 right-0 w-6 h-6"
+                aria-hidden="true"
               />
             </>
           )}

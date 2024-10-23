@@ -1,33 +1,33 @@
-'use client'
+"use client";
 
-import React, { useState, useEffect } from "react"
-import Image from "next/image"
-import { GamesGrid } from "../components/GamesGrid"
-import { FilterSection } from "../components/FilterSection"
-import Loading from "../components/loading"
-import Header from "../components/Header/Header"
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { GamesGrid } from "../components/GamesGrid";
+import { FilterSection } from "../components/FilterSection";
+import Loading from "../components/loading";
+import Header from "../components/Header/Header";
 
 export default function GamesPage() {
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     platform: [] as string[],
     genre: [] as string[],
     chain: [] as string[],
-  })
-  const [isLoading, setIsLoading] = useState(true)
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Simulate loading delay
     const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
+      setIsLoading(false);
+    }, 1000);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSearch = (query: string) => {
-    setSearchQuery(query)
-  }
+    setSearchQuery(query);
+  };
 
   const handleFilterChange = (
     filterType: string,
@@ -41,11 +41,11 @@ export default function GamesPage() {
         : prevFilters[filterType as keyof typeof prevFilters].filter(
             (item) => item !== value,
           ),
-    }))
-  }
+    }));
+  };
 
   if (isLoading) {
-    return <Loading />
+    return <Loading />;
   }
 
   return (
@@ -63,9 +63,9 @@ export default function GamesPage() {
       </div>
       <div className="fixed inset-0 z-[-1] bg-gradient-custom from-sky/90 via-sand/90 to-coffee/90 dark:from-grape/90 dark:via-plum/90 dark:to-midnight/90"></div>
       <div className="relative z-[1]">
-        <div className="container mx-auto px-4 py-10 pt-20">
+        <div className="container mx-auto p-responsive">
           <h1
-            className="text-3xl font-bold mb-4 text-coffee dark:text-sky text-glow text-glow-lg"
+            className="fluid-heading text-coffee dark:text-sky text-glow text-glow-lg mb-4"
             style={
               {
                 "--glow-color": "var(--sand)",
@@ -80,11 +80,11 @@ export default function GamesPage() {
             adventures to mind-bending puzzles, there&apos;s something for
             everyone.
           </p>
-          <div className="flex flex-col-reverse md:flex-row gap-8">
+          <div className="flex-responsive gap-responsive">
             <div className="flex-grow">
               <GamesGrid searchQuery={searchQuery} filters={filters} />
             </div>
-            <div className="md:w-64">
+            <div className="w-full md:w-64">
               <FilterSection
                 onSearch={handleSearch}
                 onFilterChange={handleFilterChange}
@@ -94,5 +94,5 @@ export default function GamesPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

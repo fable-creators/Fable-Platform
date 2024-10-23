@@ -122,25 +122,27 @@ export function GamesGrid({ searchQuery, filters }: GamesGridProps) {
   });
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid-responsive gap-responsive">
       {filteredGames.map((game) => (
         <Link
           href={`/games/${game.title.toLowerCase().replace(/\s+/g, "-")}`}
           key={game.id}
           className="block group"
         >
-          <Card className="overflow-hidden flex flex-col h-full transition-transform duration-300 group-hover:scale-105">
+          <Card className="h-full transition-transform duration-300 group-hover:scale-105">
             <CardHeader className="p-0">
-              <Image
-                src={game.image}
-                alt={game.title}
-                width={356}
-                height={200}
-                className="w-full h-auto object-cover"
-              />
+              <div className="relative aspect-video">
+                <Image
+                  src={game.image}
+                  alt={game.title}
+                  layout="fill"
+                  objectFit="cover"
+                  className="img-fluid"
+                />
+              </div>
             </CardHeader>
-            <CardContent className="p-4 flex-grow">
-              <CardTitle className="text-lg text-sky dark:text-sky font-semibold">
+            <CardContent className="p-responsive flex-grow">
+              <CardTitle className="fluid-text text-sky dark:text-sky font-semibold">
                 {game.title}
               </CardTitle>
               <p
@@ -149,19 +151,21 @@ export function GamesGrid({ searchQuery, filters }: GamesGridProps) {
                 {game.price}
               </p>
             </CardContent>
-            <CardFooter className="p-4 pt-0 flex flex-col gap-2">
-              <Button
-                variant="default"
-                className="w-full bg-purple-600 hover:bg-midnight dark:hover:bg-sand text-white"
-              >
-                ENTER
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full border-purple-600 text-grape dark:text-sand hover:bg-sky dark:hover:bg-sky"
-              >
-                NFT COLLECTIONS
-              </Button>
+            <CardFooter className="space-responsive">
+              <div className="flex-responsive gap-responsive w-full">
+                <Button
+                  variant="default"
+                  className="w-full bg-purple-600 hover:bg-midnight dark:hover:bg-sand text-white"
+                >
+                  ENTER
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full border-purple-600 text-grape dark:text-sand hover:bg-sky dark:hover:bg-sky"
+                >
+                  NFT COLLECTIONS
+                </Button>
+              </div>
             </CardFooter>
           </Card>
         </Link>

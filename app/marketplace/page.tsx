@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Loading from "../components/loading";
@@ -39,58 +39,58 @@ export default function Marketplace() {
     },
     {
       title: "Collection 2",
-      link: "#",
-      image: "/placeholder.svg?height=300&width=400",
+      link: "/marketplace/fable-bears",
+      image: "/fable_bera_banner.png",
     },
     {
       title: "Collection 3",
-      link: "#",
-      image: "/placeholder.svg?height=300&width=400",
+      link: "/marketplace/fable-bears",
+      image: "/fable_bera_banner.png",
     },
     {
       title: "Collection 4",
-      link: "#",
-      image: "/placeholder.svg?height=300&width=400",
+      link: "/marketplace/fable-bears",
+      image: "/fable_bera_banner.png",
     },
     {
       title: "Collection 5",
-      link: "#",
-      image: "/placeholder.svg?height=300&width=400",
+      link: "/marketplace/fable-bears",
+      image: "/fable_bera_banner.png",
     },
     {
       title: "Collection 6",
-      link: "#",
-      image: "/placeholder.svg?height=300&width=400",
+      link: "/marketplace/fable-bears",
+      image: "/fable_bera_banner.png",
     },
     {
       title: "Collection 7",
-      link: "#",
-      image: "/placeholder.svg?height=300&width=400",
+      link: "/marketplace/fable-bears",
+      image: "/fable_bera_banner.png",
     },
     {
       title: "Collection 8",
-      link: "#",
-      image: "/placeholder.svg?height=300&width=400",
+      link: "/marketplace/fable-bears",
+      image: "/fable_bera_banner.png",
     },
     {
       title: "Collection 9",
-      link: "#",
-      image: "/placeholder.svg?height=300&width=400",
+      link: "/marketplace/fable-bears",
+      image: "/fable_bera_banner.png",
     },
     {
       title: "Collection 10",
-      link: "#",
-      image: "/placeholder.svg?height=300&width=400",
+      link: "/marketplace/fable-bears",
+      image: "/fable_bera_banner.png",
     },
     {
       title: "Collection 11",
-      link: "#",
-      image: "/placeholder.svg?height=300&width=400",
+      link: "/marketplace/fable-bears",
+      image: "/fable_bera_banner.png",
     },
     {
       title: "Collection 12",
-      link: "#",
-      image: "/placeholder.svg?height=300&width=400",
+      link: "/marketplace/fable-bears",
+      image: "/fable_bera_banner.png",
     },
   ];
 
@@ -115,9 +115,9 @@ export default function Marketplace() {
         />
       </div>
       <div className="relative z-[1]">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container p-responsive">
           <h1
-            className="text-4xl font-bold pt-20 mb-12 text-grape dark:text-sky text-center text-glow text-glow-lg"
+            className="fluid-heading text-grape dark:text-sky text-center text-glow text-glow-lg pt-20 mb-12"
             style={
               {
                 "--glow-color": "var(--sand)",
@@ -127,7 +127,7 @@ export default function Marketplace() {
           >
             Fable Marketplace
           </h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 pt-10">
+          <div className="grid-responsive gap-responsive pt-10">
             {placeholders.map((item, index) => (
               <Link href={item.link} key={index} className="block group">
                 <div className="relative aspect-video overflow-hidden rounded-lg shadow-lg transition-all duration-300 ease-in-out group-hover:shadow-xl">
@@ -137,12 +137,13 @@ export default function Marketplace() {
                       alt={item.title}
                       layout="fill"
                       objectFit="cover"
+                      className="img-fluid"
                     />
                   </div>
                   <div className="absolute inset-0 bg-sand dark:bg-plum z-0 transition-all duration-500 ease-in-out group-hover:translate-x-[14px] group-hover:translate-y-[14px]">
                     <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
                     <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end opacity-0 transform translate-y-full transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0">
-                      <h2 className="text-2xl font-bold text-coffee dark:text-sky">
+                      <h2 className="fluid-text font-bold text-coffee dark:text-sky">
                         {item.title}
                       </h2>
                       <p className="text-sm text-grape dark:text-sand">
