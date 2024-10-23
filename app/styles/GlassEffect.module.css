@@ -1,0 +1,62 @@
+.glass-container {
+  position: absolute;
+  inset-x: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: -50px;
+  background: rgba(147, 55, 198, 0.21);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(3.5px);
+  -webkit-backdrop-filter: blur(3.5px);
+  width: 80%;
+  height: 30%;
+  max-width: 1000px;
+  max-height: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.glass-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 5px;
+  border-radius: 16px;
+  background: linear-gradient(115deg, #CAF2FC, #9337C6, #301A4E, #CAF2FC);
+  background-size: 400% 100%;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+  animation: border-flow 8s linear infinite;
+}
+
+.glass-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  opacity: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    100px circle at var(--mouse-x) var(--mouse-y), 
+    rgba(255, 255, 255, 0.5),
+    transparent 20%
+  );
+  transition: background 0.1s ease;
+}
+
+.glass-container:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transition: background 0.3s ease;
+}
+
+@keyframes border-flow {
+  to {
+    background-position: -400% 0;
+  }
+}

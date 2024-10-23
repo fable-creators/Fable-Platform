@@ -200,18 +200,51 @@ body,
   }
 }
 
-/* Glass effect over videos */
+/* glass container */
 .glass-container {
+  position: absolute;
+  inset-x: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: -50px;
   background: rgba(147, 55, 198, 0.21);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(3.5px);
   -webkit-backdrop-filter: blur(3.5px);
-  border: 5px solid rgba(147, 55, 198, 0.29);
   width: 80%;
   height: 30%;
   max-width: 1000px;
   max-height: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+.glass-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 5px;
+  border-radius: 16px;
+  background: linear-gradient(115deg, #CAF2FC, #9337C6, #301A4E, #CAF2FC);
+  background-size: 400% 100%;
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+  animation: border-flow 8s linear infinite;
+}
+
+@keyframes border-flow {
+  to {
+    background-position: -400% 0;
+  }
 }
 
 /* Back to Top Button Styles */

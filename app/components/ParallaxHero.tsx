@@ -8,6 +8,7 @@ import { useSpring, animated } from "@react-spring/web";
 import AboutSection from "./AboutSection";
 import ParallaxBooks from "./ParallaxBooks";
 import ParallaxGames from "./ParallaxGames";
+import styles from '../styles/GlassEffect.module.css'
 
 interface ParallaxHeroProps {
   onScrollComplete: () => void;
@@ -20,7 +21,6 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
   const [iconSize, setIconSize] = useState(60);
   const [iconPadding, setIconPadding] = useState("ml-4");
   const [iconSpacing, setIconSpacing] = useState("space-y-4");
-  //const [scrollY, setScrollY] = useState(0); //Removed as per update 2
   const [showBackToTop, setShowBackToTop] = useState(false);
 
   const [logoSpring, setLogoSpring] = useSpring(() => ({
@@ -45,6 +45,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const [shouldPlayVideo, setShouldPlayVideo] = useState(false);
+  const glassContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -116,7 +117,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
     if (parallax.current) {
       parallax.current.container.current?.addEventListener(
         "scroll",
-        handleScroll,
+        handleScroll
       );
     }
 
@@ -124,7 +125,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
       if (parallax.current) {
         parallax.current.container.current?.removeEventListener(
           "scroll",
-          handleScroll,
+          handleScroll
         );
       }
     };
@@ -144,12 +145,12 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
     }
   }, [shouldPlayVideo]);
 
+
   const scrollTo = (page: number) => {
     if (parallax.current) {
       parallax.current.scrollTo(page);
     }
   };
-
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <Parallax ref={parallax} pages={6}>
@@ -169,7 +170,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
     className="absolute bottom-0 w-full"
     style={{ marginLeft: "-800px"}}
   >
-    <div className="parallax-mountains" style={{ width: '1920px', height: '1080px' }} />
+    <div className="parallax-mountains" style={{ width: '100%', height: '100vh' }} />
   </div>
 </ParallaxLayer>
 
@@ -201,11 +202,9 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
   </div>
 </ParallaxLayer>
 
-        <ParallaxLayer offset={0.75} speed={-0.79} factor={1}>
+        <ParallaxLayer offset={2.6} speed={-0.6} factor={0.2}>
           <div
-            className="absolute bottom-0 w-full"
-            style={{ paddingBottom: "20vh" }}
-          >
+            className="absolute bottom-0 w-full" >
             <div className="parallax-front-mountains" style={{ width: '100%', height: '100vh' }} />
           </div>
         </ParallaxLayer>
@@ -215,7 +214,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             className="absolute bottom-0 w-full"
             style={{ marginBottom: "-150px" }}
           >
-            <div className="parallax-main-building" style={{ width: '100%', height: '107vh' }} />
+            <div className="parallax-main-building" style={{ width: '100%', height: '110vh' }} />
           </div>
         </ParallaxLayer>
 
@@ -271,17 +270,20 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
               loop
               muted
               playsInline
-              className="w-full h-full object-cover"
-            >
+              className="w-full h-full object-cover">
               <source src="/videos/bear_library_room.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            <div className="glass-container absolute inset-x-0 top-1/2 -translate-y-1/2 -mt-[50px] mx-auto">
+            <div 
+              ref={glassContainerRef} 
+              className={`${styles['glass-container']} absolute inset-x-0 top-1/2 -translate-y-1/2 -mt-[50px] mx-auto`}
+            >
               {/* You can add content here later */}
             </div>
           </div>
         </ParallaxLayer>
 
+        {/* Books Section */}
         <ParallaxLayer offset={2.995} speed={0.38}>
           <div onClick={() => scrollTo(3.25)}>
             <ParallaxBooks />
@@ -306,10 +308,33 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={4} speed={0.45} factor={1}>
-          <ParallaxGames />
+        <ParallaxLayer offset={4} speed={0.45}>
+          <div onClick={() => scrollTo(3.25)}>
+            <ParallaxGames />
+          </div>
         </ParallaxLayer>
-      </Parallax>
+      
+
+      <ParallaxLayer offset={4.5} speed={0.45}>
+        <div
+          className="w-full h-full flex items-center justify-center bg-black"
+          onClick={() => scrollTo(4)}
+        >
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+            autoPlay={shouldPlayVideo}
+          >
+            <source src="/videos/market_scene_v2.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </ParallaxLayer>
+
+        </Parallax>
 
       <animated.div
         className="fixed bottom-4 right-[54px] z-50"
