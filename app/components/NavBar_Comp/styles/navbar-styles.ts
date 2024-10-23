@@ -64,4 +64,10 @@ export const navbarStyles = `
     display: flex;
     align-items: center;
   }
+  .nav-fable-logo {
+    background-image: url('https://i.ibb.co/PYMK3v7/Fable-Logo-1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 `;

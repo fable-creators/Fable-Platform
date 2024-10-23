@@ -154,149 +154,91 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
     <div style={{ width: "100%", height: "100%" }}>
       <Parallax ref={parallax} pages={6}>
         <ParallaxLayer offset={0} speed={0} factor={2.25}>
-          <div className="absolute inset-0">
-            <Image
-              src="/parallax/0_sky_new.png"
-              alt="Night Sky"
-              layout="fill"
-              objectFit="cover"
-              quality={100}
-              priority
-            />
-          </div>
+          <div className="absolute inset-0 parallax-sky" />
         </ParallaxLayer>
+
 
         <ParallaxLayer offset={0} speed={0.15}>
-          <div className="absolute top-1 left-10">
-            <Image
-              src="/parallax/1 Moon.png"
-              alt="Moon"
-              width={moonSize}
-              height={moonSize}
-              className="rounded-full"
-            />
-          </div>
-        </ParallaxLayer>
-
-        <ParallaxLayer offset={0.5} speed={-0.4}>
-          <div
-            className="absolute bottom-0 w-full"
-            style={{ marginLeft: "-900px", marginBottom: "-115px" }}
-          >
-            <Image
-              src="/parallax/3 Mountains.png"
-              alt="Mountains"
-              layout="responsive"
-              width={1920}
-              height={1080}
-              objectFit="cover"
-            />
-          </div>
-        </ParallaxLayer>
-
-        <ParallaxLayer offset={0.8} speed={-1.45} factor={0.3}>
-          <div
-            className="absolute bottom-0 w-full"
-            style={{ marginLeft: "750px", marginBottom: "700px" }}
-          >
-            <div className="flex items-center">
-              <animated.div style={logoSpring} onClick={() => scrollTo(1)}>
-                <Image
-                  src="/parallax/1-1 Fable logo pink glow.png"
-                  alt="Fable Logo"
-                  width={logoSize.width}
-                  height={logoSize.height}
-                  className="cursor-pointer"
-                />
-              </animated.div>
-              <div className={`flex flex-col ${iconSpacing} ${iconPadding}`}>
-                <animated.div style={xSpring}>
-                  <Link href="https://x.com/Fable_Platform" passHref>
-                    <Image
-                      src="/parallax/1-3 X icon.png"
-                      alt="X Icon"
-                      width={iconSize}
-                      height={iconSize}
-                      className="cursor-pointer"
-                    />
-                  </Link>
-                </animated.div>
-                <animated.div style={discordSpring}>
-                  <Link href="https://discord.gg/uFEnUyUA" passHref>
-                    <Image
-                      src="/parallax/1-2 Discord icon.png"
-                      alt="Discord Icon"
-                      width={iconSize}
-                      height={iconSize}
-                      className="cursor-pointer"
-                    />
-                  </Link>
-                </animated.div>
-              </div>
+          <div className="absolute top-1 left-10" style={{ width: moonSize, height: moonSize }}>
+            <div className="parallax-moon" />
             </div>
-          </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={0.75} speed={-0.69} factor={1}>
+        <ParallaxLayer offset={.5} speed={-0.4}>
+  <div
+    className="absolute bottom-0 w-full"
+    style={{ marginLeft: "-800px"}}
+  >
+    <div className="parallax-mountains" style={{ width: '1920px', height: '1080px' }} />
+  </div>
+</ParallaxLayer>
+
+<ParallaxLayer offset={0.9} speed={-1.45} factor={0.3}>
+  <div
+    className="absolute bottom-0 w-full"
+    style={{ marginLeft: "750px", marginBottom: "700px" }}
+  >
+    <div className="flex items-center">
+      <animated.div 
+        style={{...logoSpring, width: logoSize.width, height: logoSize.height}} 
+        onClick={() => scrollTo(1)}
+      >
+        <div className="parallax-fable-logo cursor-pointer" />
+      </animated.div>
+      <div className={`flex flex-col ${iconSpacing} ${iconPadding}`}>
+        <animated.div style={{...xSpring, width: iconSize, height: iconSize}}>
+          <Link href="https://x.com/Fable_Platform" passHref>
+            <div className="parallax-x-icon cursor-pointer" />
+          </Link>
+        </animated.div>
+        <animated.div style={{...discordSpring, width: iconSize, height: iconSize}}>
+          <Link href="https://discord.gg/uFEnUyUA" passHref>
+            <div className="parallax-discord-icon cursor-pointer" />
+          </Link>
+        </animated.div>
+      </div>
+    </div>
+  </div>
+</ParallaxLayer>
+
+        <ParallaxLayer offset={0.75} speed={-0.79} factor={1}>
           <div
             className="absolute bottom-0 w-full"
             style={{ paddingBottom: "20vh" }}
           >
-            <Image
-              src="/parallax/4 Mountains.png"
-              alt="Front Mountains"
-              layout="responsive"
-              width={1920}
-              height={1080}
-              objectFit="contain"
-            />
+            <div className="parallax-front-mountains" style={{ width: '100%', height: '100vh' }} />
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={1.0} speed={0.45}>
+        <ParallaxLayer offset={1} speed={0.45}>
           <div
             className="absolute bottom-0 w-full"
             style={{ marginBottom: "-150px" }}
           >
-            <Image
-              src="/parallax/5 main building.png"
-              alt="Main Building"
-              layout="responsive"
-              width={1920}
-              height={1080}
-              objectFit="cover"
-            />
+            <div className="parallax-main-building" style={{ width: '100%', height: '107vh' }} />
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={1.35} speed={0.6}>
+        <ParallaxLayer offset={1.25} speed={0.6}>
           <div
             className="absolute bottom-0 left-0 w-1/2"
             style={{ marginLeft: "-80px", marginBottom: "80px" }}
           >
-            <Image
-              src="/parallax/6 Building left 1.png"
-              alt="Left Building"
-              layout="responsive"
-              width={960}
-              height={540}
-              objectFit="cover"
+            <div 
+              className="parallax-left-building" 
+              style={{ width: '100%', height: '120vh', paddingBottom: '60%' }} 
             />
           </div>
         </ParallaxLayer>
 
-        <ParallaxLayer offset={1.08} speed={0.48}>
+        <ParallaxLayer offset={1.07} speed={0.48}>
           <div
             className="absolute bottom-0 right-0 w-1/2"
-            style={{ marginBottom: "80px" }}
+            style={{ marginBottom: "100px" }}
           >
-            <Image
-              src="/parallax/7 Building right 2.png"
-              alt="Right Building"
-              layout="responsive"
-              width={960}
-              height={540}
-              objectFit="cover"
+            <div 
+              className="parallax-right-building" 
+              style={{ width: '100%', height: '120vh', paddingBottom: '60%' }} 
             />
           </div>
         </ParallaxLayer>
@@ -306,13 +248,9 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             className="absolute bottom-0 w-full"
             style={{ marginTop: "78px" }}
           >
-            <Image
-              src="/parallax/8_grass_purple_2.png"
-              alt="Purple Grass"
-              layout="responsive"
-              width={1920}
-              height={1080}
-              objectFit="cover"
+            <div 
+              className="parallax-purple-grass" 
+              style={{ width: '100%', height: '0', paddingBottom: '56.25%' }} 
             />
           </div>
         </ParallaxLayer>

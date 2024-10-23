@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { useTheme } from "next-themes";
 import AnimatedSection from "../animated-section";
 
@@ -13,23 +12,10 @@ export const SectionDivider: React.FC = () => {
       <div className="w-full px-4 py-12">
         <div className="relative overflow-hidden max-w-4xl mx-auto">
           <div className="flex items-center justify-center">
-            {theme === "light" ? (
-              <Image
-                src="/Dark_mode_divider_v2.webp"
-                alt=""
-                width={1800}
-                height={6}
-                className="w-auto h-auto"
-              />
-            ) : (
-              <Image
-                src="/devider_v2.png"
-                alt=""
-                width={1800}
-                height={6}
-                className="w-auto h-auto"
-              />
-            )}
+            <div
+              className={theme === "light" ? "divider-light" : "divider-dark"}
+              style={{ width: "1800px", maxWidth: "100%" }}
+            />
           </div>
         </div>
       </div>

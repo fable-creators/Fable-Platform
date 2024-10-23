@@ -42,7 +42,7 @@ export default function Header() {
 
   return (
     <div
-      className="relative w-full h-screen overflow-hidden"
+      className="relative w-full h-responsive overflow-hidden"
       style={{ height: `${windowHeight}px` }}
     >
       <div className="absolute inset-0">
@@ -57,28 +57,28 @@ export default function Header() {
               objectPosition: "center center",
             }}
             priority
-            className="w-full h-full"
+            className="img-fluid"
           />
         )}
       </div>
       <div className="absolute inset-0 bg-black/40 pointer-events-none"></div>
-      <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 md:p-8 lg:p-10">
-        <div className="max-w-7xl w-full mx-auto relative">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between relative z-10">
-            <div className="mb-4 lg:mb-0 lg:w-1/2">
-              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold mb-2 sm:mb-4 text-sky">
+      <div className="absolute inset-0 flex flex-col justify-end p-responsive">
+        <div className="container mx-auto relative">
+          <div className="flex-responsive items-end justify-between gap-responsive">
+            <div className="w-full lg:w-1/2 space-y-responsive">
+              <h2 className="fluid-heading font-bold text-sky mb-2 md:mb-4">
                 Explore Games
               </h2>
-              <div className="flex space-x-2 sm:space-x-4 xl:space-x-6">
-                <button className="bg-grape hover:bg-sand text-sky hover:text-plum px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 py-1 sm:py-1.5 md:py-2 xl:py-3 rounded text-xs sm:text-sm md:text-base xl:text-lg transition duration-300 ease-in-out">
+              <div className="flex flex-wrap gap-responsive">
+                <button className="button-responsive bg-grape hover:bg-sand text-sky hover:text-plum transition duration-300 ease-in-out rounded">
                   PLAY
                 </button>
-                <button className="border border-sky hover:bg-sky hover:text-midnight text-sky px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 py-1 sm:py-1.5 md:py-2 xl:py-3 rounded text-xs sm:text-sm md:text-base xl:text-lg transition duration-300 ease-in-out">
+                <button className="button-responsive border border-sky hover:bg-sky hover:text-midnight text-sky transition duration-300 ease-in-out rounded">
                   MORE DETAILS
                 </button>
               </div>
             </div>
-            <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-sky lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl mt-2 lg:mt-0">
+            <p className="fluid-text text-sky lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl mt-4 lg:mt-0">
               Integrating current NFT, DEX, DMA and more.
               <br className="hidden sm:inline" />
               Play, Farm, Hunt, Trade and so on!
