@@ -32,7 +32,7 @@
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   pointer-events: none;
-  animation: border-flow 8s linear infinite;
+  animation: border-flow 12s linear infinite;
 }
 
 .glass-container::after {

@@ -9,6 +9,7 @@ import AboutSection from "./AboutSection";
 import ParallaxBooks from "./ParallaxBooks";
 import ParallaxGames from "./ParallaxGames";
 import styles from '../styles/GlassEffect.module.css'
+import Footer from "../components/Footer/Footer";
 
 interface ParallaxHeroProps {
   onScrollComplete: () => void;
@@ -321,7 +322,6 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           onClick={() => scrollTo(4)}
         >
           <video
-            autoPlay
             loop
             muted
             playsInline
@@ -333,8 +333,8 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
           </video>
         </div>
       </ParallaxLayer>
-
-        </Parallax>
+        
+    </Parallax>
 
       <animated.div
         className="fixed bottom-4 right-[54px] z-50"
