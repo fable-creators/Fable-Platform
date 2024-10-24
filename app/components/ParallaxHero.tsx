@@ -1,18 +1,14 @@
 'use client'
 
 import React, { useRef, useState, useEffect } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { Parallax, ParallaxLayer, IParallax } from "@react-spring/parallax"
 import { useSpring, animated } from "@react-spring/web"
-import { ChevronUp } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import AboutSection from "./AboutSection"
 import ParallaxBooks from "./ParallaxBooks"
 import ParallaxGames from "./ParallaxGames"
 import NavigationSidebar from "./NavigationSidebar"
 import styles from "../styles/GlassEffect.module.css"
-import Footer from "../components/Footer/Footer"
 
 interface ParallaxHeroProps {
   onScrollComplete: () => void
@@ -202,9 +198,10 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
 
       <Parallax ref={parallax} pages={6}>
         {/* Home Section */}
+        {/* sky layer */}
         <ParallaxLayer offset={0} speed={0} factor={2.25}>
           <div id="home" className="absolute inset-0 parallax-sky" />
-          {/* Moon */}
+          {/* Moon layer */}
           <ParallaxLayer offset={0} speed={0.15}>
             <div
               className="absolute top-1 left-10"
@@ -214,7 +211,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             </div>
           </ParallaxLayer>
 
-          {/* Back Mountains */}
+          {/* Back Mountains layer */}
           <ParallaxLayer offset={0.5} speed={-0.4}>
             <div
               className="absolute bottom-0 w-full"
@@ -227,7 +224,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             </div>
           </ParallaxLayer>
 
-          {/* Fable Logo & Socials */}
+          {/* Fable Logo & Socials layer */}
           <ParallaxLayer offset={0.9} speed={-1.45} factor={0.3}>
             <div
               className="absolute bottom-0 w-full"
@@ -267,7 +264,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             </div>
           </ParallaxLayer>
 
-          {/* Front Mountain */}
+          {/* Front Mountain layer */}
           <ParallaxLayer offset={2.6} speed={-0.6} factor={0.2}>
             <div className="absolute bottom-0 w-full">
               <div
@@ -277,7 +274,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             </div>
           </ParallaxLayer>
 
-          {/* Main Building */}
+          {/* Main Building layer */}
           <ParallaxLayer offset={1} speed={0.45}>
             <div
               className="absolute bottom-0 w-full"
@@ -290,7 +287,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             </div>
           </ParallaxLayer>
 
-          {/* Left Building */}
+          {/* Left Building layer */}
           <ParallaxLayer offset={1.25} speed={0.6}>
             <div
               className="absolute bottom-0 left-0 w-1/2"
@@ -303,7 +300,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             </div>
           </ParallaxLayer>
 
-          {/* Right Building */}
+          {/* Right Building layer */}
           <ParallaxLayer offset={1.07} speed={0.48}>
             <div
               className="absolute bottom-0 right-0 w-1/2"
@@ -316,7 +313,7 @@ export default function ParallaxHero({ onScrollComplete }: ParallaxHeroProps) {
             </div>
           </ParallaxLayer>
 
-          {/* Purple Grass */}
+          {/* Purple Grass layer */}
           <ParallaxLayer offset={1.38} speed={0.53}>
             <div
               className="absolute bottom-0 w-full"
