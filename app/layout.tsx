@@ -8,6 +8,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 import Navbar from "./components/NavBar_Comp/Navbar";
 import { useState, Suspense } from "react";
 import Loading from "./components/loading";
+import Footer from "./components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -46,6 +47,7 @@ export default function RootLayout({
             </div>
           </Web3ModalProvider>
         </ThemeProvider>
+        <Footer />
       </body>
     </html>
   );
